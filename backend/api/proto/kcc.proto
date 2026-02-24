@@ -1,0 +1,417 @@
+syntax = "proto3";
+
+package kcc.api.v1;
+
+option go_package = "github.com/paulmmoore3416/kcc/backend/api/proto/v1";
+
+import "google/protobuf/timestamp.proto";
+
+// ClusterService provides cluster administration operations
+service ClusterService {
+  // GetClusterInfo retrieves detailed cluster information
+  rpc GetClusterInfo(GetClusterInfoRequest) returns (GetClusterInfoResponse);
+  
+  // ListPods returns a list of pods with filtering
+  rpc ListPods(ListPodsRequest) returns (ListPodsResponse);
+  
+  // ListNodes returns a list of nodes
+  rpc ListNodes(ListNodesRequest) returns (ListNodesResponse);
+  
+  // ScaleDeployment scales a deployment
+  rpc ScaleDeployment(ScaleDeploymentRequest) returns (ScaleDeploymentResponse);
+  
+  // DeletePod deletes a pod
+  rpc DeletePod(DeletePodRequest) returns (DeletePodResponse);
+  
+  // ExecuteCommand executes a command in a pod
+  rpc ExecuteCommand(ExecuteCommandRequest) returns (stream ExecuteCommandResponse);
+  
+  // StreamLogs streams logs from a pod
+  rpc StreamLogs(StreamLogsRequest) returns (stream LogEntry);
+}
+
+// ObservationService provides real-time observation and monitoring
+service ObservationService {
+  // StreamMetrics streams real-time metrics
+  rpc StreamMetrics(StreamMetricsRequest) returns (stream MetricDataPoint);
+  
+  // GetMetricHistory retrieves historical metrics
+  rpc GetMetricHistory(GetMetricHistoryRequest) returns (GetMetricHistoryResponse);
+  
+  // StreamEvents streams cluster events
+  rpc StreamEvents(StreamEventsRequest) returns (stream ClusterEvent);
+  
+  // GetAnomalies detects and returns anomalies
+  rpc GetAnomalies(GetAnomaliesRequest) returns (GetAnomaliesResponse);
+}
+
+// CostService provides FinOps cost observability
+service CostService {
+  // GetCostBreakdown returns cost breakdown by namespace/deployment
+  rpc GetCostBreakdown(GetCostBreakdownRequest) returns (GetCostBreakdownResponse);
+  
+  // StreamCostMetrics streams real-time cost metrics
+  rpc StreamCostMetrics(StreamCostMetricsRequest) returns (stream CostMetric);
+  
+  // GetCostForecast predicts future costs
+  rpc GetCostForecast(GetCostForecastRequest) returns (GetCostForecastResponse);
+}
+
+// SecurityService provides security and compliance features
+service SecurityService {
+  // GetSecurityAlerts returns active security alerts
+  rpc GetSecurityAlerts(GetSecurityAlertsRequest) returns (GetSecurityAlertsResponse);
+  
+  // StreamSecurityEvents streams security events in real-time
+  rpc StreamSecurityEvents(StreamSecurityEventsRequest) returns (stream SecurityEvent);
+  
+  // GetComplianceReport generates compliance reports
+  rpc GetComplianceReport(GetComplianceReportRequest) returns (GetComplianceReportResponse);
+  
+  // EnforcePolicyAction takes action on policy violations
+  rpc EnforcePolicyAction(EnforcePolicyActionRequest) returns (EnforcePolicyActionResponse);
+}
+
+// AIService provides AI-powered insights
+service AIService {
+  // AnalyzeRootCause performs AI-driven root cause analysis
+  rpc AnalyzeRootCause(AnalyzeRootCauseRequest) returns (AnalyzeRootCauseResponse);
+  
+  // GetRecommendations provides optimization recommendations
+  rpc GetRecommendations(GetRecommendationsRequest) returns (GetRecommendationsResponse);
+  
+  // PredictFailure predicts potential failures
+  rpc PredictFailure(PredictFailureRequest) returns (PredictFailureResponse);
+}
+
+// Messages
+message GetClusterInfoRequest {
+  string cluster_name = 1;
+}
+
+message GetClusterInfoResponse {
+  ClusterInfo cluster = 1;
+}
+
+message ClusterInfo {
+  string name = 1;
+  string version = 2;
+  int32 total_nodes = 3;
+  int32 total_pods = 4;
+  int32 total_namespaces = 5;
+  string status = 6;
+  google.protobuf.Timestamp created_at = 7;
+}
+
+message ListPodsRequest {
+  string namespace = 1;
+  map<string, string> labels = 2;
+  int32 page_size = 3;
+  string page_token = 4;
+}
+
+message ListPodsResponse {
+  repeated PodInfo pods = 1;
+  string next_page_token = 2;
+  int32 total_count = 3;
+}
+
+message PodInfo {
+  string name = 1;
+  string namespace = 2;
+  string status = 3;
+  string node_name = 4;
+  map<string, string> labels = 5;
+  ResourceUsage resources = 6;
+  google.protobuf.Timestamp created_at = 7;
+  repeated ContainerInfo containers = 8;
+}
+
+message ContainerInfo {
+  string name = 1;
+  string image = 2;
+  string status = 3;
+  int32 restart_count = 4;
+}
+
+message ResourceUsage {
+  string cpu = 1;
+  string memory = 2;
+  string storage = 3;
+}
+
+message ListNodesRequest {
+  map<string, string> labels = 1;
+}
+
+message ListNodesResponse {
+  repeated NodeInfo nodes = 1;
+}
+
+message NodeInfo {
+  string name = 1;
+  string status = 2;
+  map<string, string> labels = 3;
+  ResourceUsage capacity = 4;
+  ResourceUsage allocatable = 5;
+  ResourceUsage used = 6;
+  int32 pod_count = 7;
+  google.protobuf.Timestamp created_at = 8;
+}
+
+message ScaleDeploymentRequest {
+  string namespace = 1;
+  string deployment_name = 2;
+  int32 replicas = 3;
+}
+
+message ScaleDeploymentResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message DeletePodRequest {
+  string namespace = 1;
+  string pod_name = 2;
+}
+
+message DeletePodResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message ExecuteCommandRequest {
+  string namespace = 1;
+  string pod_name = 2;
+  string container_name = 3;
+  repeated string command = 4;
+}
+
+message ExecuteCommandResponse {
+  string output = 1;
+  string error = 2;
+  int32 exit_code = 3;
+}
+
+message StreamLogsRequest {
+  string namespace = 1;
+  string pod_name = 2;
+  string container_name = 3;
+  bool follow = 4;
+  int32 tail_lines = 5;
+}
+
+message LogEntry {
+  google.protobuf.Timestamp timestamp = 1;
+  string log = 2;
+  string level = 3;
+}
+
+message StreamMetricsRequest {
+  string cluster_name = 1;
+  repeated string metric_names = 2;
+  map<string, string> filters = 3;
+}
+
+message MetricDataPoint {
+  string metric_name = 1;
+  double value = 2;
+  map<string, string> labels = 3;
+  google.protobuf.Timestamp timestamp = 4;
+}
+
+message GetMetricHistoryRequest {
+  string metric_name = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+  map<string, string> filters = 4;
+  string aggregation = 5;
+}
+
+message GetMetricHistoryResponse {
+  repeated MetricDataPoint data_points = 1;
+}
+
+message StreamEventsRequest {
+  string cluster_name = 1;
+  repeated string event_types = 2;
+}
+
+message ClusterEvent {
+  string type = 1;
+  string reason = 2;
+  string message = 3;
+  string object_kind = 4;
+  string object_name = 5;
+  string namespace = 6;
+  google.protobuf.Timestamp timestamp = 7;
+}
+
+message GetAnomaliesRequest {
+  google.protobuf.Timestamp start_time = 1;
+  google.protobuf.Timestamp end_time = 2;
+  string severity = 3;
+}
+
+message GetAnomaliesResponse {
+  repeated Anomaly anomalies = 1;
+}
+
+message Anomaly {
+  string id = 1;
+  string type = 2;
+  string severity = 3;
+  string description = 4;
+  string affected_resource = 5;
+  google.protobuf.Timestamp detected_at = 6;
+}
+
+message GetCostBreakdownRequest {
+  google.protobuf.Timestamp start_time = 1;
+  google.protobuf.Timestamp end_time = 2;
+  string group_by = 3;
+}
+
+message GetCostBreakdownResponse {
+  repeated CostItem items = 1;
+  double total_cost = 2;
+}
+
+message CostItem {
+  string name = 1;
+  double cost = 2;
+  ResourceUsage resources = 3;
+}
+
+message StreamCostMetricsRequest {
+  string granularity = 1;
+}
+
+message CostMetric {
+  string resource_name = 1;
+  string namespace = 2;
+  double cost_per_hour = 3;
+  double cost_per_day = 4;
+  double cost_per_month = 5;
+  google.protobuf.Timestamp timestamp = 6;
+}
+
+message GetCostForecastRequest {
+  int32 days_ahead = 1;
+}
+
+message GetCostForecastResponse {
+  repeated ForecastDataPoint forecast = 1;
+}
+
+message ForecastDataPoint {
+  google.protobuf.Timestamp date = 1;
+  double predicted_cost = 2;
+  double confidence_lower = 3;
+  double confidence_upper = 4;
+}
+
+message GetSecurityAlertsRequest {
+  string severity = 1;
+  bool active_only = 2;
+}
+
+message GetSecurityAlertsResponse {
+  repeated SecurityAlert alerts = 1;
+}
+
+message SecurityAlert {
+  string id = 1;
+  string severity = 2;
+  string type = 3;
+  string description = 4;
+  string affected_resource = 5;
+  google.protobuf.Timestamp detected_at = 6;
+  string status = 7;
+}
+
+message StreamSecurityEventsRequest {
+  repeated string event_types = 1;
+}
+
+message SecurityEvent {
+  string type = 1;
+  string severity = 2;
+  string description = 3;
+  string source = 4;
+  map<string, string> metadata = 5;
+  google.protobuf.Timestamp timestamp = 6;
+}
+
+message GetComplianceReportRequest {
+  string framework = 1;
+}
+
+message GetComplianceReportResponse {
+  string framework = 1;
+  int32 total_checks = 2;
+  int32 passed_checks = 3;
+  int32 failed_checks = 4;
+  repeated ComplianceCheck checks = 5;
+}
+
+message ComplianceCheck {
+  string id = 1;
+  string name = 2;
+  string status = 3;
+  string description = 4;
+  string remediation = 5;
+}
+
+message EnforcePolicyActionRequest {
+  string policy_id = 1;
+  string action = 2;
+  string target_resource = 3;
+}
+
+message EnforcePolicyActionResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message AnalyzeRootCauseRequest {
+  string incident_id = 1;
+  string description = 2;
+  google.protobuf.Timestamp occurred_at = 3;
+}
+
+message AnalyzeRootCauseResponse {
+  string analysis = 1;
+  repeated string possible_causes = 2;
+  repeated string recommendations = 3;
+  double confidence_score = 4;
+}
+
+message GetRecommendationsRequest {
+  string category = 1;
+}
+
+message GetRecommendationsResponse {
+  repeated Recommendation recommendations = 1;
+}
+
+message Recommendation {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  string category = 4;
+  string priority = 5;
+  double potential_savings = 6;
+}
+
+message PredictFailureRequest {
+  string resource_type = 1;
+  string resource_name = 2;
+  int32 prediction_hours = 3;
+}
+
+message PredictFailureResponse {
+  double failure_probability = 1;
+  repeated string risk_factors = 2;
+  string recommendation = 3;
+}

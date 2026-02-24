@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kcc-ebpf-agent
+  namespace: kcc-system
+  labels:
+    app: kcc-ebpf-agent
+spec:
+  selector:
+    matchLabels:
+      app: kcc-ebpf-agent
+  template:
+    metadata:
+      labels:
+        app: kcc-ebpf-agent
+    spec:
+      hostNetwork: true
+      hostPID: true
+      serviceAccountName: kcc-ebpf-agent
+      containers:
+      - name: agent
+        image: ghcr.io/paulmmoore3416/kcc-ebpf-agent:latest
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+            - NET_ADMIN
+            - BPF
+        volumeMounts:
+        - name: sys
+          mountPath: /sys
+          readOnly: true
+        - name: debugfs
+          mountPath: /sys/kernel/debug
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      volumes:
+      - name: sys
+        hostPath:
+          path: /sys
+      - name: debugfs
+        hostPath:
+          path: /sys/kernel/debug
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kcc-ebpf-agent
+  namespace: kcc-system

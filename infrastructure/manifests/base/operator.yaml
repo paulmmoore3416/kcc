@@ -1,0 +1,99 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kcc-system
+  labels:
+    app.kubernetes.io/name: kcc
+    app.kubernetes.io/component: platform
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kcc-operator
+  namespace: kcc-system
+  labels:
+    app: kcc-operator
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kcc-operator
+  template:
+    metadata:
+      labels:
+        app: kcc-operator
+    spec:
+      serviceAccountName: kcc-operator
+      containers:
+      - name: operator
+        image: ghcr.io/paulmmoore3416/kcc-operator:latest
+        imagePullPolicy: IfNotPresent
+        command:
+        - /operator
+        args:
+        - --leader-elect
+        - --metrics-bind-address=:8080
+        - --health-probe-bind-address=:8081
+        ports:
+        - containerPort: 8080
+          name: metrics
+          protocol: TCP
+        - containerPort: 8081
+          name: health
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: health
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: health
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kcc-operator
+  namespace: kcc-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kcc-operator-role
+rules:
+- apiGroups: [""]
+  resources: ["pods", "nodes", "namespaces", "services", "resourcequotas"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: ["apps"]
+  resources: ["deployments", "daemonsets", "replicasets", "statefulsets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: ["kcc.kubernetes.io"]
+  resources: ["clusterobservations", "clusteradministrations"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: ["kcc.kubernetes.io"]
+  resources: ["clusterobservations/status", "clusteradministrations/status"]
+  verbs: ["get", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kcc-operator-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kcc-operator-role
+subjects:
+- kind: ServiceAccount
+  name: kcc-operator
+  namespace: kcc-system
