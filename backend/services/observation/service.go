@@ -5,19 +5,23 @@ import (
 	"fmt"
 	"time"
 
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
+	"github.com/paulmmoore3416/kcc/backend/services/ai"
 )
 
 // Service provides observation and monitoring operations
 type Service struct {
 	clientset *kubernetes.Clientset
+	aiService *ai.Service
 }
 
 // NewService creates a new observation service
-func NewService(clientset *kubernetes.Clientset) *Service {
+func NewService(clientset *kubernetes.Clientset, aiService *ai.Service) *Service {
 	return &Service{
 		clientset: clientset,
+		aiService: aiService,
 	}
 }
 
@@ -82,7 +86,7 @@ func (s *Service) StreamEvents(ctx context.Context) (<-chan ClusterEvent, error)
 					return
 				}
 
-				if k8sEvent, ok := event.Object.(*metav1.Event); ok {
+				if k8sEvent, ok := event.Object.(*corev1.Event); ok {
 					ch <- ClusterEvent{
 						Type:       k8sEvent.Type,
 						Reason:     k8sEvent.Reason,
@@ -102,19 +106,35 @@ func (s *Service) StreamEvents(ctx context.Context) (<-chan ClusterEvent, error)
 
 // DetectAnomalies uses AI/ML to detect anomalies in metrics
 func (s *Service) DetectAnomalies(ctx context.Context, startTime, endTime time.Time) ([]Anomaly, error) {
-	// This would use ML models to detect anomalies
-	// Placeholder implementation
-	anomalies := []Anomaly{
+	// Placeholder: In a real app, this would query metrics and find spikes.
+	description := "Unusual CPU usage pattern detected in pod/nginx-deployment-abc123"
+	
+	if s.aiService != nil {
+		analysis, err := s.aiService.AnalyzeRootCause(ctx, "anomaly-1", description, time.Now())
+		if err == nil {
+			return []Anomaly{
+				{
+					ID:               "anomaly-1",
+					Type:             "CPU Spike",
+					Severity:         "High",
+					Description:      analysis.Analysis,
+					AffectedResource: "pod/nginx-deployment-abc123",
+					DetectedAt:       time.Now(),
+				},
+			}, nil
+		}
+	}
+
+	return []Anomaly{
 		{
 			ID:               "anomaly-1",
 			Type:             "CPU Spike",
 			Severity:         "High",
-			Description:      "Unusual CPU usage pattern detected",
+			Description:      description,
 			AffectedResource: "pod/nginx-deployment-abc123",
 			DetectedAt:       time.Now(),
 		},
-	}
-	return anomalies, nil
+	}, nil
 }
 
 // GetPodMetrics retrieves metrics for specific pods

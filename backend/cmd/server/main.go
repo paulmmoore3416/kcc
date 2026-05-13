@@ -20,6 +20,7 @@ import (
 	"github.com/paulmmoore3416/kcc/backend/services/cost"
 	"github.com/paulmmoore3416/kcc/backend/services/observation"
 	"github.com/paulmmoore3416/kcc/backend/services/security"
+	"github.com/paulmmoore3416/kcc/backend/services/ai"
 )
 
 const (
@@ -51,8 +52,12 @@ func main() {
 
 	// Register services
 	clusterService := cluster.NewService(clientset)
-	observationService := observation.NewService(clientset)
-	costService := cost.NewService(clientset)
+	aiService, err := ai.NewService(clientset)
+	if err != nil {
+		log.Printf("Warning: Failed to initialize AI service (check GEMINI_API_KEY): %v", err)
+	}
+	observationService := observation.NewService(clientset, aiService)
+	costService := cost.NewService(clientset, aiService)
 	securityService := security.NewService(clientset)
 
 	// Register gRPC services (proto registration would happen here)
@@ -97,6 +102,7 @@ func main() {
 	_ = observationService
 	_ = costService
 	_ = securityService
+	_ = aiService
 }
 
 func getKubernetesConfig() (*rest.Config, error) {

@@ -1,6 +1,7 @@
 package v1alpha1
 
 import (
+	"k8s.io/apimachinery/pkg/runtime"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -96,6 +97,14 @@ type ClusterAdministrationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ClusterAdministration `json:"items"`
+}
+
+func (in *ClusterAdministration) DeepCopyObject() runtime.Object {
+	return in
+}
+
+func (in *ClusterAdministrationList) DeepCopyObject() runtime.Object {
+	return in
 }
 
 func init() {

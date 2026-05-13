@@ -1,5 +1,4 @@
 package cost
-package cost
 
 import (
 	"context"
@@ -7,204 +6,180 @@ import (
 	"time"
 
 	"k8s.io/client-go/kubernetes"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}	Action           string	Priority         string	PotentialSavings float64	Description      string	Type             string	ID               stringtype CostRecommendation struct {}	ConfidenceUpper float64	ConfidenceLower float64	PredictedCost   float64	Date            time.Timetype ForecastDataPoint struct {}	Timestamp     time.Time	Currency      string	CostPerMonth  float64	CostPerDay    float64	CostPerHour   float64	ResourceType  string	ResourceName  stringtype CostMetric struct {}	ResourceUsage string	StorageCost   float64	MemoryCost    float64	CPUCost       float64	Cost          float64	Name          stringtype CostItem struct {}	Period    string	TotalCost float64	Items     []CostItemtype CostBreakdown struct {// Types}	return recommendations, nil	}		},			Action:           "Move to standard storage tier",			Priority:         "Low",			PotentialSavings: 30.00,			Description:      "PersistentVolume 'data-vol-123' using premium storage but accessed infrequently.",			Type:             "Storage",			ID:               "rec-3",		{		},			Action:           "Consider removing or scaling down",			Priority:         "Medium",			PotentialSavings: 120.00,			Description:      "Namespace 'test-env' has been idle for 7 days with zero traffic.",			Type:             "Idle Resources",			ID:               "rec-2",		{		},			Action:           "Reduce CPU request to 0.5 cores",			Priority:         "High",			PotentialSavings: 45.50,			Description:      "Pod 'nginx-deployment-xyz' is over-provisioned. CPU usage is at 15% while requested is 2 cores.",			Type:             "Rightsizing",			ID:               "rec-1",		{	recommendations := []CostRecommendation{func (s *Service) GetCostOptimizationRecommendations(ctx context.Context) ([]CostRecommendation, error) {// GetCostOptimizationRecommendations provides cost-saving recommendations}	return forecast, nil	}		}			ConfidenceUpper:  predictedCost * 1.10,			ConfidenceLower:  predictedCost * 0.90,			PredictedCost:    predictedCost,			Date:             time.Now().AddDate(0, 0, i+1),		forecast[i] = ForecastDataPoint{		predictedCost := baselineCost * growth		growth := 1.0 + (float64(i) * 0.02) // 2% daily growth		// Simple linear growth model (would be more sophisticated in production)	for i := 0; i < daysAhead; i++ {	baselineCost := 1881.50 // Current daily cost	forecast := make([]ForecastDataPoint, daysAhead)	// Placeholder implementation with mock forecast	// This would use time-series forecasting algorithmsfunc (s *Service) GetCostForecast(ctx context.Context, daysAhead int) ([]ForecastDataPoint, error) {// GetCostForecast predicts future costs using historical data}	return ch, nil	}()		}			}				}					}						Timestamp:     time.Now(),						Currency:      "USD",						CostPerMonth:  costPerHour * 24 * 30,						CostPerDay:    costPerHour * 24,						CostPerHour:   costPerHour,						ResourceType:  "namespace",						ResourceName:  ns.Name,					ch <- CostMetric{										costPerHour := float64(len(pods.Items)) * 0.05 // $0.05 per pod per hour					// Simplified cost calculation (would be more sophisticated in production)										pods, _ := s.clientset.CoreV1().Pods(ns.Name).List(ctx, metav1.ListOptions{})					// Calculate cost metrics for each namespace				for _, ns := range namespaces.Items {				}					continue				if err != nil {				namespaces, err := s.clientset.CoreV1().Namespaces().List(ctx, metav1.ListOptions{})				// Get all namespaces			case <-ticker.C:				return			case <-ctx.Done():			select {		for {		defer ticker.Stop()		ticker := time.NewTicker(10 * time.Second)		defer close(ch)	go func() {	ch := make(chan CostMetric, 100)func (s *Service) StreamCostMetrics(ctx context.Context, granularity string) (<-chan CostMetric, error) {// StreamCostMetrics streams real-time cost metrics}	}, nil		Period:    fmt.Sprintf("%s to %s", startTime.Format("2006-01-02"), endTime.Format("2006-01-02")),		TotalCost: totalCost,		Items:     items,	return &CostBreakdown{	}		totalCost += item.Cost	for _, item := range items {	totalCost := 0.0	}		},			ResourceUsage: "CPU: 8 cores, Memory: 32GB",			StorageCost:   10.00,			MemoryCost:    50.25,			CPUCost:       120.50,			Cost:          180.75,			Name:          "development-namespace",		{		},			ResourceUsage: "CPU: 24 cores, Memory: 64GB",			StorageCost:   30.00,			MemoryCost:    120.10,			CPUCost:       300.15,			Cost:          450.25,			Name:          "staging-namespace",		{		},			ResourceUsage: "CPU: 80 cores, Memory: 256GB",			StorageCost:   100.00,			MemoryCost:    300.20,			CPUCost:       850.30,			Cost:          1250.50,			Name:          "production-namespace",		{	items := []CostItem{	// Placeholder implementation	// This would integrate with OpenCost APIs and cloud provider billingfunc (s *Service) GetCostBreakdown(ctx context.Context, startTime, endTime time.Time, groupBy string) (*CostBreakdown, error) {// GetCostBreakdown returns cost breakdown by namespace/deployment}	}		clientset: clientset,	return &Service{func NewService(clientset *kubernetes.Clientset) *Service {// NewService creates a new cost service}	clientset *kubernetes.Clientsettype Service struct {// Service provides FinOps cost observability)
+	"github.com/paulmmoore3416/kcc/backend/services/ai"
+)
+
+// Service provides cost observability and FinOps features
+type Service struct {
+	clientset *kubernetes.Clientset
+	aiService *ai.Service
+}
+
+// NewService creates a new cost service
+func NewService(clientset *kubernetes.Clientset, aiService *ai.Service) *Service {
+	return &Service{
+		clientset: clientset,
+		aiService: aiService,
+	}
+}
+
+// GetCostBreakdown returns a breakdown of costs across the cluster
+func (s *Service) GetCostBreakdown(ctx context.Context, start, end time.Time) (*CostBreakdown, error) {
+	// This would integrate with OpenCost or query ClickHouse
+	// Placeholder implementation
+	items := []CostItem{
+		{
+			Name:      "kube-system",
+			Cost:      45.50,
+			CPUCost:   30.00,
+			MemoryCost: 10.00,
+			StorageCost: 5.50,
+		},
+		{
+			Name:      "production",
+			Cost:      1250.75,
+			CPUCost:   800.00,
+			MemoryCost: 350.00,
+			StorageCost: 100.75,
+		},
+		{
+			Name:      "development",
+			Cost:      210.20,
+			CPUCost:   150.00,
+			MemoryCost: 50.00,
+			StorageCost: 10.20,
+		},
+	}
+
+	return &CostBreakdown{
+		TotalCost: 1506.45,
+		Period:    fmt.Sprintf("%s to %s", start.Format("2006-01-02"), end.Format("2006-01-02")),
+		Items:     items,
+	}, nil
+}
+
+// StreamCostMetrics streams real-time cost data
+func (s *Service) StreamCostMetrics(ctx context.Context) (<-chan CostMetric, error) {
+	ch := make(chan CostMetric, 100)
+
+	go func() {
+		defer close(ch)
+		ticker := time.NewTicker(10 * time.Second)
+		defer ticker.Stop()
+
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case <-ticker.C:
+				// Collect real-time cost metrics
+				ch <- CostMetric{
+					ResourceName: "node-1",
+					ResourceType: "Node",
+					CostPerHour:  0.45,
+					CostPerDay:   10.80,
+					CostPerMonth: 324.00,
+					Currency:     "USD",
+					Timestamp:    time.Now(),
+				}
+			}
+		}
+	}()
+
+	return ch, nil
+}
+
+// GetCostForecast predicts future spending
+func (s *Service) GetCostForecast(ctx context.Context, days int) ([]ForecastDataPoint, error) {
+	// This would use ML models to forecast costs
+	forecast := make([]ForecastDataPoint, days)
+	now := time.Now()
+	baseCost := 50.0
+
+	for i := 0; i < days; i++ {
+		predictedCost := baseCost + (float64(i) * 0.5) // Simple linear growth for placeholder
+		forecast[i] = ForecastDataPoint{
+			Date:            now.AddDate(0, 0, i),
+			PredictedCost:   predictedCost,
+			ConfidenceLower: predictedCost * 0.90,
+			ConfidenceUpper: predictedCost * 1.10,
+		}
+	}
+
+	return forecast, nil
+}
+
+// GetCostOptimizationRecommendations provides cost-saving recommendations
+func (s *Service) GetCostOptimizationRecommendations(ctx context.Context) ([]CostRecommendation, error) {
+	recommendations := []CostRecommendation{
+		{
+			ID:               "rec-1",
+			Type:             "Rightsizing",
+			Description:      "Pod 'nginx-deployment-xyz' is over-provisioned. CPU usage is at 15% while requested is 2 cores.",
+			Priority:         "High",
+			PotentialSavings: 45.50,
+			Action:           "Reduce CPU request to 0.5 cores",
+		},
+		{
+			ID:               "rec-2",
+			Type:             "Idle Resources",
+			Description:      "Namespace 'test-env' has been idle for 7 days with zero traffic.",
+			Priority:         "Medium",
+			PotentialSavings: 120.00,
+			Action:           "Consider removing or scaling down",
+		},
+		{
+			ID:               "rec-3",
+			Type:             "Storage",
+			Description:      "PersistentVolume 'data-vol-123' using premium storage but accessed infrequently.",
+			Priority:         "Low",
+			PotentialSavings: 30.00,
+			Action:           "Move to standard storage tier",
+		},
+	}
+
+	return recommendations, nil
+}
+
+// Types
+
+type CostBreakdown struct {
+	TotalCost float64
+	Period    string
+	Items     []CostItem
+}
+
+type CostItem struct {
+	Name          string
+	Cost          float64
+	CPUCost       float64
+	MemoryCost    float64
+	StorageCost   float64
+	ResourceUsage string
+}
+
+type CostMetric struct {
+	ResourceName string
+	ResourceType string
+	CostPerHour   float64
+	CostPerDay    float64
+	CostPerMonth  float64
+	Currency      string
+	Timestamp     time.Time
+}
+
+type ForecastDataPoint struct {
+	Date            time.Time
+	PredictedCost   float64
+	ConfidenceLower float64
+	ConfidenceUpper float64
+}
+
+type CostRecommendation struct {
+	ID               string
+	Type             string
+	Description      string
+	Priority         string
+	PotentialSavings float64
+	Action           string
+}

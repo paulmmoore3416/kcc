@@ -1,5 +1,4 @@
 package security
-package security
 
 import (
 	"context"
@@ -15,238 +14,196 @@ type Service struct {
 
 // NewService creates a new security service
 func NewService(clientset *kubernetes.Clientset) *Service {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}	Description string	FixedIn     string	Version     string	Package     string	Severity    string	CVE         stringtype Vulnerability struct {}	Vulnerabilities []Vulnerability	ScannedAt       time.Time	LowCount        int	MediumCount     int	HighCount       int	CriticalCount   int	Image           stringtype ImageScanResult struct {}	Remediation string	Description string	Status      string	Name        string	ID          stringtype ComplianceCheck struct {}	GeneratedAt  time.Time	Checks       []ComplianceCheck	FailedChecks int	PassedChecks int	TotalChecks  int	Framework    stringtype ComplianceReport struct {}	Timestamp   time.Time	Metadata    map[string]string	Source      string	Description string	Severity    string	Type        stringtype SecurityEvent struct {}	Action           string	Status           string	DetectedAt       time.Time	AffectedResource string	Description      string	Type             string	Severity         string	ID               stringtype SecurityAlert struct {// Types}	}, nil		Vulnerabilities: []Vulnerability{},		ScannedAt:        time.Now(),		LowCount:         30,		MediumCount:      15,		HighCount:        5,		CriticalCount:    2,		Image:            image,	return &ImageScanResult{	// This would integrate with Trivy or similar scannersfunc (s *Service) ScanImageVulnerabilities(ctx context.Context, image string) (*ImageScanResult, error) {// ScanImageVulnerabilities scans container images for vulnerabilities}	return nil	// Placeholder implementation	// - Block image pulls	// - Quarantine containers	// - Kill suspicious processes	// - Isolate pod network	// This would enforce policies like:func (s *Service) EnforcePolicyAction(ctx context.Context, policyID, action, targetResource string) error {// EnforcePolicyAction takes action on policy violations}	}, nil		GeneratedAt:  time.Now(),		Checks:       checks,		FailedChecks: failedCount,		PassedChecks: passedCount,		TotalChecks:  len(checks),		Framework:    framework,	return &ComplianceReport{	}		}			failedCount++		} else {			passedCount++		if check.Status == "Passed" {	for _, check := range checks {	failedCount := 0	passedCount := 0	}		},			Remediation: "N/A",			Description: "PodSecurityPolicy restricts privilege escalation",			Status:      "Passed",			Name:        "Minimize the admission of containers with allowPrivilegeEscalation",			ID:          "CIS-5.2.2",		{		},			Remediation: "Review and restrict cluster-admin role bindings",			Description: "Found 3 service accounts with cluster-admin role",			Status:      "Failed",			Name:        "Ensure that the cluster-admin role is only used where required",			ID:          "CIS-5.1.1",		{		},			Remediation: "N/A",			Description: "Anonymous authentication is disabled on the API server",			Status:      "Passed",			Name:        "Ensure that anonymous access is disabled",			ID:          "CIS-1.2.1",		{	checks := []ComplianceCheck{	// Placeholder implementation	// This would run compliance checks against various frameworks (CIS, PCI-DSS, etc.)func (s *Service) GetComplianceReport(ctx context.Context, framework string) (*ComplianceReport, error) {// GetComplianceReport generates compliance reports}	return ch, nil	}()		}			}				ch <- event				}					Timestamp: time.Now(),					},						"process":   "/usr/bin/node",						"namespace": "default",						"pod":       "example-pod",					Metadata: map[string]string{					Source:      "ebpf-agent",					Description: "Normal process execution detected",					Severity:    "Info",					Type:        "ProcessExecution",				event := SecurityEvent{				// Placeholder implementation				// This would listen to eBPF events			case <-ticker.C:				return			case <-ctx.Done():			select {		for {		defer ticker.Stop()		ticker := time.NewTicker(3 * time.Second)		defer close(ch)	go func() {	ch := make(chan SecurityEvent, 100)func (s *Service) StreamSecurityEvents(ctx context.Context, eventTypes []string) (<-chan SecurityEvent, error) {// StreamSecurityEvents streams security events in real-time}	return alerts, nil	}		alerts = filtered		}			}				filtered = append(filtered, alert)			if alert.Status == "Active" {		for _, alert := range alerts {		filtered := []SecurityAlert{}	if activeOnly {	// Filter by active status	}		alerts = filtered		}			}				filtered = append(filtered, alert)			if alert.Severity == severity {		for _, alert := range alerts {		filtered := []SecurityAlert{}	if severity != "" && severity != "All" {	// Filter by severity if specified	}		},			Action:           "Update required",			Status:           "Acknowledged",			DetectedAt:       time.Now().Add(-2 * time.Hour),			AffectedResource: "deployment/legacy-app",			Description:      "Container image contains CVE-2024-1234 (Log4j vulnerability)",			Type:             "CVE Detected",			Severity:         "Medium",			ID:               "alert-3",		{		},			Action:           "Traffic blocked",			Status:           "Active",			DetectedAt:       time.Now().Add(-1 * time.Hour),			AffectedResource: "namespace/production",			Description:      "Unauthorized egress traffic detected from namespace 'production'",			Type:             "Network Policy Violation",			Severity:         "High",			ID:               "alert-2",		{		},			Action:           "Pod automatically isolated",			Status:           "Active",			DetectedAt:       time.Now().Add(-15 * time.Minute),			AffectedResource: "pod/web-app-pod",			Description:      "Pod 'web-app-pod' executed unexpected binary '/tmp/cryptominer'",			Type:             "Suspicious Process Execution",			Severity:         "Critical",			ID:               "alert-1",		{	alerts := []SecurityAlert{	// Placeholder implementation	// This would integrate with eBPF security monitoring and vulnerability scannersfunc (s *Service) GetSecurityAlerts(ctx context.Context, severity string, activeOnly bool) ([]SecurityAlert, error) {// GetSecurityAlerts returns active security alerts}	}		clientset: clientset,	return &Service{
+	return &Service{
+		clientset: clientset,
+	}
+}
+
+// GetSecurityAlerts returns active security alerts
+func (s *Service) GetSecurityAlerts(ctx context.Context) ([]SecurityAlert, error) {
+	// This would integrate with Falco or similar tools
+	alerts := []SecurityAlert{
+		{
+			ID:               "alert-1",
+			Severity:         "High",
+			Type:             "Privileged Container",
+			Description:      "A container in pod 'nginx-xyz' is running with privileged access.",
+			AffectedResource: "pod/nginx-xyz",
+			DetectedAt:       time.Now(),
+			Status:           "Active",
+		},
+		{
+			ID:               "alert-2",
+			Severity:         "Medium",
+			Type:             "Sensitive File Access",
+			Description:      "Process 'sh' attempted to read '/etc/shadow' in pod 'api-server-123'.",
+			AffectedResource: "pod/api-server-123",
+			DetectedAt:       time.Now().Add(-1 * time.Hour),
+			Status:           "Active",
+		},
+	}
+	return alerts, nil
+}
+
+// StreamSecurityEvents streams real-time security events
+func (s *Service) StreamSecurityEvents(ctx context.Context) (<-chan SecurityEvent, error) {
+	ch := make(chan SecurityEvent, 100)
+
+	go func() {
+		defer close(ch)
+		ticker := time.NewTicker(15 * time.Second)
+		defer ticker.Stop()
+
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case <-ticker.C:
+				ch <- SecurityEvent{
+					Type:        "Process Execution",
+					Severity:    "Low",
+					Description: "New process 'ls' started in pod 'frontend-abc'",
+					Source:      "eBPF Agent",
+					Timestamp:   time.Now(),
+					Metadata:    map[string]string{"pid": "1234", "comm": "ls"},
+				}
+			}
+		}
+	}()
+
+	return ch, nil
+}
+
+// GetComplianceReport generates a compliance report for the cluster
+func (s *Service) GetComplianceReport(ctx context.Context, framework string) (*ComplianceReport, error) {
+	checks := []ComplianceCheck{
+		{
+			ID:          "CIS-1.1.1",
+			Name:        "Ensure that the --anonymous-auth argument is set to false",
+			Status:      "Passed",
+			Description: "Disable anonymous access to the API server",
+			Remediation: "Set --anonymous-auth=false in API server manifest",
+		},
+		{
+			ID:          "CIS-1.2.1",
+			Name:        "Ensure that the --token-auth-file argument is not set",
+			Status:      "Passed",
+			Description: "Do not use token files for authentication",
+			Remediation: "Remove --token-auth-file from API server manifest",
+		},
+		{
+			ID:          "CIS-1.3.1",
+			Name:        "Ensure that the --rbac argument is set",
+			Status:      "Failed",
+			Description: "Enable Role Based Access Control",
+			Remediation: "Set --authorization-mode=RBAC in API server manifest",
+		},
+	}
+
+	passedCount := 0
+	failedCount := 0
+	for _, check := range checks {
+		if check.Status == "Passed" {
+			passedCount++
+		} else {
+			failedCount++
+		}
+	}
+
+	return &ComplianceReport{
+		Framework:    framework,
+		TotalChecks:  len(checks),
+		PassedChecks: passedCount,
+		FailedChecks: failedCount,
+		Checks:       checks,
+		GeneratedAt:  time.Now(),
+	}, nil
+}
+
+// ScanImageVulnerabilities scans container images for vulnerabilities
+func (s *Service) ScanImageVulnerabilities(ctx context.Context, image string) (*ImageScanResult, error) {
+	// This would integrate with Trivy or similar scanners
+	return &ImageScanResult{
+		Image:            image,
+		CriticalCount:    2,
+		HighCount:        5,
+		MediumCount:      15,
+		LowCount:         30,
+		ScannedAt:        time.Now(),
+		Vulnerabilities: []Vulnerability{},
+	}, nil
+}
+
+// EnforcePolicyAction takes action on policy violations
+func (s *Service) EnforcePolicyAction(ctx context.Context, policyID, action, targetResource string) error {
+	// This would enforce policies like:
+	// - Isolate pod network
+	// - Kill suspicious processes
+	// - Quarantine containers
+	// - Block image pulls
+	// Placeholder implementation
+	return nil
+}
+
+// Types
+
+type SecurityAlert struct {
+	ID               string
+	Severity         string
+	Type             string
+	Description      string
+	AffectedResource string
+	DetectedAt       time.Time
+	Status           string
+	Action           string
+}
+
+type SecurityEvent struct {
+	ID               string
+	Type             string
+	Severity         string
+	Description      string
+	AffectedResource string
+	DetectedAt       time.Time
+	Status           string
+	Action           string
+	Source           string
+	Metadata         map[string]string
+	Timestamp        time.Time
+}
+
+type ComplianceReport struct {
+	Framework    string
+	TotalChecks  int
+	PassedChecks int
+	FailedChecks int
+	Checks       []ComplianceCheck
+	GeneratedAt  time.Time
+}
+
+type ComplianceCheck struct {
+	ID          string
+	Name        string
+	Status      string
+	Description string
+	Remediation string
+}
+
+type ImageScanResult struct {
+	Image           string
+	CriticalCount   int
+	HighCount       int
+	MediumCount     int
+	LowCount        int
+	ScannedAt       time.Time
+	Vulnerabilities []Vulnerability
+}
+
+type Vulnerability struct {
+	CVE         string
+	Severity    string
+	Package     string
+	Version     string
+	FixedIn     string
+	Description string
+}

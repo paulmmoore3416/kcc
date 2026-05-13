@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { AlertTriangle, Shield, CheckCircle } from 'lucide-react'
+import { AlertTriangle, Shield, CheckCircle, Lock, Eye } from 'lucide-react'
 
 export function SecurityDashboard() {
   const alerts = [
@@ -35,40 +35,73 @@ export function SecurityDashboard() {
     },
   ]
 
+  const getSeverityStyles = (severity: string) => {
+    switch (severity) {
+      case 'Critical':
+        return {
+          bg: 'bg-red-500/10',
+          border: 'border-red-500/30',
+          badge: 'bg-red-500/20 text-red-300',
+          icon: 'text-red-400',
+        }
+      case 'High':
+        return {
+          bg: 'bg-orange-500/10',
+          border: 'border-orange-500/30',
+          badge: 'bg-orange-500/20 text-orange-300',
+          icon: 'text-orange-400',
+        }
+      case 'Medium':
+        return {
+          bg: 'bg-blue-500/10',
+          border: 'border-blue-500/30',
+          badge: 'bg-blue-500/20 text-blue-300',
+          icon: 'text-blue-400',
+        }
+      default:
+        return {
+          bg: 'bg-green-500/10',
+          border: 'border-green-500/30',
+          badge: 'bg-green-500/20 text-green-300',
+          icon: 'text-green-400',
+        }
+    }
+  }
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-3">
-        <Card className="border-warm-200">
+        <Card className="border-border bg-card/50 hover:border-red-500/50 transition-all">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Active Alerts</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Active Alerts</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">3</div>
-            <div className="flex items-center space-x-2 mt-2">
-              <Badge className="bg-red-100 text-red-800">2 Critical</Badge>
-              <Badge className="bg-yellow-100 text-yellow-800">1 High</Badge>
+            <div className="text-3xl font-bold text-foreground">3</div>
+            <div className="flex items-center space-x-2 mt-3 gap-2">
+              <Badge className="bg-red-500/20 text-red-300 hover:bg-red-500/30">2 Critical</Badge>
+              <Badge className="bg-orange-500/20 text-orange-300 hover:bg-orange-500/30">1 High</Badge>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-warm-200">
+        <Card className="border-border bg-card/50 hover:border-primary/50 transition-all">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Compliance Score</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Compliance Score</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">94%</div>
+            <div className="text-3xl font-bold text-primary">94%</div>
             <p className="text-xs text-muted-foreground mt-2">
               CIS Kubernetes Benchmark
             </p>
           </CardContent>
         </Card>
 
-        <Card className="border-warm-200">
+        <Card className="border-border bg-card/50 hover:border-secondary/50 transition-all">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">eBPF Events</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">eBPF Events</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12.4M</div>
+            <div className="text-3xl font-bold text-secondary">12.4M</div>
             <p className="text-xs text-muted-foreground mt-2">
               Events processed today
             </p>
@@ -76,112 +109,101 @@ export function SecurityDashboard() {
         </Card>
       </div>
 
-      <Card className="border-warm-200">
+      <Card className="border-border bg-card/50">
         <CardHeader>
-          <CardTitle>Security Alerts</CardTitle>
-          <CardDescription>Real-time security events and violations</CardDescription>
+          <CardTitle className="text-lg">Security Alerts</CardTitle>
+          <CardDescription className="text-muted-foreground">Real-time security events and violations</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {alerts.map((alert) => (
-              <div
-                key={alert.id}
-                className={`flex items-start space-x-4 p-4 border rounded-lg ${
-                  alert.severity === 'Critical'
-                    ? 'border-red-200 bg-red-50'
-                    : alert.severity === 'High'
-                    ? 'border-yellow-200 bg-yellow-50'
-                    : 'border-blue-200 bg-blue-50'
-                }`}
-              >
-                <AlertTriangle
-                  className={`h-5 w-5 mt-0.5 ${
-                    alert.severity === 'Critical'
-                      ? 'text-red-600'
-                      : alert.severity === 'High'
-                      ? 'text-yellow-600'
-                      : 'text-blue-600'
-                  }`}
-                />
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-1">
-                    <h4 className="font-semibold">{alert.type}</h4>
-                    <Badge
-                      className={
-                        alert.severity === 'Critical'
-                          ? 'bg-red-100 text-red-800'
-                          : alert.severity === 'High'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : 'bg-blue-100 text-blue-800'
-                      }
-                    >
-                      {alert.severity}
-                    </Badge>
+          <div className="space-y-3">
+            {alerts.map((alert) => {
+              const styles = getSeverityStyles(alert.severity)
+              return (
+                <div
+                  key={alert.id}
+                  className={`flex items-start space-x-4 p-4 border rounded-lg ${styles.bg} ${styles.border} hover:bg-opacity-20 transition-all`}
+                >
+                  <AlertTriangle className={`h-5 w-5 mt-0.5 flex-shrink-0 ${styles.icon}`} />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-1 gap-2">
+                      <h4 className="font-semibold text-foreground truncate">{alert.type}</h4>
+                      <Badge className={`${styles.badge} hover:opacity-80 flex-shrink-0`}>
+                        {alert.severity}
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-2">{alert.description}</p>
+                    <div className="flex items-center justify-between text-xs gap-2 mb-2">
+                      <span className="text-muted-foreground truncate">{alert.resource}</span>
+                      <span className="text-muted-foreground flex-shrink-0">{alert.time}</span>
+                    </div>
+                    <p className="text-xs text-emerald-400 font-semibold">
+                      ✓ Action taken: {alert.action}
+                    </p>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-2">{alert.description}</p>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">{alert.resource}</span>
-                    <span className="text-muted-foreground">{alert.time}</span>
-                  </div>
-                  <p className="text-xs text-green-700 font-semibold mt-2">
-                    Action taken: {alert.action}
-                  </p>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </CardContent>
       </Card>
 
-      <Card className="border-warm-200">
+      <Card className="border-border bg-card/50">
         <CardHeader>
-          <CardTitle>Compliance Checks</CardTitle>
-          <CardDescription>CIS Kubernetes Benchmark v1.8</CardDescription>
+          <CardTitle className="text-lg">Compliance Checks</CardTitle>
+          <CardDescription className="text-muted-foreground">CIS Kubernetes Benchmark v1.8</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 border rounded-lg">
+            <div className="flex items-center justify-between p-4 border border-border rounded-lg bg-background/30 hover:bg-background/50 transition-colors">
               <div className="flex items-center space-x-3">
-                <CheckCircle className="h-5 w-5 text-green-600" />
+                <CheckCircle className="h-5 w-5 text-emerald-400 flex-shrink-0" />
                 <div>
-                  <p className="text-sm font-medium">Anonymous access disabled</p>
+                  <p className="text-sm font-medium text-foreground">Anonymous access disabled</p>
                   <p className="text-xs text-muted-foreground">CIS 1.2.1</p>
                 </div>
               </div>
-              <Badge className="bg-green-100 text-green-800">Passed</Badge>
+              <Badge className="bg-emerald-400/20 text-emerald-300 hover:bg-emerald-400/30 flex-shrink-0">
+                Passed
+              </Badge>
             </div>
 
-            <div className="flex items-center justify-between p-3 border rounded-lg">
+            <div className="flex items-center justify-between p-4 border border-red-500/30 rounded-lg bg-red-500/10 hover:bg-red-500/20 transition-colors">
               <div className="flex items-center space-x-3">
-                <AlertTriangle className="h-5 w-5 text-red-600" />
+                <AlertTriangle className="h-5 w-5 text-red-400 flex-shrink-0" />
                 <div>
-                  <p className="text-sm font-medium">Cluster-admin role restriction</p>
+                  <p className="text-sm font-medium text-foreground">Cluster-admin role restriction</p>
                   <p className="text-xs text-muted-foreground">CIS 5.1.1</p>
                 </div>
               </div>
-              <Badge className="bg-red-100 text-red-800">Failed</Badge>
+              <Badge className="bg-red-500/20 text-red-300 hover:bg-red-500/30 flex-shrink-0">
+                Failed
+              </Badge>
             </div>
 
-            <div className="flex items-center justify-between p-3 border rounded-lg">
+            <div className="flex items-center justify-between p-4 border border-border rounded-lg bg-background/30 hover:bg-background/50 transition-colors">
               <div className="flex items-center space-x-3">
-                <CheckCircle className="h-5 w-5 text-green-600" />
+                <CheckCircle className="h-5 w-5 text-emerald-400 flex-shrink-0" />
                 <div>
-                  <p className="text-sm font-medium">Privilege escalation restricted</p>
+                  <p className="text-sm font-medium text-foreground">Privilege escalation restricted</p>
                   <p className="text-xs text-muted-foreground">CIS 5.2.2</p>
                 </div>
               </div>
-              <Badge className="bg-green-100 text-green-800">Passed</Badge>
+              <Badge className="bg-emerald-400/20 text-emerald-300 hover:bg-emerald-400/30 flex-shrink-0">
+                Passed
+              </Badge>
             </div>
 
-            <div className="flex items-center justify-between p-3 border rounded-lg">
+            <div className="flex items-center justify-between p-4 border border-border rounded-lg bg-background/30 hover:bg-background/50 transition-colors">
               <div className="flex items-center space-x-3">
-                <CheckCircle className="h-5 w-5 text-green-600" />
+                <CheckCircle className="h-5 w-5 text-emerald-400 flex-shrink-0" />
                 <div>
-                  <p className="text-sm font-medium">Network policies enforced</p>
+                  <p className="text-sm font-medium text-foreground">Network policies enforced</p>
                   <p className="text-xs text-muted-foreground">CIS 5.3.1</p>
                 </div>
               </div>
-              <Badge className="bg-green-100 text-green-800">Passed</Badge>
+              <Badge className="bg-emerald-400/20 text-emerald-300 hover:bg-emerald-400/30 flex-shrink-0">
+                Passed
+              </Badge>
             </div>
           </div>
         </CardContent>

@@ -1,22 +1,22 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Activity, Server, DollarSign, Shield, Zap, TrendingUp } from 'lucide-react'
+import { Activity, Server, DollarSign, Shield, Zap, TrendingUp, Brain, Lock } from 'lucide-react'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-warm-50 via-white to-warm-100">
+    <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
+      <nav className="border-b border-border bg-card/50 backdrop-blur-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Activity className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            <span className="text-2xl font-bold text-primary">
               Kubernetes Command Center
             </span>
           </div>
           <Link href="/dashboard">
-            <Button className="bg-primary hover:bg-primary/90">
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
               Go to Dashboard
             </Button>
           </Link>
@@ -26,12 +26,12 @@ export default function Home() {
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 text-center">
         <div className="animate-fade-in">
-          <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-warm-700 via-warm-600 to-warm-500 bg-clip-text text-transparent">
+          <h1 className="text-6xl font-bold mb-6 text-foreground">
             Professional Kubernetes Administration
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
             Real-time observation, AI-powered insights, and comprehensive cluster management
-            with eBPF-based monitoring and zero-overhead telemetry
+            with eBPF-based monitoring and autonomous SRE agents
           </p>
           <div className="flex gap-4 justify-center">
             <Link href="/dashboard">
@@ -40,7 +40,7 @@ export default function Home() {
               </Button>
             </Link>
             <Link href="/docs">
-              <Button size="lg" variant="outline" className="text-lg px-8">
+              <Button size="lg" variant="outline" className="text-lg px-8 border-border hover:bg-card">
                 Documentation
               </Button>
             </Link>
@@ -50,34 +50,126 @@ export default function Home() {
 
       {/* Features Grid */}
       <section className="container mx-auto px-4 py-20">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card className="border-warm-200 hover:shadow-lg transition-shadow">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card className="border-border bg-card/50 hover:bg-card/80 transition-all hover:border-primary/50">
             <CardHeader>
               <Activity className="h-12 w-12 text-primary mb-4" />
               <CardTitle>Real-Time Observation</CardTitle>
-              <CardDescription>
-                eBPF-based kernel monitoring with near-zero overhead. Stream metrics, logs, and traces in real-time.
+              <CardDescription className="text-muted-foreground">
+                eBPF-based kernel monitoring with near-zero overhead. Stream metrics, logs, and traces.
               </CardDescription>
             </CardHeader>
           </Card>
 
-          <Card className="border-warm-200 hover:shadow-lg transition-shadow">
+          <Card className="border-border bg-card/50 hover:bg-card/80 transition-all hover:border-secondary/50">
             <CardHeader>
-              <Server className="h-12 w-12 text-primary mb-4" />
-              <CardTitle>Cluster Administration</CardTitle>
-              <CardDescription>
-                Comprehensive management with auto-scaling, auto-healing, and policy enforcement.
+              <Brain className="h-12 w-12 text-secondary mb-4" />
+              <CardTitle>AI-Powered SRE</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                Autonomous agents powered by Gemini for intelligent incident response and remediation.
               </CardDescription>
             </CardHeader>
           </Card>
 
-          <Card className="border-warm-200 hover:shadow-lg transition-shadow">
+          <Card className="border-border bg-card/50 hover:bg-card/80 transition-all hover:border-primary/50">
             <CardHeader>
               <DollarSign className="h-12 w-12 text-primary mb-4" />
               <CardTitle>Cost Observability</CardTitle>
-              <CardDescription>
-                FinOps integration with OpenCost. Track dollar-per-pod metrics and forecast future costs.
+              <CardDescription className="text-muted-foreground">
+                FinOps integration with OpenCost. Track metrics and forecast costs intelligently.
               </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="border-border bg-card/50 hover:bg-card/80 transition-all hover:border-secondary/50">
+            <CardHeader>
+              <Lock className="h-12 w-12 text-secondary mb-4" />
+              <CardTitle>Security Management</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                Comprehensive security monitoring with policy enforcement and threat detection.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+      </section>
+
+      {/* Features Detail */}
+      <section className="container mx-auto px-4 py-20 border-t border-border">
+        <h2 className="text-4xl font-bold mb-12 text-center text-foreground">Platform Capabilities</h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="space-y-4">
+            <div className="flex items-start space-x-4">
+              <Server className="h-6 w-6 text-primary mt-1" />
+              <div>
+                <h3 className="font-semibold text-lg text-foreground">Cluster Administration</h3>
+                <p className="text-muted-foreground">Auto-scaling, auto-healing, and intelligent policy enforcement</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4">
+              <Zap className="h-6 w-6 text-secondary mt-1" />
+              <div>
+                <h3 className="font-semibold text-lg text-foreground">Real-time Metrics</h3>
+                <p className="text-muted-foreground">Live dashboards with comprehensive visualization of all metrics</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4">
+              <TrendingUp className="h-6 w-6 text-primary mt-1" />
+              <div>
+                <h3 className="font-semibold text-lg text-foreground">Predictive Analytics</h3>
+                <p className="text-muted-foreground">ML-powered forecasting for capacity planning and cost optimization</p>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <div className="flex items-start space-x-4">
+              <Shield className="h-6 w-6 text-secondary mt-1" />
+              <div>
+                <h3 className="font-semibold text-lg text-foreground">Security Observability</h3>
+                <p className="text-muted-foreground">Network policies, threat detection, and compliance monitoring</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4">
+              <Brain className="h-6 w-6 text-primary mt-1" />
+              <div>
+                <h3 className="font-semibold text-lg text-foreground">Autonomous SRE</h3>
+                <p className="text-muted-foreground">AI agents that analyze, decide, and remediate infrastructure issues</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4">
+              <Activity className="h-6 w-6 text-secondary mt-1" />
+              <div>
+                <h3 className="font-semibold text-lg text-foreground">Voice-Enabled Control</h3>
+                <p className="text-muted-foreground">Natural language interface for cluster management and queries</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="container mx-auto px-4 py-20 border-t border-border">
+        <div className="bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 border border-border rounded-lg p-12 text-center">
+          <h2 className="text-3xl font-bold mb-4 text-foreground">Ready to Transform Your Infrastructure?</h2>
+          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Deploy KCC today and experience the future of Kubernetes management with AI-powered autonomy.
+          </p>
+          <Link href="/dashboard">
+            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-8">
+              Get Started Now
+            </Button>
+          </Link>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-border bg-card/30 py-12">
+        <div className="container mx-auto px-4 text-center text-muted-foreground">
+          <p>© 2026 Kubernetes Command Center. Built for the AI Agent Olympics.</p>
+        </div>
+      </footer>
+    </div>
+  )
+}
             </CardHeader>
           </Card>
 

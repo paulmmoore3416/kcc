@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Server } from 'lucide-react'
 
 export function NodesTable() {
   const nodes = [
@@ -12,37 +13,44 @@ export function NodesTable() {
   ]
 
   return (
-    <Card className="border-warm-200">
+    <Card className="border-border bg-card/50">
       <CardHeader>
-        <CardTitle>Nodes Overview</CardTitle>
-        <CardDescription>Cluster node status and capacity</CardDescription>
+        <CardTitle className="text-lg">Nodes Overview</CardTitle>
+        <CardDescription className="text-muted-foreground">Cluster node status and capacity</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="border-b">
+            <thead className="border-b border-border">
               <tr className="text-left">
-                <th className="pb-3 font-semibold">Name</th>
-                <th className="pb-3 font-semibold">Status</th>
-                <th className="pb-3 font-semibold">Kubernetes Version</th>
-                <th className="pb-3 font-semibold">CPU Cores</th>
-                <th className="pb-3 font-semibold">Memory</th>
-                <th className="pb-3 font-semibold">Pods</th>
+                <th className="pb-3 px-2 font-semibold text-foreground">Name</th>
+                <th className="pb-3 px-2 font-semibold text-foreground">Status</th>
+                <th className="pb-3 px-2 font-semibold text-foreground">Kubernetes Version</th>
+                <th className="pb-3 px-2 font-semibold text-foreground">CPU Cores</th>
+                <th className="pb-3 px-2 font-semibold text-foreground">Memory</th>
+                <th className="pb-3 px-2 font-semibold text-foreground">Pods</th>
               </tr>
             </thead>
             <tbody>
-              {nodes.map((node) => (
-                <tr key={node.name} className="border-b last:border-0">
-                  <td className="py-3 font-medium">{node.name}</td>
-                  <td className="py-3">
-                    <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+              {nodes.map((node, idx) => (
+                <tr key={node.name} className={`border-b border-border/50 hover:bg-background/50 transition-colors ${idx % 2 === 0 ? 'bg-background/20' : ''}`}>
+                  <td className="py-3 px-2 font-medium text-foreground flex items-center gap-2">
+                    <Server className="h-4 w-4 text-primary flex-shrink-0" />
+                    {node.name}
+                  </td>
+                  <td className="py-3 px-2">
+                    <Badge className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30">
                       {node.status}
                     </Badge>
                   </td>
-                  <td className="py-3 text-muted-foreground">{node.version}</td>
-                  <td className="py-3 text-muted-foreground">{node.cpu}</td>
-                  <td className="py-3 text-muted-foreground">{node.memory}</td>
-                  <td className="py-3 text-muted-foreground">{node.pods}</td>
+                  <td className="py-3 px-2 text-muted-foreground font-mono text-xs">{node.version}</td>
+                  <td className="py-3 px-2 text-muted-foreground font-mono text-xs">{node.cpu}</td>
+                  <td className="py-3 px-2 text-muted-foreground font-mono text-xs">{node.memory}</td>
+                  <td className="py-3 px-2">
+                    <Badge variant="outline" className="bg-primary/20 text-primary border-primary/30 hover:bg-primary/30">
+                      {node.pods}
+                    </Badge>
+                  </td>
                 </tr>
               ))}
             </tbody>

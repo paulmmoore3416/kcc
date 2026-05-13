@@ -1,158 +1,116 @@
 package controllers
-package controllers
 
 import (
 	"context"
 	"time"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}		Complete(r)		For(&kccv1alpha1.ClusterAdministration{}).	return ctrl.NewControllerManagedBy(mgr).func (r *ClusterAdministrationReconciler) SetupWithManager(mgr ctrl.Manager) error {// SetupWithManager sets up the controller with the Manager.}	return nil	clusterAdmin.Status.UnhealthyPods = unhealthy	clusterAdmin.Status.HealthyPods = healthy	}		}			unhealthy++		} else if pod.Status.Phase == corev1.PodFailed || pod.Status.Phase == corev1.PodUnknown {			healthy++		if pod.Status.Phase == corev1.PodRunning {	for _, pod := range podList.Items {	unhealthy := int32(0)	healthy := int32(0)	}		return err	if err := r.List(ctx, podList); err != nil {	podList := &corev1.PodList{}	// Count healthy and unhealthy pods	clusterAdmin.Status.TotalNamespaces = int32(len(nsList.Items))	}		return err	if err := r.List(ctx, nsList); err != nil {	nsList := &corev1.NamespaceList{}	// Count namespacesfunc (r *ClusterAdministrationReconciler) updateHealthMetrics(ctx context.Context, clusterAdmin *kccv1alpha1.ClusterAdministration) error {}	return nil	// Implementation would restart failed pods, rebalance resources, etc.func (r *ClusterAdministrationReconciler) performAutoHealing(ctx context.Context, clusterAdmin *kccv1alpha1.ClusterAdministration) error {}	return nil	clusterAdmin.Status.PolicyViolations = violations	violations := int32(0)	// Implementation would enforce security and compliance policiesfunc (r *ClusterAdministrationReconciler) enforcePolicies(ctx context.Context, clusterAdmin *kccv1alpha1.ClusterAdministration) error {}	return nil	// Implementation would apply resource quotas to namespacesfunc (r *ClusterAdministrationReconciler) applyResourceQuotas(ctx context.Context, clusterAdmin *kccv1alpha1.ClusterAdministration) error {}	return ctrl.Result{RequeueAfter: 30 * time.Second}, nil	// Requeue after 30 seconds	}		return ctrl.Result{}, err		logger.Error(err, "Failed to update ClusterAdministration status")	if err := r.Status().Update(ctx, clusterAdmin); err != nil {	}		},			Message:            "Cluster administration is active",			Reason:             "AdministrationActive",			LastTransitionTime: now,			Status:             metav1.ConditionTrue,			Type:               "Ready",		{	clusterAdmin.Status.Conditions = []metav1.Condition{	// Update conditions	clusterAdmin.Status.LastReconcileTime = &now	now := metav1.Now()	clusterAdmin.Status.Phase = "Active"	}		return ctrl.Result{}, err		logger.Error(err, "Failed to update health metrics")	if err := r.updateHealthMetrics(ctx, clusterAdmin); err != nil {	// Update cluster health metrics	}		}			logger.Error(err, "Failed to perform auto-healing")		if err := r.performAutoHealing(ctx, clusterAdmin); err != nil {	if clusterAdmin.Spec.AutoHealingEnabled {	// Auto-healing if enabled	}		return ctrl.Result{}, err		logger.Error(err, "Failed to enforce policies")	if err := r.enforcePolicies(ctx, clusterAdmin); err != nil {	// Enforce policies	}		return ctrl.Result{}, err		logger.Error(err, "Failed to apply resource quotas")	if err := r.applyResourceQuotas(ctx, clusterAdmin); err != nil {	// Apply resource quotas	}		}			return ctrl.Result{}, err			logger.Error(err, "Failed to update ClusterAdministration status")		if err := r.Status().Update(ctx, clusterAdmin); err != nil {		clusterAdmin.Status.Phase = "Initializing"	if clusterAdmin.Status.Phase == "" {	// Initialize status if needed	}		return ctrl.Result{}, err		logger.Error(err, "Failed to get ClusterAdministration")		}			return ctrl.Result{}, nil			logger.Info("ClusterAdministration resource not found. Ignoring since object must be deleted")		if errors.IsNotFound(err) {	if err != nil {	err := r.Get(ctx, req.NamespacedName, clusterAdmin)	clusterAdmin := &kccv1alpha1.ClusterAdministration{}	// Fetch the ClusterAdministration instance	logger := log.FromContext(ctx)func (r *ClusterAdministrationReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {//+kubebuilder:rbac:groups=core,resources=resourcequotas,verbs=get;list;watch;create;update;patch;delete//+kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch;delete//+kubebuilder:rbac:groups=core,resources=namespaces,verbs=get;list;watch//+kubebuilder:rbac:groups=kcc.kubernetes.io,resources=clusteradministrations/finalizers,verbs=update//+kubebuilder:rbac:groups=kcc.kubernetes.io,resources=clusteradministrations/status,verbs=get;update;patch//+kubebuilder:rbac:groups=kcc.kubernetes.io,resources=clusteradministrations,verbs=get;list;watch;create;update;patch;delete}	Scheme *runtime.Scheme	client.Clienttype ClusterAdministrationReconciler struct {// ClusterAdministrationReconciler reconciles a ClusterAdministration object)	corev1 "k8s.io/api/core/v1"	kccv1alpha1 "github.com/paulmmoore3416/kcc/operator/api/v1alpha1"	"sigs.k8s.io/controller-runtime/pkg/log"	"sigs.k8s.io/controller-runtime/pkg/client"	ctrl "sigs.k8s.io/controller-runtime"	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"	"k8s.io/apimachinery/pkg/api/errors"	"k8s.io/apimachinery/pkg/runtime"
+	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/log"
+
+	kccv1alpha1 "github.com/paulmmoore3416/kcc/operator/api/v1alpha1"
+)
+
+// ClusterAdministrationReconciler reconciles a ClusterAdministration object
+type ClusterAdministrationReconciler struct {
+	client.Client
+	Scheme *runtime.Scheme
+}
+
+//+kubebuilder:rbac:groups=kcc.kubernetes.io,resources=clusteradministrations,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=kcc.kubernetes.io,resources=clusteradministrations/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=kcc.kubernetes.io,resources=clusteradministrations/finalizers,verbs=update
+//+kubebuilder:rbac:groups="",resources=pods;namespaces,verbs=get;list;watch
+
+func (r *ClusterAdministrationReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	logger := log.FromContext(ctx)
+
+	clusterAdmin := &kccv1alpha1.ClusterAdministration{}
+	if err := r.Get(ctx, req.NamespacedName, clusterAdmin); err != nil {
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	// Apply configurations and policies
+	if err := r.applyResourceQuotas(ctx, clusterAdmin); err != nil {
+		logger.Error(err, "Failed to apply resource quotas")
+	}
+
+	if err := r.enforcePolicies(ctx, clusterAdmin); err != nil {
+		logger.Error(err, "Failed to enforce policies")
+	}
+
+	if clusterAdmin.Spec.AutoHealingEnabled {
+		if err := r.performAutoHealing(ctx, clusterAdmin); err != nil {
+			logger.Error(err, "Failed to perform auto-healing")
+		}
+	}
+
+	// Update status
+	if err := r.updateHealthMetrics(ctx, clusterAdmin); err != nil {
+		logger.Error(err, "Failed to update health metrics")
+	}
+
+	if err := r.Status().Update(ctx, clusterAdmin); err != nil {
+		logger.Error(err, "Failed to update ClusterAdministration status")
+		return ctrl.Result{}, err
+	}
+
+	// Requeue after 30 seconds
+	return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
+}
+
+func (r *ClusterAdministrationReconciler) applyResourceQuotas(ctx context.Context, clusterAdmin *kccv1alpha1.ClusterAdministration) error {
+	// Implementation would apply resource quotas to namespaces
+	return nil
+}
+
+func (r *ClusterAdministrationReconciler) enforcePolicies(ctx context.Context, clusterAdmin *kccv1alpha1.ClusterAdministration) error {
+	// Implementation would enforce security and compliance policies
+	violations := int32(0)
+	clusterAdmin.Status.PolicyViolations = violations
+	return nil
+}
+
+func (r *ClusterAdministrationReconciler) performAutoHealing(ctx context.Context, clusterAdmin *kccv1alpha1.ClusterAdministration) error {
+	// Implementation would restart failed pods, rebalance resources, etc.
+	return nil
+}
+
+func (r *ClusterAdministrationReconciler) updateHealthMetrics(ctx context.Context, clusterAdmin *kccv1alpha1.ClusterAdministration) error {
+	// Count namespaces
+	nsList := &corev1.NamespaceList{}
+	if err := r.List(ctx, nsList); err != nil {
+		return err
+	}
+	clusterAdmin.Status.TotalNamespaces = int32(len(nsList.Items))
+
+	// Count healthy and unhealthy pods
+	podList := &corev1.PodList{}
+	if err := r.List(ctx, podList); err != nil {
+		return err
+	}
+
+	healthy := int32(0)
+	unhealthy := int32(0)
+	for _, pod := range podList.Items {
+		if pod.Status.Phase == corev1.PodRunning {
+			healthy++
+		} else if pod.Status.Phase == corev1.PodFailed || pod.Status.Phase == corev1.PodUnknown {
+			unhealthy++
+		}
+	}
+
+	clusterAdmin.Status.HealthyPods = healthy
+	clusterAdmin.Status.UnhealthyPods = unhealthy
+
+	return nil
+}
+
+// SetupWithManager sets up the controller with the Manager.
+func (r *ClusterAdministrationReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&kccv1alpha1.ClusterAdministration{}).
+		Complete(r)
+}

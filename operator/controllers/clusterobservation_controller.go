@@ -1,129 +1,52 @@
 package controllers
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}		Complete(r)		For(&kccv1alpha1.ClusterObservation{}).	return ctrl.NewControllerManagedBy(mgr).func (r *ClusterObservationReconciler) SetupWithManager(mgr ctrl.Manager) error {// SetupWithManager sets up the controller with the Manager.}	return nil	clusterObs.Status.TotalNodes = int32(len(nodeList.Items))	}		return err	if err := r.List(ctx, nodeList); err != nil {	nodeList := &corev1.NodeList{}	// Count nodes	clusterObs.Status.TotalPods = int32(len(podList.Items))	}		return err	if err := r.List(ctx, podList); err != nil {	podList := &corev1.PodList{}	// Count podsfunc (r *ClusterObservationReconciler) updateClusterMetrics(ctx context.Context, clusterObs *kccv1alpha1.ClusterObservation) error {}	return nil	// This is a placeholder for the actual eBPF deployment logic	// Implementation would deploy eBPF DaemonSetfunc (r *ClusterObservationReconciler) deployEBPFAgents(ctx context.Context, clusterObs *kccv1alpha1.ClusterObservation) error {}	return ctrl.Result{RequeueAfter: 30 * time.Second}, nil	// Requeue after 30 seconds for continuous monitoring	}		return ctrl.Result{}, err		logger.Error(err, "Failed to update ClusterObservation status")	if err := r.Status().Update(ctx, clusterObs); err != nil {	}		},			Message:            "Cluster observation is active and collecting telemetry",			Reason:             "ObservationActive",			LastTransitionTime: now,			Status:             metav1.ConditionTrue,			Type:               "Ready",		{	clusterObs.Status.Conditions = []metav1.Condition{	// Update conditions	clusterObs.Status.LastObservedTime = &now	now := metav1.Now()	clusterObs.Status.Phase = "Active"	clusterObs.Status.StorageStatus = "Connected"	clusterObs.Status.TelemetryCollectorStatus = "Active"	// Update telemetry collector status	}		return ctrl.Result{}, err		logger.Error(err, "Failed to update cluster metrics")	if err := r.updateClusterMetrics(ctx, clusterObs); err != nil {	// Update cluster metrics	}		}			clusterObs.Status.EBPFAgentStatus = "Running"		} else {			clusterObs.Status.EBPFAgentStatus = "Error"			logger.Error(err, "Failed to deploy eBPF agents")		if err := r.deployEBPFAgents(ctx, clusterObs); err != nil {	if clusterObs.Spec.EnableEBPF {	// Deploy eBPF agents if enabled	}		}			return ctrl.Result{}, err			logger.Error(err, "Failed to update ClusterObservation status")		if err := r.Status().Update(ctx, clusterObs); err != nil {		clusterObs.Status.Phase = "Initializing"	if clusterObs.Status.Phase == "" {	// Initialize status if needed	}		return ctrl.Result{}, err		logger.Error(err, "Failed to get ClusterObservation")		}			return ctrl.Result{}, nil			logger.Info("ClusterObservation resource not found. Ignoring since object must be deleted")		if errors.IsNotFound(err) {	if err != nil {	err := r.Get(ctx, req.NamespacedName, clusterObs)	clusterObs := &kccv1alpha1.ClusterObservation{}	// Fetch the ClusterObservation instance	logger := log.FromContext(ctx)func (r *ClusterObservationReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {//+kubebuilder:rbac:groups=apps,resources=daemonsets,verbs=get;list;watch;create;update;patch;delete//+kubebuilder:rbac:groups=core,resources=nodes,verbs=get;list;watch//+kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch//+kubebuilder:rbac:groups=kcc.kubernetes.io,resources=clusterobservations/finalizers,verbs=update//+kubebuilder:rbac:groups=kcc.kubernetes.io,resources=clusterobservations/status,verbs=get;update;patch//+kubebuilder:rbac:groups=kcc.kubernetes.io,resources=clusterobservations,verbs=get;list;watch;create;update;patch;delete}	Scheme *runtime.Scheme	client.Clienttype ClusterObservationReconciler struct {// ClusterObservationReconciler reconciles a ClusterObservation object)	corev1 "k8s.io/api/core/v1"	kccv1alpha1 "github.com/paulmmoore3416/kcc/operator/api/v1alpha1"	"sigs.k8s.io/controller-runtime/pkg/log"	"sigs.k8s.io/controller-runtime/pkg/client"	ctrl "sigs.k8s.io/controller-runtime"	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"	"k8s.io/apimachinery/pkg/api/errors"	"k8s.io/apimachinery/pkg/runtime"	"time"	"context"import (package controllers
+import (
+	"context"
+	"time"
+
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/log"
+
+	kccv1alpha1 "github.com/paulmmoore3416/kcc/operator/api/v1alpha1"
+)
+
+// ClusterObservationReconciler reconciles a ClusterObservation object
+type ClusterObservationReconciler struct {
+	client.Client
+	Scheme *runtime.Scheme
+}
+
+//+kubebuilder:rbac:groups=kcc.kubernetes.io,resources=clusterobservations,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=kcc.kubernetes.io,resources=clusterobservations/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=kcc.kubernetes.io,resources=clusterobservations/finalizers,verbs=update
+
+func (r *ClusterObservationReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	logger := log.FromContext(ctx)
+
+	clusterObs := &kccv1alpha1.ClusterObservation{}
+	if err := r.Get(ctx, req.NamespacedName, clusterObs); err != nil {
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	// Update status with observation status
+	clusterObs.Status.Phase = "Active"
+	now := metav1.Now()
+	clusterObs.Status.LastObservedTime = &now
+
+	if err := r.Status().Update(ctx, clusterObs); err != nil {
+		logger.Error(err, "Failed to update ClusterObservation status")
+		return ctrl.Result{}, err
+	}
+
+	return ctrl.Result{RequeueAfter: 1 * time.Minute}, nil
+}
+
+// SetupWithManager sets up the controller with the Manager.
+func (r *ClusterObservationReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&kccv1alpha1.ClusterObservation{}).
+		Complete(r)
+}

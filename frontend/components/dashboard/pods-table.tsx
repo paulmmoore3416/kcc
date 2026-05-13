@@ -16,41 +16,49 @@ export function PodsTable() {
   ]
 
   return (
-    <Card className="border-warm-200">
+    <Card className="border-border bg-card/50">
       <CardHeader>
-        <CardTitle>Pods Overview</CardTitle>
-        <CardDescription>Real-time pod status and resource usage</CardDescription>
+        <CardTitle className="text-lg">Pods Overview</CardTitle>
+        <CardDescription className="text-muted-foreground">Real-time pod status and resource usage</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="border-b">
+            <thead className="border-b border-border">
               <tr className="text-left">
-                <th className="pb-3 font-semibold">Name</th>
-                <th className="pb-3 font-semibold">Namespace</th>
-                <th className="pb-3 font-semibold">Status</th>
-                <th className="pb-3 font-semibold">CPU</th>
-                <th className="pb-3 font-semibold">Memory</th>
-                <th className="pb-3 font-semibold">Restarts</th>
+                <th className="pb-3 px-2 font-semibold text-foreground">Name</th>
+                <th className="pb-3 px-2 font-semibold text-foreground">Namespace</th>
+                <th className="pb-3 px-2 font-semibold text-foreground">Status</th>
+                <th className="pb-3 px-2 font-semibold text-foreground">CPU</th>
+                <th className="pb-3 px-2 font-semibold text-foreground">Memory</th>
+                <th className="pb-3 px-2 font-semibold text-foreground">Restarts</th>
               </tr>
             </thead>
             <tbody>
-              {pods.map((pod) => (
-                <tr key={pod.name} className="border-b last:border-0">
-                  <td className="py-3 font-medium">{pod.name}</td>
-                  <td className="py-3">
-                    <Badge variant="outline" className="bg-warm-100">
+              {pods.map((pod, idx) => (
+                <tr key={pod.name} className={`border-b border-border/50 hover:bg-background/50 transition-colors ${idx % 2 === 0 ? 'bg-background/20' : ''}`}>
+                  <td className="py-3 px-2 font-medium text-foreground truncate">{pod.name}</td>
+                  <td className="py-3 px-2">
+                    <Badge variant="outline" className="bg-secondary/20 text-secondary border-secondary/30 hover:bg-secondary/30">
                       {pod.namespace}
                     </Badge>
                   </td>
-                  <td className="py-3">
-                    <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                  <td className="py-3 px-2">
+                    <Badge className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30">
                       {pod.status}
                     </Badge>
                   </td>
-                  <td className="py-3 text-muted-foreground">{pod.cpu}</td>
-                  <td className="py-3 text-muted-foreground">{pod.memory}</td>
-                  <td className="py-3 text-muted-foreground">{pod.restarts}</td>
+                  <td className="py-3 px-2 text-muted-foreground font-mono text-xs">{pod.cpu}</td>
+                  <td className="py-3 px-2 text-muted-foreground font-mono text-xs">{pod.memory}</td>
+                  <td className="py-3 px-2 text-muted-foreground">
+                    {pod.restarts > 0 ? (
+                      <Badge variant="outline" className="bg-orange-500/20 text-orange-300 border-orange-500/30">
+                        {pod.restarts}
+                      </Badge>
+                    ) : (
+                      <span className="text-emerald-400">0</span>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

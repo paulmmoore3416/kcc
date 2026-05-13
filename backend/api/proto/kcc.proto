@@ -82,6 +82,26 @@ service AIService {
   
   // PredictFailure predicts potential failures
   rpc PredictFailure(PredictFailureRequest) returns (PredictFailureResponse);
+
+  // ProcessVoiceCommand handles natural language commands
+  rpc ProcessVoiceCommand(ProcessVoiceCommandRequest) returns (ProcessVoiceCommandResponse);
+
+  // GetSpeechToken retrieves a temporary token for Speechmatics
+  rpc GetSpeechToken(GetSpeechTokenRequest) returns (GetSpeechTokenResponse);
+}
+
+message ProcessVoiceCommandRequest {
+  string command = 1;
+}
+
+message ProcessVoiceCommandResponse {
+  string response = 1;
+}
+
+message GetSpeechTokenRequest {}
+
+message GetSpeechTokenResponse {
+  string token = 1;
 }
 
 // Messages
