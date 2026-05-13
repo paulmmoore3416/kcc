@@ -11,8 +11,8 @@
 [![Go Version](https://img.shields.io/badge/Backend-Go%201.25-00ADD8?style=for-the-badge&logo=go)](https://golang.org/)
 [![Next.js](https://img.shields.io/badge/Frontend-Next.js%2014-000000?style=for-the-badge&logo=nextdotjs)](https://nextjs.org/)
 
-<img src="https://img.shields.io/badge/Status-v1.0.0--STABLE-success?style=for-the-badge" alt="Production Ready" />
-<img src="https://img.shields.io/badge/Architecture-eBPF--First-blueviolet?style=for-the-badge" alt="eBPF First" />
+<img src="https://img.shields.io/badge/Status-v1.0.0--DEPLOYED-success?style=for-the-badge" alt="Deployed" />
+<img src="https://img.shields.io/badge/Cluster-kind--kcc--cluster-brightgreen?style=for-the-badge" alt="kind Cluster" />
 
 ---
 
@@ -22,6 +22,12 @@
 |:---:|:---:|:---:|:---:|:---:|
 | **< 0.8ms** | **Runtime eBPF** | **Gemini 1.5** | **1M+ Events/s** | **Auto-Hedge** |
 | 🟢 Ultra-Low | 🟢 Hardened | 🟢 Multi-Agent | 🟢 High-Load | 🟢 Proactive |
+
+### 🚀 Live Session Status
+The platform is currently running on a local **kind** cluster.
+- **Dashboard**: [http://localhost:8888](http://localhost:8888) (via port-forward)
+- **Deployment Details**: See [docs/SUCCESS_REPORT.md](docs/SUCCESS_REPORT.md)
+
 
 </div>
 

@@ -1,80 +1,39 @@
 # 🎉 Kubernetes Command Center - Platform Access Guide
 
-## ✅ Platform Status: **READY TO DEPLOY**
+## ✅ Platform Status: **DEPLOYED & OPERATIONAL**
 
-Congratulations! The Kubernetes Command Center platform has been successfully built with all requested features.
+Congratulations! The Kubernetes Command Center platform has been successfully deployed to a local `kind` cluster with all requested features.
 
 ---
 
-## 📋 What Has Been Built
+## 📋 What Has Been Built & Fixed
 
 ### ✅ Core Components
 
-1. **Kubernetes Operator (Go + Operator SDK)**
-   - Custom Resource Definitions (CRDs) for ClusterObservation and ClusterAdministration
-   - Reconciliation loops for automated cluster management
-   - RBAC configurations for secure operations
-   - Location: `/operator`
+1. **Autonomous Operator (Go)**: Now managing `ClusterObservation` resources. Fixed RBAC for lease management.
+2. **Backend Services (gRPC)**: Optimized for Go 1.25. Implemented gRPC Health V1 for Kubernetes reliability.
+3. **Frontend Dashboard (Next.js)**: Fixed critical syntax and library import issues. Production build complete.
+4. **Data & Observability**: ClickHouse and eBPF monitoring agents are fully integrated and streaming data.
+...
+## 🚀 Quick Access (Local Session)
 
-2. **Backend Services (Go + gRPC)**
-   - ClusterService: Pod/node management, scaling, exec
-   - ObservationService: Real-time metrics streaming
-   - CostService: FinOps with OpenCost integration
-   - SecurityService: Alerts, compliance, CVE scanning
-   - AIService: Root cause analysis
-   - Location: `/backend`
-
-3. **eBPF Monitoring Agent**
-   - Kernel-level observation with zero overhead
-   - Process, network, file, and security event monitoring
-   - DaemonSet for cluster-wide deployment
-   - Location: `/backend/ebpf`
-
-4. **Frontend Dashboard (Next.js 14 + Shadcn/UI)**
-   - Professional warm theme with amber/orange tones
-   - Real-time dashboards for all metrics
-   - Interactive charts with Apache ECharts
-   - gRPC-Web streaming integration
-   - Location: `/frontend`
-
-5. **Data Layer**
-   - ClickHouse StatefulSet for telemetry storage
-   - OpenTelemetry collector integration
-   - Optimized schemas for high-cardinality data
-
-6. **Infrastructure**
-   - Kubernetes manifests with Kustomize
-   - Docker configurations for all components
-   - CI/CD pipeline with GitHub Actions
-   - Location: `/infrastructure`
-
----
-
-## 🚀 Quick Deployment Instructions
-
-### Option 1: Local Testing (Minikube/Kind)
+### Access the Dashboard
+The dashboard is currently exposed via the `kcc-frontend` service.
 
 ```bash
-# 1. Start a local cluster
-minikube start --cpus=4 --memory=8192 --kubernetes-version=v1.28.0
-
-# OR with kind
-kind create cluster --config=kind-config.yaml
-
-# 2. Navigate to project directory
-cd /home/paul/Documents/PJ/Projects/kcc
-
-# 3. Deploy the platform
-kubectl apply -k infrastructure/manifests/base
-
-# 4. Wait for pods to be ready (2-3 minutes)
-kubectl wait --for=condition=ready pod --all -n kcc-system --timeout=300s
-
-# 5. Access the dashboard
-kubectl port-forward -n kcc-system svc/kcc-frontend 3000:80
-
-# 6. Open browser to: http://localhost:3000
+# Map the dashboard to http://localhost:8888
+export PATH=$HOME/bin:$PATH
+kubectl port-forward -n kcc-system svc/kcc-frontend 8888:80
 ```
+
+👉 **URL**: [http://localhost:8888](http://localhost:8888)
+
+### Verify Resource Status
+```bash
+# Check the demo observation
+kubectl get clusterobservation demo-observation -n kcc-system -o yaml
+```
+
 
 ### Option 2: Cloud Deployment (Production)
 

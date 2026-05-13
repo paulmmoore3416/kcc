@@ -1,7 +1,6 @@
 'use client'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Progress } from '@/components/ui/badge'
 import ReactEChartsCore from 'echarts-for-react/lib/core'
 import * as echarts from 'echarts/core'
 import { LineChart, BarChart, GaugeChart } from 'echarts/charts'
@@ -9,7 +8,6 @@ import {
   GridComponent,
   TooltipComponent,
   LegendComponent,
-  GaugeComponent,
 } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 import { AlertTriangle, TrendingUp } from 'lucide-react'
@@ -21,7 +19,6 @@ echarts.use([
   GridComponent,
   TooltipComponent,
   LegendComponent,
-  GaugeComponent,
   CanvasRenderer,
 ])
 

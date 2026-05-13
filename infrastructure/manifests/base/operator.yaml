@@ -72,6 +72,12 @@ kind: ClusterRole
 metadata:
   name: kcc-operator-role
 rules:
+- apiGroups: ["coordination.k8s.io"]
+  resources: ["leases"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: [""]
+  resources: ["events"]
+  verbs: ["create", "patch"]
 - apiGroups: [""]
   resources: ["pods", "nodes", "namespaces", "services", "resourcequotas"]
   verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
