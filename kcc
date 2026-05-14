@@ -1,0 +1,98 @@
+#!/bin/bash
+
+# Kraken Cloud Control (KCC) Unified Launcher
+# This script starts the Backend, Operator, and Frontend for local development.
+
+set -e
+
+# Colors for better visibility
+export GREEN='\033[0;32m'
+export BLUE='\033[0;34m'
+export PURPLE='\033[0;35m'
+export RED='\033[0;31m'
+export NC='\033[0m'
+
+echo -e "${BLUE}🛰️  Kraken Cloud Control (KCC) - Professional Launcher${NC}"
+echo -e "${BLUE}====================================================${NC}"
+
+# Root directory of the project (where this script lives)
+# This handles cases where the script is called as ./kcc or from another dir
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_DIR="$SCRIPT_DIR"
+
+# Pre-flight: Ensure ports are available
+echo -e "${PURPLE}🧹 Cleaning up existing processes on KCC ports...${NC}"
+CLEANED=false
+for port in 3000 50051 8082 8083; do
+    PIDS=$(lsof -t -i:$port || true)
+    if [ ! -z "$PIDS" ]; then
+        for pid in $PIDS; do
+            echo -e "${RED}   Killing process $pid using port $port${NC}"
+            kill -9 $pid 2>/dev/null || true
+        done
+        CLEANED=true
+    fi
+done
+
+if [ "$CLEANED" = true ]; then
+    echo -e "${PURPLE}⏳ Waiting for ports to release...${NC}"
+    sleep 2
+fi
+
+# Function to handle cleanup on exit
+cleanup() {
+  echo -e "\n${RED}🛑 Stopping all KCC components...${NC}"
+  # Kill all child processes of this script
+  pkill -P $$ || true
+  exit 0
+}
+
+# Trap SIGINT (Ctrl+C) and SIGTERM
+trap cleanup SIGINT SIGTERM
+
+# Check for required tools
+echo -e "${PURPLE}🔍 Checking dependencies...${NC}"
+command -v go >/dev/null 2>&1 || { echo -e "${RED}Error: Go is not installed.${NC}" >&2; exit 1; }
+command -v npm >/dev/null 2>&1 || { echo -e "${RED}Error: NPM is not installed.${NC}" >&2; exit 1; }
+
+# Check Kubernetes connectivity
+echo -e "${PURPLE}☸️  Checking Kubernetes connectivity...${NC}"
+if ! kubectl cluster-info > /dev/null 2>&1; then
+    echo -e "${RED}❌ Error: Cannot connect to Kubernetes cluster.${NC}"
+    echo -e "${RED}   Please ensure your cluster is running (e.g. 'minikube start').${NC}"
+    exit 1
+fi
+echo -e "${GREEN}   Connected to Kubernetes cluster.${NC}"
+
+# Load environment variables if .env exists
+if [ -f "$ROOT_DIR/.env" ]; then
+    echo -e "${GREEN}📄 Loading environment variables from .env${NC}"
+    export $(grep -v '^#' "$ROOT_DIR/.env" | xargs)
+fi
+
+# 1. Start Backend
+echo -e "${GREEN}📦 Starting KCC Backend (gRPC on :50051)...${NC}"
+cd "$ROOT_DIR/backend"
+go run cmd/server/main.go &
+BACKEND_PID=$!
+
+# 2. Start Operator
+echo -e "${GREEN}🤖 Starting KCC Operator (Metrics on :8082)...${NC}"
+cd "$ROOT_DIR/operator"
+# We run without leader election for local dev
+go run main.go --leader-elect=false --metrics-bind-address=:8082 --health-probe-bind-address=:8083 &
+OPERATOR_PID=$!
+
+# 3. Start Frontend
+echo -e "${GREEN}🌐 Starting KCC Frontend (Next.js on :3000)...${NC}"
+cd "$ROOT_DIR/frontend"
+
+# Check if node_modules exists
+if [ ! -d "node_modules" ]; then
+    echo -e "${PURPLE}📦 node_modules not found, installing...${NC}"
+    npm install
+fi
+
+echo -e "${BLUE}🚀 Launching dashboard...${NC}"
+# Use PORT env to force Next.js to use 3000
+PORT=3000 npm run dev

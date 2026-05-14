@@ -3,8 +3,6 @@
 import { useState } from 'react'
 import { Mic, MicOff, MessageSquare, Bot, Send, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 
 export function VoiceAssistant() {
   const [isListening, setIsListening] = useState(false)
@@ -53,14 +51,13 @@ export function VoiceAssistant() {
         throw new Error('Could not get Speechmatics token')
       }
 
-      setStatus('Connecting to Speechmatics...')
+      setStatus('Connecting...')
 
       // 2. Setup WebSocket for Speechmatics Real-time
       const socket = new WebSocket(`wss://eu2.rt.speechmatics.com/v2?auth_token=${token}`)
       
       socket.onopen = () => {
-        setStatus('Listening (Speechmatics)...')
-        // Start recognition
+        setStatus('Listening...')
         socket.send(JSON.stringify({
           message: 'StartRecognition',
           transcription_config: {
@@ -74,7 +71,6 @@ export function VoiceAssistant() {
           }
         }))
 
-        // Start recording audio
         navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
           const audioContext = new AudioContext({ sampleRate: 16000 })
           const source = audioContext.createMediaStreamSource(stream)
@@ -102,7 +98,7 @@ export function VoiceAssistant() {
         if (data.message === 'AddTranscript') {
           const text = data.metadata.transcript
           if (text) {
-            setTranscript(prev => prev + ' ' + text)
+            setTranscript(text)
             handleCommand(text)
             socket.close()
             setIsListening(false)
@@ -116,8 +112,7 @@ export function VoiceAssistant() {
 
     } catch (error) {
       console.error('Speechmatics error:', error)
-      // Fallback to Web Speech API
-      setStatus('Falling back to Web Speech...')
+      setStatus('Web Speech Fallback...')
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
       if (SpeechRecognition) {
         const recognition = new SpeechRecognition()
@@ -133,95 +128,81 @@ export function VoiceAssistant() {
         recognition.start()
       } else {
         setIsListening(false)
-        setStatus('Voice recognition not available.')
+        setStatus('Voice unavailable.')
       }
     }
   }
 
   return (
-    <Card className="border-border bg-card/50 shadow-lg hover:shadow-primary/10 transition-shadow sticky top-20">
-      <CardHeader className="pb-3">
-        <CardTitle className="text-sm font-semibold flex items-center space-x-2">
-          <div className="relative">
+    <div className="k8s-card space-y-6 sticky top-24">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="h-8 w-8 bg-primary/20 rounded flex items-center justify-center">
             <Sparkles className="h-4 w-4 text-primary" />
           </div>
-          <span className="text-foreground">AI Command Center</span>
-        </CardTitle>
-        <p className="text-xs text-muted-foreground mt-1">Autonomous SRE Agent</p>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-col space-y-4">
-          <div className="flex items-center space-x-2 gap-2">
-            <Input 
-              placeholder="Type or speak a command..." 
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleCommand(inputText)}
-              className="text-xs h-9 bg-background/50 border-border focus:border-primary transition-colors"
-            />
-            <Button 
-              size="sm" 
-              className="h-9 w-9 p-0 bg-primary hover:bg-primary/90 text-primary-foreground" 
-              onClick={() => handleCommand(inputText)}
-            >
-              <Send className="h-4 w-4" />
-            </Button>
-            <Button
-              size="sm"
-              className={`rounded-full w-9 h-9 p-0 shrink-0 transition-colors ${
-                isListening 
-                  ? 'bg-red-500/20 border-red-500/50 hover:bg-red-500/30 text-red-400' 
-                  : 'bg-secondary hover:bg-secondary/90 text-primary-foreground'
-              }`}
+          <div>
+            <h3 className="text-white text-sm font-bold">AI Assistant</h3>
+            <p className="text-[10px] text-slate-500 font-medium uppercase tracking-wider">Autonomous SRE</p>
+          </div>
+        </div>
+        <div className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">
+          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{status}</span>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <div className="relative">
+          <input 
+            type="text" 
+            placeholder="Command the cluster..." 
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleCommand(inputText)}
+            className="w-full bg-[#1a1b3a] border border-slate-800 rounded-lg py-3 pl-4 pr-24 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/50"
+          />
+          <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+            <button 
               onClick={toggleListening}
-              variant="outline"
+              className={`p-2 rounded-md transition-all ${isListening ? 'bg-destructive/20 text-destructive' : 'text-slate-500 hover:text-white hover:bg-slate-800'}`}
             >
               {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-            </Button>
+            </button>
+            <button 
+              onClick={() => handleCommand(inputText)}
+              className="p-2 rounded-md text-slate-500 hover:text-white hover:bg-slate-800"
+            >
+              <Send className="h-4 w-4" />
+            </button>
           </div>
+        </div>
 
-          <div className="flex items-center justify-between px-2 py-1 rounded bg-background/30 border border-border">
-            <span className="text-[10px] text-muted-foreground font-mono uppercase tracking-widest">{status}</span>
-            {isListening && (
-              <div className="flex items-center gap-1">
-                <div className="h-1.5 w-1.5 rounded-full bg-red-400 animate-pulse" />
+        {(transcript || response) ? (
+          <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+            {transcript && (
+              <div className="space-y-1">
+                <p className="text-[10px] text-slate-500 font-bold uppercase ml-1">You</p>
+                <div className="bg-slate-800/50 border border-slate-800 p-3 rounded-lg text-sm text-slate-300">
+                  {transcript}
+                </div>
+              </div>
+            )}
+
+            {response && (
+              <div className="space-y-1">
+                <p className="text-[10px] text-primary font-bold uppercase ml-1">Agent</p>
+                <div className="bg-primary/5 border border-primary/20 p-4 rounded-lg text-sm text-white leading-relaxed">
+                  {response}
+                </div>
               </div>
             )}
           </div>
-
-          {(transcript || response) && (
-            <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 py-2">
-              {transcript && (
-                <div className="flex items-start space-x-2 justify-end">
-                  <div className="bg-primary/20 p-3 rounded-lg text-xs border border-primary/30 max-w-[85%]">
-                    <p className="text-primary italic">{transcript}</p>
-                  </div>
-                </div>
-              )}
-
-              {response && (
-                <div className="flex items-start space-x-2">
-                  <Bot className="h-4 w-4 mt-1 text-secondary flex-shrink-0" />
-                  <div className="bg-card border border-border/50 p-3 rounded-lg text-xs max-w-[85%] shadow-sm">
-                    <p className="font-semibold text-secondary mb-2 flex items-center gap-1">
-                      <Sparkles className="h-3 w-3" />
-                      KCC Agent
-                    </p>
-                    <p className="leading-relaxed text-muted-foreground">{response}</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {!transcript && !response && (
-            <div className="text-center py-4 text-muted-foreground">
-              <p className="text-xs">Type or speak to interact with the AI Command Center</p>
-              <p className="text-[10px] mt-2 text-muted-foreground/60">Powered by Gemini 1.5 Pro</p>
-            </div>
-          )}
-        </div>
-      </CardContent>
-    </Card>
+        ) : (
+          <div className="py-8 text-center space-y-2">
+            <Bot className="h-8 w-8 text-slate-700 mx-auto" />
+            <p className="text-xs text-slate-500">Ask me to scale deployments, check logs, or analyze costs.</p>
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
