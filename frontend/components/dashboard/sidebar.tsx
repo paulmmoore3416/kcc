@@ -21,6 +21,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { useToast } from '@/hooks/use-toast'
 
 interface SidebarProps {
   activeTab: string
@@ -44,6 +45,7 @@ const navItems = [
 ]
 
 export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: SidebarProps) {
+  const { toast } = useToast()
   return (
     <div 
       className={cn(
@@ -61,7 +63,7 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
             <div className="flex items-center justify-center p-1.5 rounded-md bg-primary/10 text-primary border border-primary/20">
               <Activity className="h-5 w-5" />
             </div>
-            <span className="text-lg font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-500">KCC</span>
+            <span className="text-lg font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-500">Kraken</span>
           </div>
         )}
         <Button 
@@ -127,13 +129,20 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
                 <div className="h-full bg-primary rounded-full" style={{ width: '84%' }} />
               </div>
             </div>
-            <Button className="w-full gap-2 shadow-lg shadow-primary/20">
+            <Button 
+              className="w-full gap-2 shadow-lg shadow-primary/20"
+              onClick={() => toast({ title: "Create Resource", description: "Opening Kubernetes resource wizard..." })}
+            >
               <Plus className="h-4 w-4" />
               <span>Create Resource</span>
             </Button>
           </div>
         ) : (
-          <Button size="icon" className="h-10 w-10 rounded-xl shadow-lg shadow-primary/20">
+          <Button 
+            size="icon" 
+            className="h-10 w-10 rounded-xl shadow-lg shadow-primary/20"
+            onClick={() => toast({ title: "Create Resource", description: "Opening Kubernetes resource wizard..." })}
+          >
             <Plus className="h-5 w-5" />
           </Button>
         )}

@@ -1,8 +1,8 @@
-# 📊 KCC Visual Enhancement Showcase
+# 📊 Kraken Cloud Control Visual Enhancement Showcase
 
 ## Dashboard Components Added
 
-This document showcases the new visualization components added to make KCC shine for the Milan AI Week Hackathon.
+This document showcases the new visualization components added to make Kraken Cloud Control shine for the Milan AI Week Hackathon.
 
 ---
 

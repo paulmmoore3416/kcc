@@ -77,4 +77,166 @@
   .text-glow {
     text-shadow: 0 0 10px rgba(var(--primary), 0.5);
   }
+
+  /* Enhanced Section Animations */
+  .section-enter {
+    animation: section-enter 0.5s ease-out forwards;
+  }
+
+  .section-exit {
+    animation: section-exit 0.3s ease-in forwards;
+  }
+
+  .metric-appear {
+    animation: metric-appear 0.6s ease-out forwards;
+  }
+
+  /* Smooth Transitions */
+  .transition-smooth {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .transition-smooth-lg {
+    @apply transition-all duration-500 ease-out;
+  }
+
+  /* Border Animations */
+  .border-glow-primary {
+    @apply border border-primary/30 hover:border-primary/60 transition-colors duration-300;
+  }
+
+  .border-glow-success {
+    @apply border border-emerald-500/30 hover:border-emerald-500/60 transition-colors duration-300;
+  }
+
+  .border-glow-warning {
+    @apply border border-amber-500/30 hover:border-amber-500/60 transition-colors duration-300;
+  }
+
+  .border-glow-danger {
+    @apply border border-red-500/30 hover:border-red-500/60 transition-colors duration-300;
+  }
+
+  /* Card Hover Effects */
+  .card-lift {
+    @apply hover:shadow-xl hover:-translate-y-1 transition-smooth;
+  }
+
+  .card-glow {
+    @apply hover:shadow-lg hover:shadow-primary/20 transition-smooth;
+  }
+
+  /* Status Indicator Animations */
+  .status-pulse-healthy {
+    animation: pulse-healthy 2s ease-in-out infinite;
+  }
+
+  .status-pulse-warning {
+    animation: pulse-warning 1.5s ease-in-out infinite;
+  }
+
+  .status-pulse-critical {
+    animation: pulse-critical 1s ease-in-out infinite;
+  }
+
+  /* Text Animations */
+  .text-shimmer {
+    background: linear-gradient(90deg, currentColor, currentColor 25%, rgba(255, 255, 255, 0.2) 50%, currentColor 75%, currentColor);
+    background-size: 200% auto;
+    animation: shimmer 2s linear infinite;
+  }
+
+  /* Grid Animations */
+  .grid-stagger > * {
+    animation: grid-item 0.5s ease-out backwards;
+  }
+
+  .grid-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+  .grid-stagger > *:nth-child(2) { animation-delay: 0.1s; }
+  .grid-stagger > *:nth-child(3) { animation-delay: 0.15s; }
+  .grid-stagger > *:nth-child(4) { animation-delay: 0.2s; }
+  .grid-stagger > *:nth-child(5) { animation-delay: 0.25s; }
+  .grid-stagger > *:nth-child(6) { animation-delay: 0.3s; }
+  .grid-stagger > *:nth-child(7) { animation-delay: 0.35s; }
+  .grid-stagger > *:nth-child(8) { animation-delay: 0.4s; }
+}
+
+@keyframes section-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes section-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes metric-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes grid-item {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-healthy {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes pulse-warning {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes pulse-critical {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
 }

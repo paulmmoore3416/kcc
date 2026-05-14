@@ -1,5 +1,6 @@
 'use client'
 
+import React, { useMemo } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import ReactEChartsCore from 'echarts-for-react/lib/core'
@@ -17,7 +18,7 @@ import { TrendingUp, AlertTriangle, Zap } from 'lucide-react'
 echarts.use([LineChart, GridComponent, TooltipComponent, LegendComponent, DatasetComponent, CanvasRenderer])
 
 export function CostPrediction() {
-  const darkModeColors = {
+  const darkModeColors = useMemo(() => ({
     primary: '#00d9ff',
     secondary: '#8b5cf6',
     success: '#10b981',
@@ -26,19 +27,22 @@ export function CostPrediction() {
     background: '#1f2937',
     gridColor: '#374151',
     textColor: '#e8eef2',
-  }
+  }), [])
 
-  const predictionOption = {
+  const predictionOption = useMemo(() => ({
     backgroundColor: 'transparent',
     tooltip: {
       trigger: 'axis',
       backgroundColor: 'rgba(31, 41, 55, 0.9)',
       borderColor: darkModeColors.gridColor,
       textStyle: { color: darkModeColors.textColor },
+      confine: true,
       formatter: (params: any) => {
-        let result = params[0].name + '<br/>'
+        if (!params || !params.length) return ''
+        let result = (params[0].name || '') + '<br/>'
         params.forEach((param: any) => {
-          result += `${param.seriesName}: <span style="color: ${param.color};">$${param.value.toLocaleString()}</span><br/>`
+          const value = typeof param.value === 'number' ? param.value.toLocaleString() : param.value
+          result += `${param.seriesName}: <span style="color: ${param.color};">$${value}</span><br/>`
         })
         return result
       },
@@ -91,7 +95,7 @@ export function CostPrediction() {
         },
       },
     ],
-  }
+  }), [darkModeColors])
 
   return (
     <div className="space-y-4">
@@ -115,6 +119,7 @@ export function CostPrediction() {
               option={predictionOption}
               notMerge={true}
               lazyUpdate={true}
+              style={{ height: '100%', width: '100%' }}
             />
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-3">

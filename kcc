@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Kraken Cloud Control (KCC) Unified Launcher
+# Kraken Cloud Control Unified Launcher
 # This script starts the Backend, Operator, and Frontend for local development.
 
 set -e
@@ -12,7 +12,7 @@ export PURPLE='\033[0;35m'
 export RED='\033[0;31m'
 export NC='\033[0m'
 
-echo -e "${BLUE}🛰️  Kraken Cloud Control (KCC) - Professional Launcher${NC}"
+echo -e "${BLUE}🛰️  Kraken Cloud Control - Professional Launcher${NC}"
 echo -e "${BLUE}====================================================${NC}"
 
 # Root directory of the project (where this script lives)
@@ -21,7 +21,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_DIR="$SCRIPT_DIR"
 
 # Pre-flight: Ensure ports are available
-echo -e "${PURPLE}🧹 Cleaning up existing processes on KCC ports...${NC}"
+echo -e "${PURPLE}🧹 Cleaning up existing processes on Kraken Cloud Control ports...${NC}"
 CLEANED=false
 for port in 3000 50051 8082 8083; do
     PIDS=$(lsof -t -i:$port || true)
@@ -41,7 +41,7 @@ fi
 
 # Function to handle cleanup on exit
 cleanup() {
-  echo -e "\n${RED}🛑 Stopping all KCC components...${NC}"
+  echo -e "\n${RED}🛑 Stopping all Kraken Cloud Control components...${NC}"
   # Kill all child processes of this script
   pkill -P $$ || true
   exit 0
@@ -71,20 +71,20 @@ if [ -f "$ROOT_DIR/.env" ]; then
 fi
 
 # 1. Start Backend
-echo -e "${GREEN}📦 Starting KCC Backend (gRPC on :50051)...${NC}"
+echo -e "${GREEN}📦 Starting Kraken Cloud Control Backend (gRPC on :50051)...${NC}"
 cd "$ROOT_DIR/backend"
 go run cmd/server/main.go &
 BACKEND_PID=$!
 
 # 2. Start Operator
-echo -e "${GREEN}🤖 Starting KCC Operator (Metrics on :8082)...${NC}"
+echo -e "${GREEN}🤖 Starting Kraken Cloud Control Operator (Metrics on :8082)...${NC}"
 cd "$ROOT_DIR/operator"
 # We run without leader election for local dev
 go run main.go --leader-elect=false --metrics-bind-address=:8082 --health-probe-bind-address=:8083 &
 OPERATOR_PID=$!
 
 # 3. Start Frontend
-echo -e "${GREEN}🌐 Starting KCC Frontend (Next.js on :3000)...${NC}"
+echo -e "${GREEN}🌐 Starting Kraken Cloud Control Frontend (Next.js on :3000)...${NC}"
 cd "$ROOT_DIR/frontend"
 
 # Check if node_modules exists

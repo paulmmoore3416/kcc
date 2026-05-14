@@ -1,5 +1,6 @@
 'use client'
 
+import React, { useMemo } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import ReactEChartsCore from 'echarts-for-react/lib/core'
 import * as echarts from 'echarts/core'
@@ -25,7 +26,7 @@ echarts.use([
 ])
 
 export function MetricsCharts() {
-  const darkModeColors = {
+  const darkModeColors = useMemo(() => ({
     primary: '#00d9ff',
     secondary: '#8b5cf6',
     tertiary: '#06b6d4',
@@ -35,15 +36,16 @@ export function MetricsCharts() {
     background: '#1f2937',
     gridColor: '#374151',
     textColor: '#e8eef2',
-  }
+  }), [])
 
-  const realtimeOption = {
+  const realtimeOption = useMemo(() => ({
     backgroundColor: 'transparent',
     tooltip: {
       trigger: 'axis',
       backgroundColor: 'rgba(31, 41, 55, 0.9)',
       borderColor: darkModeColors.gridColor,
       textStyle: { color: darkModeColors.textColor },
+      confine: true,
     },
     legend: {
       data: ['CPU Usage', 'Memory Usage', 'Network I/O'],
@@ -106,15 +108,16 @@ export function MetricsCharts() {
         },
       },
     ],
-  }
+  }), [darkModeColors])
 
-  const cpuDistributionOption = {
+  const cpuDistributionOption = useMemo(() => ({
     backgroundColor: 'transparent',
     tooltip: {
       trigger: 'axis',
       backgroundColor: 'rgba(31, 41, 55, 0.9)',
       borderColor: darkModeColors.gridColor,
       textStyle: { color: darkModeColors.textColor },
+      confine: true,
     },
     xAxis: {
       type: 'category',
@@ -141,7 +144,7 @@ export function MetricsCharts() {
         },
       },
     ],
-  }
+  }), [darkModeColors])
 
   return (
     <div className="space-y-6">
@@ -154,6 +157,8 @@ export function MetricsCharts() {
           <ReactEChartsCore
             echarts={echarts}
             option={realtimeOption}
+            notMerge={true}
+            lazyUpdate={true}
             style={{ height: '400px' }}
           />
         </CardContent>
@@ -231,6 +236,8 @@ export function MetricsCharts() {
           <ReactEChartsCore
             echarts={echarts}
             option={cpuDistributionOption}
+            notMerge={true}
+            lazyUpdate={true}
             style={{ height: '300px' }}
           />
         </CardContent>

@@ -156,7 +156,7 @@ func (s *Service) ProcessVoiceCommand(ctx context.Context, command string) (stri
 	}
 
 	prompt := fmt.Sprintf(`
-You are the voice assistant for the Kubernetes Command Center.
+You are the voice assistant for the Kraken Cloud Control.
 The user just said: "%s"
 
 Interpret the command and decide on the best action.

@@ -4,11 +4,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { AlertCircle, Brain, Lightbulb, TrendingUp, CheckCircle, AlertTriangle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useToast } from '@/hooks/use-toast'
 
-export function AIInsights() {
+interface AIInsightsProps {
+  onAction?: (actionId: string, type: string) => void
+}
+
+export function AIInsights({ onAction }: AIInsightsProps) {
+  const { toast } = useToast()
+  
   const insights = [
     {
-      id: 1,
+      id: 'opt-1',
       type: 'optimization',
       title: 'Pod Density Optimization Opportunity',
       description: 'Detected 3 pods with low resource utilization that could be consolidated',
@@ -18,7 +25,7 @@ export function AIInsights() {
       confidence: 92,
     },
     {
-      id: 2,
+      id: 'ano-1',
       type: 'anomaly',
       title: 'Unusual Traffic Pattern Detected',
       description: 'Network egress from prod-db spiked 300% in the last 30 minutes',
@@ -28,7 +35,7 @@ export function AIInsights() {
       confidence: 88,
     },
     {
-      id: 3,
+      id: 'rec-1',
       type: 'recommendation',
       title: 'Upgrade Memory Allocation',
       description: 'Cluster-monitoring pods experiencing memory pressure. Recommend 2GB → 4GB',
@@ -38,7 +45,7 @@ export function AIInsights() {
       confidence: 95,
     },
     {
-      id: 4,
+      id: 'suc-1',
       type: 'success',
       title: 'Cost Hedge Successfully Executed',
       description: 'Kraken AI predicted $5,000 cost spike. Auto-hedged with xStocks positions.',
@@ -48,6 +55,17 @@ export function AIInsights() {
       confidence: 100,
     },
   ]
+
+  const handleAction = (id: string, type: string, title: string) => {
+    toast({
+      title: "Action Initiated",
+      description: `Executing: ${title}`,
+      variant: "default",
+    })
+    if (onAction) {
+      onAction(id, type)
+    }
+  }
 
   const getStylesForType = (type: string) => {
     switch (type) {
@@ -129,6 +147,7 @@ export function AIInsights() {
                       size="sm"
                       variant="outline"
                       className="border-primary/30 hover:bg-primary/10 text-primary"
+                      onClick={() => handleAction(insight.id, insight.type, insight.title)}
                     >
                       {insight.action}
                     </Button>

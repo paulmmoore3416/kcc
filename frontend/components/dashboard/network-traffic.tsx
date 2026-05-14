@@ -1,5 +1,6 @@
 'use client'
 
+import React, { useMemo } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import ReactEChartsCore from 'echarts-for-react/lib/core'
@@ -17,7 +18,7 @@ import { Network, TrendingUp, TrendingDown } from 'lucide-react'
 echarts.use([BarChart, LineChart, GridComponent, TooltipComponent, LegendComponent, DatasetComponent, CanvasRenderer])
 
 export function NetworkTraffic() {
-  const darkModeColors = {
+  const darkModeColors = useMemo(() => ({
     primary: '#00d9ff',
     secondary: '#8b5cf6',
     tertiary: '#06b6d4',
@@ -27,15 +28,16 @@ export function NetworkTraffic() {
     background: '#1f2937',
     gridColor: '#374151',
     textColor: '#e8eef2',
-  }
+  }), [])
 
-  const networkOption = {
+  const networkOption = useMemo(() => ({
     backgroundColor: 'transparent',
     tooltip: {
       trigger: 'axis',
       backgroundColor: 'rgba(31, 41, 55, 0.9)',
       borderColor: darkModeColors.gridColor,
       textStyle: { color: darkModeColors.textColor },
+      confine: true,
     },
     legend: {
       data: ['Inbound', 'Outbound'],
@@ -84,7 +86,7 @@ export function NetworkTraffic() {
         },
       },
     ],
-  }
+  }), [darkModeColors])
 
   return (
     <div className="space-y-4">
@@ -121,6 +123,7 @@ export function NetworkTraffic() {
               option={networkOption}
               notMerge={true}
               lazyUpdate={true}
+              style={{ height: '100%', width: '100%' }}
             />
           </div>
         </CardContent>

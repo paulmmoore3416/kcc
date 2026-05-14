@@ -249,7 +249,7 @@ export function ClusterOverview() {
           <div className="h-8 w-8 bg-emerald-500/10 rounded flex items-center justify-center">
             <Activity className="h-5 w-5 text-emerald-500" />
           </div>
-          <span className="font-bold text-sm">KCC Platform</span>
+          <span className="font-bold text-sm">Kraken Cloud Control</span>
         </div>
         <div className="flex items-center gap-1 text-muted-foreground text-sm font-medium">
           <Clock className="h-4 w-4" />

@@ -1,4 +1,4 @@
-# 📊 KCC Visualization Guide
+# 📊 Kraken Cloud Control Visualization Guide
 
 ## Quick Navigation
 
@@ -180,7 +180,7 @@ Week 5-8: Lines diverge significantly
 ```
 
 #### How Kraken Hedging Works
-- KCC predicts cost spike
+- Kraken Cloud Control predicts cost spike
 - Automatically creates Kraken positions (xStocks)
 - If costs spike, hedge profits offset losses
 - Net result: Protected margins + reduced cost volatility

@@ -14,7 +14,7 @@ export function VoiceAssistant() {
   const handleCommand = async (text: string) => {
     if (!text) return
     setTranscript(text)
-    setStatus('Processing with KCC AI...')
+    setStatus('Processing with Kraken AI...')
     
     try {
       const response = await fetch('/api/ai/command', {
@@ -25,7 +25,7 @@ export function VoiceAssistant() {
       const data = await response.json()
       setResponse(data.response || 'I encountered an error processing your command.')
     } catch (error) {
-      setResponse('Failed to communicate with KCC AI.')
+      setResponse('Failed to communicate with Kraken AI.')
     } finally {
       setStatus('Ready')
       setInputText('')

@@ -1,7 +1,7 @@
 {
   "name": "kcc-frontend",
   "version": "1.0.0",
-  "description": "Kubernetes Command Center - Professional cluster administration platform",
+  "description": "Kraken Cloud Control - Professional cluster administration platform",
   "private": true,
   "scripts": {
     "dev": "next dev",

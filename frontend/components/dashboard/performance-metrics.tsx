@@ -1,7 +1,7 @@
 'use client'
 
+import React, { useMemo } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import ReactEChartsCore from 'echarts-for-react/lib/core'
 import * as echarts from 'echarts/core'
 import { GaugeChart } from 'echarts/charts'
@@ -11,8 +11,95 @@ import { Zap, Cpu, HardDrive, Network } from 'lucide-react'
 
 echarts.use([GaugeChart, TooltipComponent, DatasetComponent, CanvasRenderer])
 
+const GaugeWrapper = ({ value, name, color, darkModeColors }: any) => {
+  const option = useMemo(() => ({
+    backgroundColor: 'transparent',
+    tooltip: {
+      show: true,
+      confine: true,
+      formatter: '{b}: {c}%',
+      backgroundColor: 'rgba(31, 41, 55, 0.9)',
+      borderColor: darkModeColors.gridColor,
+      textStyle: { color: darkModeColors.textColor },
+    },
+    series: [
+      {
+        type: 'gauge',
+        radius: '100%',
+        center: ['50%', '50%'],
+        startAngle: 200,
+        endAngle: -20,
+        min: 0,
+        max: 100,
+        splitNumber: 10,
+        itemStyle: {
+          color: color,
+        },
+        progress: {
+          show: true,
+          width: 12,
+          roundCap: true,
+        },
+        pointer: {
+          show: false,
+        },
+        axisLine: {
+          roundCap: true,
+          lineStyle: {
+            width: 12,
+            color: [[1, 'rgba(255, 255, 255, 0.05)']],
+          },
+        },
+        axisTick: {
+          show: false,
+        },
+        splitLine: {
+          show: false,
+        },
+        axisLabel: {
+          show: false,
+        },
+        title: {
+          show: true,
+          offsetCenter: [0, '35%'],
+          color: '#94a3b8',
+          fontSize: 12,
+          fontWeight: 500,
+        },
+        detail: {
+          valueAnimation: true,
+          width: '100%',
+          lineHeight: 40,
+          borderRadius: 8,
+          offsetCenter: [0, '-10%'],
+          fontSize: 28,
+          fontWeight: 'bold',
+          formatter: '{value}%',
+          color: color,
+        },
+        data: [
+          {
+            value: value,
+            name: name,
+          },
+        ],
+      },
+    ],
+  }), [value, name, color, darkModeColors])
+
+  return (
+    <ReactEChartsCore
+      echarts={echarts}
+      option={option}
+      notMerge={true}
+      lazyUpdate={true}
+      style={{ height: '100%', width: '100%' }}
+    />
+  )
+}
+
 export function PerformanceMetrics() {
-  const darkModeColors = {
+  const darkModeColors = useMemo(() => ({
     primary: '#00d9ff',
     secondary: '#8b5cf6',
     success: '#10b981',
@@ -21,72 +108,14 @@ export function PerformanceMetrics() {
     background: '#1f2937',
     gridColor: '#374151',
     textColor: '#e8eef2',
-  }
+  }), [])
 
-  const createGaugeOption = (value: number, name: string, color: string) => ({
-    backgroundColor: 'transparent',
-    series: [
-      {
-        type: 'gauge',
-        radius: '85%',
-        center: ['50%', '50%'],
-        startAngle: 225,
-        endAngle: -45,
-        progress: {
-          itemStyle: {
-            borderRadius: 10,
-            borderColor: 'transparent',
-          },
-        },
-        axisLine: {
-          lineStyle: {
-            width: 30,
-            color: [
-              [0.3, darkModeColors.danger],
-              [0.7, darkModeColors.warning],
-              [1, darkModeColors.success],
-            ],
-          },
-        },
-        axisTick: {
-          distance: -30,
-          length: 8,
-          lineStyle: {
-            color: '#fff',
-            width: 2,
-          },
-        },
-        splitLine: {
-          distance: -30,
-          length: 30,
-          lineStyle: {
-            color: '#fff',
-            width: 4,
-          },
-        },
-        axisLabel: {
-          color: 'auto',
-          distance: 40,
-          fontSize: 16,
-        },
-        detail: {
-          valueAnimation: true,
-          formatter: `${value}%`,
-          color: color,
-          fontSize: 24,
-          fontWeight: 'bold',
-        },
-        data: [{ value: value, name: name }],
-      },
-    ],
-  })
-
-  const metrics = [
+  const metrics = useMemo(() => [
     { value: 72, name: 'CPU Usage', icon: Cpu, color: darkModeColors.primary },
     { value: 58, name: 'Memory Usage', icon: HardDrive, color: darkModeColors.secondary },
     { value: 85, name: 'Disk I/O', icon: Network, color: '#f59e0b' },
     { value: 45, name: 'Network Latency', icon: Zap, color: darkModeColors.success },
-  ]
+  ], [darkModeColors])
 
   return (
     <div className="space-y-4">
@@ -100,34 +129,18 @@ export function PerformanceMetrics() {
           return (
             <Card key={idx} className="border-border bg-card/50 overflow-hidden">
               <CardHeader className="pb-0">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">
-                    {metric.name}
-                  </CardTitle>
+                <div className="flex items-center justify-end">
                   <Icon className="h-4 w-4" style={{ color: metric.color }} />
                 </div>
               </CardHeader>
               <CardContent className="pt-4">
                 <div style={{ height: '140px' }}>
-                  <ReactEChartsCore
-                    echarts={echarts}
-                    option={createGaugeOption(metric.value, metric.name, metric.color)}
-                    notMerge={true}
-                    lazyUpdate={true}
+                  <GaugeWrapper 
+                    value={metric.value} 
+                    name={metric.name} 
+                    color={metric.color} 
+                    darkModeColors={darkModeColors}
                   />
-                </div>
-                <div className="text-center mt-2">
-                  <Badge
-                    className={
-                      metric.value > 80
-                        ? 'bg-red-500/20 text-red-300'
-                        : metric.value > 60
-                        ? 'bg-yellow-500/20 text-yellow-300'
-                        : 'bg-green-500/20 text-green-300'
-                    }
-                  >
-                    {metric.value > 80 ? 'High' : metric.value > 60 ? 'Medium' : 'Normal'}
-                  </Badge>
                 </div>
               </CardContent>
             </Card>

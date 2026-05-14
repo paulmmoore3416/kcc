@@ -1,8 +1,8 @@
-# 🏆 KCC - Milan AI Week Hackathon 2026 Submission
+# 🏆 Kraken Cloud Control - Milan AI Week Hackathon 2026 Submission
 
 ## Executive Summary
 
-**Kraken Cloud Control (KCC)** is the world's first **Autonomous SRE Platform** combining **eBPF kernel observability**, **Gemini 1.5 Pro AI agents**, and **real-time metrics visualization** to deliver enterprise-grade Kubernetes management at scale.
+**Kraken Cloud Control** is the world's first **Autonomous SRE Platform** combining **eBPF kernel observability**, **Gemini 1.5 Pro AI agents**, and **real-time metrics visualization** to deliver enterprise-grade Kubernetes management at scale.
 
 This submission demonstrates:
 - ✅ Advanced AI integration (multi-agent Gemini coordination)
@@ -21,7 +21,7 @@ Modern Kubernetes clusters face three critical challenges:
 2. **Cost Hemorrhage**: Infrastructure costs spiral unpredictably; teams lack real-time forecasting and hedging
 3. **Manual Remediation**: SREs spend 60% of time reacting to issues instead of proactively optimizing
 
-**KCC solves all three** with AI-powered autonomous decision making.
+**Kraken Cloud Control solves all three** with AI-powered autonomous decision making.
 
 ---
 
@@ -72,7 +72,7 @@ Each agent specializes in a domain. The master coordinates responses in <5 secon
 
 ```
 ┌──────────────────────────────────────────────────┐
-│     KCC Platform Benchmarks (v1.0.0 STABLE)     │
+│     Kraken Cloud Control Platform Benchmarks (v1.0.0 STABLE)     │
 ├───────────────────────────────────┬──────────────┤
 │ Observation Latency (p99)         │ < 0.8ms      │
 │ Event Processing Throughput       │ 1M+ /sec     │
@@ -270,9 +270,9 @@ kcc/
 
 ---
 
-## 🏆 Why KCC Wins
+## 🏆 Why Kraken Cloud Control Wins
 
-| Criterion | Competitor A | Competitor B | **KCC** |
+| Criterion | Competitor A | Competitor B | **Kraken Cloud Control** |
 |-----------|--------------|--------------|--------|
 | **AI Integration** | Single model | Single model | **Multi-agent Gemini** ⭐ |
 | **Cost Prediction** | Trend-based | Trend-based | **ML + FinOps hedge** ⭐ |

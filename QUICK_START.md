@@ -1,9 +1,9 @@
-# 🚀 KCC Quick Start Guide
+# 🚀 Kraken Cloud Control Quick Start Guide
 
 ## For Hackathon Judges
 
 ### 30-Second Overview
-KCC is the world's first **Autonomous SRE Platform** combining:
+Kraken Cloud Control is the world's first **Autonomous SRE Platform** combining:
 - 📊 Real-time metrics visualization (gauges, charts, heatmaps)
 - 🤖 Multi-agent Gemini AI (autonomous remediation)
 - 💰 Kraken FinOps (predictive cost hedging)
@@ -65,7 +65,7 @@ Heatmap: 24-hour node utilization (Green → Yellow → Red)
 
 ---
 
-## What Makes KCC Special
+## What Makes Kraken Cloud Control Special
 
 ### 🏆 Feature Comparison
 ```
@@ -75,7 +75,7 @@ Traditional Dashboards:
   ❌ No hedging strategy
   ❌ Slow remediation (hours)
 
-KCC (This Project):
+Kraken Cloud Control (This Project):
   ✅ Real-time + Predictive
   ✅ AI-powered analysis
   ✅ Auto hedging via Kraken
@@ -94,7 +94,7 @@ KCC (This Project):
 ## Live Demo Script (5 min)
 
 ### [0:00-0:30] Landing Page
-"This is KCC - the autonomous SRE platform"
+"This is Kraken Cloud Control - the autonomous SRE platform"
 - Show hero section
 - Highlight: 0.8ms latency, 1M+ events/sec, 99.99% uptime
 
@@ -224,7 +224,7 @@ A: Speechmatics real-time transcription + Gemini NLP. Say "Scale web-app to 10 r
 
 <div align="center">
 
-**Let your infrastructure shine with KCC** ✨
+**Let your infrastructure shine with Kraken Cloud Control** ✨
 
 **Milan AI Week 2026** 🏆
 

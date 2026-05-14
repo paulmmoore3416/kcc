@@ -1,5 +1,6 @@
 'use client'
 
+import React, { useMemo } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import ReactEChartsCore from 'echarts-for-react/lib/core'
 import * as echarts from 'echarts/core'
@@ -10,17 +11,17 @@ import { CanvasRenderer } from 'echarts/renderers'
 echarts.use([HeatmapChart, GridComponent, TooltipComponent, VisualMapComponent, CanvasRenderer])
 
 export function ResourceHeatmap() {
-  const darkModeColors = {
+  const darkModeColors = useMemo(() => ({
     primary: '#00d9ff',
     secondary: '#a855f7', // Purple
     accent: '#6366f1',    // Indigo
     background: 'rgba(17, 24, 39, 0.4)',
     gridColor: 'rgba(75, 85, 99, 0.3)',
     textColor: '#94a3b8',
-  }
+  }), [])
 
   // Generate mock heatmap data
-  const generateHeatmapData = () => {
+  const heatmapData = useMemo(() => {
     const nodesCount = 12 // Reduced for better visual on "map" feel
     const hoursCount = 24
     const data = []
@@ -35,12 +36,12 @@ export function ResourceHeatmap() {
       }
     }
     return data
-  }
+  }, [])
 
-  const nodes = Array.from({ length: 12 }, (_, i) => `Node ${String(i + 1).padStart(2, '0')}`)
-  const hours = Array.from({ length: 24 }, (_, i) => `${i}:00`)
+  const nodes = useMemo(() => Array.from({ length: 12 }, (_, i) => `Node ${String(i + 1).padStart(2, '0')}`), [])
+  const hours = useMemo(() => Array.from({ length: 24 }, (_, i) => `${i}:00`), [])
 
-  const heatmapOption = {
+  const heatmapOption = useMemo(() => ({
     backgroundColor: 'transparent',
     tooltip: {
       trigger: 'item',
@@ -48,9 +49,10 @@ export function ResourceHeatmap() {
       borderColor: 'rgba(0, 217, 255, 0.5)',
       borderWidth: 1,
       textStyle: { color: '#f8fafc', fontSize: 12 },
+      confine: true,
       formatter: (params: any) => {
         // Robust safety check to prevent "data is undefined" error
-        if (!params || !params.value || !Array.isArray(params.value)) {
+        if (!params || !params.value || !Array.isArray(params.value) || params.value.length < 3) {
           return ''
         }
         const hour = params.value[0]
@@ -119,7 +121,7 @@ export function ResourceHeatmap() {
       {
         name: 'Node Utilization',
         type: 'heatmap',
-        data: generateHeatmapData(),
+        data: heatmapData,
         label: {
           show: false,
         },
@@ -138,7 +140,7 @@ export function ResourceHeatmap() {
         },
       },
     ],
-  }
+  }), [darkModeColors, heatmapData, nodes, hours])
 
   return (
     <Card className="border-border bg-card/50 overflow-hidden backdrop-blur-sm">

@@ -6,7 +6,7 @@ import { Providers } from './providers'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Kubernetes Command Center',
+  title: 'Kraken Cloud Control',
   description: 'Professional Kubernetes cluster administration and observation platform',
   keywords: ['kubernetes', 'k8s', 'cluster management', 'observability', 'finops'],
 }

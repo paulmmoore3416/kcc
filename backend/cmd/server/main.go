@@ -82,7 +82,7 @@ func main() {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
-	log.Printf("KCC Backend gRPC server starting on port %s", port)
+	log.Printf("Kraken Cloud Control Backend gRPC server starting on port %s", port)
 
 	// Graceful shutdown
 	go func() {

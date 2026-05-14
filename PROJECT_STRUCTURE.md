@@ -1,4 +1,4 @@
-# Kubernetes Command Center - Project Structure
+# Kraken Cloud Control - Project Structure
 
 ## Overview
 Enterprise-grade Kubernetes administration platform with real-time observation, AI-powered insights, and comprehensive cluster management.

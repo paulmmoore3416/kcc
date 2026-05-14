@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Before installing KCC, ensure you have:
+Before installing Kraken Cloud Control, ensure you have:
 
 - Kubernetes cluster v1.28 or higher
 - `kubectl` configured to access your cluster
@@ -17,7 +17,7 @@ Before installing KCC, ensure you have:
 kubectl create namespace kcc-system
 ```
 
-### 2. Deploy KCC Platform
+### 2. Deploy Kraken Cloud Control Platform
 
 #### Using Kustomize (Recommended)
 

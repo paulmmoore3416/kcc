@@ -2,7 +2,7 @@
 
 ## 🎯 Deployment Overview
 
-This guide covers deploying Kubernetes Command Center (KCC) to production environments.
+This guide covers deploying Kraken Cloud Control to production environments.
 
 ## Prerequisites Checklist
 
@@ -396,7 +396,7 @@ grpc.WithMaxCallSendMsgSize(10*1024*1024)
 
 ## Cleanup
 
-### Remove KCC Platform
+### Remove Kraken Cloud Control Platform
 
 ```bash
 # Delete all resources

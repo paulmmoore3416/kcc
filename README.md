@@ -1,4 +1,4 @@
-# 🛰️ Kraken Cloud Control (KCC)
+# 🛰️ Kraken Cloud Control
 
 ### **The Sovereign Kubernetes AI Command Center**
 *Professional Cluster Administration, Real-time Observation & Autonomous SRE*
@@ -35,12 +35,12 @@ The platform is currently running on a local **kind** cluster.
 
 ## 🎯 Strategic Overview
 
-**Kraken Cloud Control (KCC)** is an elite, sovereign platform designed for 2026-era Kubernetes infrastructure. It combines **eBPF-driven kernel observability** with **Gemini 1.5 Pro AI agents** and **Speechmatics real-time voice intelligence** to create the world's first autonomous SRE command center.
+**Kraken Cloud Control** is an elite, sovereign platform designed for 2026-era Kubernetes infrastructure. It combines **eBPF-driven kernel observability** with **Gemini 1.5 Pro AI agents** and **Speechmatics real-time voice intelligence** to create the world's first autonomous SRE command center.
 
 ### 🌟 Elite Capabilities
 
-*   **🗣️ Real-time Voice Intelligence**: Powered by **Speechmatics**, KCC understands natural language commands in real-time, allowing SREs to manage clusters hands-free.
-*   **🛡️ Autonomous Cost Hedging**: Integrated with **Kraken**, KCC can automatically hedge against infrastructure price volatility using xStocks and crypto-collateralized positions.
+*   **🗣️ Real-time Voice Intelligence**: Powered by **Speechmatics**, Kraken Cloud Control understands natural language commands in real-time, allowing SREs to manage clusters hands-free.
+*   **🛡️ Autonomous Cost Hedging**: Integrated with **Kraken**, Kraken Cloud Control can automatically hedge against infrastructure price volatility using xStocks and crypto-collateralized positions.
 *   **👁️ eBPF-First Observability**: Zero-overhead kernel monitoring for process execution, file access, and network connections.
 *   **🧠 Multi-Agent AI Orchestration**: Specialized Gemini-powered agents (Maintenance, Security, Cost) coordinated by a Master SRE Agent.
 *   **⏮️ Temporal Debugging**: "Time-Travel" through cluster states to identify the exact moment of failure.
@@ -129,7 +129,7 @@ kubectl port-forward svc/frontend 3000:80 -n kcc-system
 
 ## 🔐 Security & Privacy
 
-KCC is built with a **Sovereign-First** philosophy:
+Kraken Cloud Control is built with a **Sovereign-First** philosophy:
 - **Zero-Trust**: All gRPC communication is TLS-encrypted.
 - **eBPF Isolation**: Security monitoring happens at the kernel level, invisible to user-space malware.
 - **Secret Management**: API keys are never stored in-cluster; they are injected via secure env or KMS.

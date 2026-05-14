@@ -12,7 +12,7 @@ export default function Home() {
           <div className="flex items-center space-x-2">
             <Activity className="h-6 w-6 text-primary" />
             <span className="text-xl font-bold">
-              KCC Platform
+              Kraken Cloud Control
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -105,7 +105,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-border bg-background py-8">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>© 2026 Kubernetes Command Center. Enterprise Edition.</p>
+          <p>© 2026 Kraken Cloud Control. Enterprise Edition.</p>
         </div>
       </footer>
     </div>
