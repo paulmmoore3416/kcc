@@ -6,10 +6,10 @@ import ReactEChartsCore from 'echarts-for-react/lib/core'
 import * as echarts from 'echarts/core'
 import { GaugeChart } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
-import { TooltipComponent } from 'echarts/components'
+import { TooltipComponent, DatasetComponent } from 'echarts/components'
 import { Zap, Cpu, HardDrive, Network } from 'lucide-react'
 
-echarts.use([GaugeChart, TooltipComponent, CanvasRenderer])
+echarts.use([GaugeChart, TooltipComponent, DatasetComponent, CanvasRenderer])
 
 export function PerformanceMetrics() {
   const darkModeColors = {

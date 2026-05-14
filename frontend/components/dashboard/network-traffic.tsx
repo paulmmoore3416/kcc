@@ -9,11 +9,12 @@ import {
   GridComponent,
   TooltipComponent,
   LegendComponent,
+  DatasetComponent,
 } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 import { Network, TrendingUp, TrendingDown } from 'lucide-react'
 
-echarts.use([BarChart, LineChart, GridComponent, TooltipComponent, LegendComponent, CanvasRenderer])
+echarts.use([BarChart, LineChart, GridComponent, TooltipComponent, LegendComponent, DatasetComponent, CanvasRenderer])
 
 export function NetworkTraffic() {
   const darkModeColors = {

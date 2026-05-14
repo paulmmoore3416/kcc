@@ -14,8 +14,8 @@ export function NodesTable() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-white text-lg font-bold">Nodes Overview</h2>
-          <p className="text-slate-500 text-xs">Cluster node status and capacity</p>
+          <h2 className="text-foreground text-lg font-bold">Nodes Overview</h2>
+          <p className="text-muted-foreground text-xs">Cluster node status and capacity</p>
         </div>
         <button className="text-primary text-xs font-bold hover:underline">Manage infrastructure</button>
       </div>
@@ -23,7 +23,7 @@ export function NodesTable() {
       <div className="overflow-x-auto">
         <table className="w-full text-xs">
           <thead>
-            <tr className="text-left text-slate-500 border-b border-slate-800">
+            <tr className="text-left text-muted-foreground border-b border-border">
               <th className="pb-3 px-2 font-medium">NAME</th>
               <th className="pb-3 px-2 font-medium">STATUS</th>
               <th className="pb-3 px-2 font-medium">VERSION</th>
@@ -32,22 +32,22 @@ export function NodesTable() {
               <th className="pb-3 px-2 font-medium text-right">PODS</th>
             </tr>
           </thead>
-          <tbody className="text-slate-300">
+          <tbody className="text-foreground">
             {nodes.map((node) => (
-              <tr key={node.name} className="border-b border-slate-800/50 hover:bg-slate-800/20 transition-colors">
-                <td className="py-4 px-2 font-medium text-white flex items-center gap-3">
+              <tr key={node.name} className="border-b border-border/50 hover:bg-muted/50 transition-colors">
+                <td className="py-4 px-2 font-medium flex items-center gap-3">
                   <Server className="h-4 w-4 text-primary" />
                   {node.name}
                 </td>
                 <td className="py-4 px-2">
                   <div className="flex items-center gap-2">
                     <div className="h-2 w-2 bg-emerald-500 rounded-full" />
-                    <span className="text-white font-medium">{node.status}</span>
+                    <span className="font-medium">{node.status}</span>
                   </div>
                 </td>
-                <td className="py-4 px-2 text-slate-400 font-mono">{node.version}</td>
-                <td className="py-4 px-2 text-right text-slate-400 font-mono">{node.cpu}</td>
-                <td className="py-4 px-2 text-right text-slate-400 font-mono">{node.memory}</td>
+                <td className="py-4 px-2 text-muted-foreground font-mono">{node.version}</td>
+                <td className="py-4 px-2 text-right text-muted-foreground font-mono">{node.cpu}</td>
+                <td className="py-4 px-2 text-right text-muted-foreground font-mono">{node.memory}</td>
                 <td className="py-4 px-2 text-right">
                   <span className="px-2 py-0.5 rounded bg-primary/10 text-primary font-bold">
                     {node.pods}

@@ -9,11 +9,12 @@ import {
   GridComponent,
   TooltipComponent,
   LegendComponent,
+  DatasetComponent,
 } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 import { TrendingUp, AlertTriangle, Zap } from 'lucide-react'
 
-echarts.use([LineChart, GridComponent, TooltipComponent, LegendComponent, CanvasRenderer])
+echarts.use([LineChart, GridComponent, TooltipComponent, LegendComponent, DatasetComponent, CanvasRenderer])
 
 export function CostPrediction() {
   const darkModeColors = {

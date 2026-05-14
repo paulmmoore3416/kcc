@@ -8,6 +8,7 @@ import {
   GridComponent,
   TooltipComponent,
   LegendComponent,
+  DatasetComponent,
 } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 import { AlertTriangle, TrendingUp } from 'lucide-react'
@@ -19,6 +20,7 @@ echarts.use([
   GridComponent,
   TooltipComponent,
   LegendComponent,
+  DatasetComponent,
   CanvasRenderer,
 ])
 

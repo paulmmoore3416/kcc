@@ -45,10 +45,10 @@ Your KCC repository has been **significantly enhanced** for the Milan AI Week Ha
 - Responsive layout
 
 ### 2. **Enhanced Dashboard Page**
-- **New tabs**: Performance, Network, Cost Forecast, AI Insights, Heatmap
-- **Full-width sections** displaying all enhanced components
+- **New tabs**: Performance, Network, Cost Forecast, AI Insights, Cost, Security, Heatmap
 - **Quick action sidebar** with recommended actions
 - **Tab-based navigation** for focused viewing
+- **Enterprise UI theme** with light/dark mode support
 
 ### 3. **Enhanced Home Page** (`page.tsx`)
 - **Hero section** with compelling headline and dual CTA

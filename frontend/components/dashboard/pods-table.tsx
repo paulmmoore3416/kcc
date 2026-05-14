@@ -18,8 +18,8 @@ export function PodsTable() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-white text-lg font-bold">Pods Overview</h2>
-          <p className="text-slate-500 text-xs">Real-time pod status and resource usage</p>
+          <h2 className="text-foreground text-lg font-bold">Pods Overview</h2>
+          <p className="text-muted-foreground text-xs">Real-time pod status and resource usage</p>
         </div>
         <button className="text-primary text-xs font-bold hover:underline">View all workloads</button>
       </div>
@@ -27,7 +27,7 @@ export function PodsTable() {
       <div className="overflow-x-auto">
         <table className="w-full text-xs">
           <thead>
-            <tr className="text-left text-slate-500 border-b border-slate-800">
+            <tr className="text-left text-muted-foreground border-b border-border">
               <th className="pb-3 px-2 font-medium">NAME</th>
               <th className="pb-3 px-2 font-medium">NAMESPACE</th>
               <th className="pb-3 px-2 font-medium">STATUS</th>
@@ -36,28 +36,28 @@ export function PodsTable() {
               <th className="pb-3 px-2 font-medium text-right">RESTARTS</th>
             </tr>
           </thead>
-          <tbody className="text-slate-300">
+          <tbody className="text-foreground">
             {pods.map((pod) => (
-              <tr key={pod.name} className="border-b border-slate-800/50 hover:bg-slate-800/20 transition-colors">
-                <td className="py-4 px-2 font-medium text-white max-w-[200px] truncate">{pod.name}</td>
+              <tr key={pod.name} className="border-b border-border/50 hover:bg-muted/50 transition-colors">
+                <td className="py-4 px-2 font-medium max-w-[200px] truncate">{pod.name}</td>
                 <td className="py-4 px-2">
-                  <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-medium">
+                  <span className="px-2 py-0.5 rounded bg-muted text-muted-foreground font-medium">
                     {pod.namespace}
                   </span>
                 </td>
                 <td className="py-4 px-2">
                   <div className="flex items-center gap-2">
                     <div className="h-2 w-2 bg-emerald-500 rounded-full" />
-                    <span className="text-white font-medium">{pod.status}</span>
+                    <span className="font-medium">{pod.status}</span>
                   </div>
                 </td>
-                <td className="py-4 px-2 text-right text-slate-400 font-mono">{pod.cpu}</td>
-                <td className="py-4 px-2 text-right text-slate-400 font-mono">{pod.memory}</td>
+                <td className="py-4 px-2 text-right text-muted-foreground font-mono">{pod.cpu}</td>
+                <td className="py-4 px-2 text-right text-muted-foreground font-mono">{pod.memory}</td>
                 <td className="py-4 px-2 text-right">
                   {pod.restarts > 0 ? (
                     <span className="text-destructive font-bold">{pod.restarts}</span>
                   ) : (
-                    <span className="text-slate-600">0</span>
+                    <span className="text-muted-foreground">0</span>
                   )}
                 </td>
               </tr>

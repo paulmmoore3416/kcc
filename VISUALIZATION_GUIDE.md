@@ -12,6 +12,8 @@
 7. **Cost Forecast** - 8-week cost prediction model
 8. **AI Insights** - Machine learning recommendations
 9. **Cost** - Historical cost analysis
+10. **Security** - Real-time security events and compliance
+11. **Heatmap** - 24x24 node utilization grid
 
 ---
 

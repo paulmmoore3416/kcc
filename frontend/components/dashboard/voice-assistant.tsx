@@ -134,19 +134,18 @@ export function VoiceAssistant() {
   }
 
   return (
-    <div className="k8s-card space-y-6 sticky top-24">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="h-8 w-8 bg-primary/20 rounded flex items-center justify-center">
+          <div className="h-8 w-8 bg-primary/10 rounded flex items-center justify-center border border-primary/20">
             <Sparkles className="h-4 w-4 text-primary" />
           </div>
           <div>
-            <h3 className="text-white text-sm font-bold">AI Assistant</h3>
-            <p className="text-[10px] text-slate-500 font-medium uppercase tracking-wider">Autonomous SRE</p>
+            <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Autonomous SRE</p>
           </div>
         </div>
-        <div className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">
-          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{status}</span>
+        <div className="px-2 py-0.5 rounded bg-muted border border-border">
+          <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">{status}</span>
         </div>
       </div>
 
@@ -158,18 +157,18 @@ export function VoiceAssistant() {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleCommand(inputText)}
-            className="w-full bg-[#1a1b3a] border border-slate-800 rounded-lg py-3 pl-4 pr-24 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/50"
+            className="w-full bg-background border border-input rounded-lg py-3 pl-4 pr-24 text-sm focus:outline-none focus:ring-1 focus:ring-primary/50"
           />
           <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
             <button 
               onClick={toggleListening}
-              className={`p-2 rounded-md transition-all ${isListening ? 'bg-destructive/20 text-destructive' : 'text-slate-500 hover:text-white hover:bg-slate-800'}`}
+              className={`p-2 rounded-md transition-all ${isListening ? 'bg-destructive/20 text-destructive' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}
             >
               {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
             </button>
             <button 
               onClick={() => handleCommand(inputText)}
-              className="p-2 rounded-md text-slate-500 hover:text-white hover:bg-slate-800"
+              className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted"
             >
               <Send className="h-4 w-4" />
             </button>
@@ -177,11 +176,11 @@ export function VoiceAssistant() {
         </div>
 
         {(transcript || response) ? (
-          <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+          <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted">
             {transcript && (
               <div className="space-y-1">
-                <p className="text-[10px] text-slate-500 font-bold uppercase ml-1">You</p>
-                <div className="bg-slate-800/50 border border-slate-800 p-3 rounded-lg text-sm text-slate-300">
+                <p className="text-[10px] text-muted-foreground font-bold uppercase ml-1">You</p>
+                <div className="bg-muted/50 border border-border p-3 rounded-lg text-sm">
                   {transcript}
                 </div>
               </div>
@@ -190,7 +189,7 @@ export function VoiceAssistant() {
             {response && (
               <div className="space-y-1">
                 <p className="text-[10px] text-primary font-bold uppercase ml-1">Agent</p>
-                <div className="bg-primary/5 border border-primary/20 p-4 rounded-lg text-sm text-white leading-relaxed">
+                <div className="bg-primary/5 border border-primary/20 p-4 rounded-lg text-sm leading-relaxed">
                   {response}
                 </div>
               </div>
@@ -198,8 +197,8 @@ export function VoiceAssistant() {
           </div>
         ) : (
           <div className="py-8 text-center space-y-2">
-            <Bot className="h-8 w-8 text-slate-700 mx-auto" />
-            <p className="text-xs text-slate-500">Ask me to scale deployments, check logs, or analyze costs.</p>
+            <Bot className="h-8 w-8 text-muted/50 mx-auto" />
+            <p className="text-xs text-muted-foreground">Ask me to scale deployments, check logs, or analyze costs.</p>
           </div>
         )}
       </div>
