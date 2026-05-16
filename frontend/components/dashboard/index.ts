@@ -4,6 +4,15 @@ export { SectionCard, type SectionStatus } from './section-card'
 export { SectionHeader } from './section-header'
 export { MetricCard, type MetricSeverity } from './metric-card'
 
+// Premium FinOps Enhancements
+export { CostAnomalyDetection } from './cost-anomaly-detection'
+export { MultiCloudComparison } from './multi-cloud-comparison'
+export { RightsizingRecommendations } from './rightsizing-recommendations'
+export { ExecutiveReports } from './executive-reports'
+export { KrakenMetrics } from './kraken-metrics'
+export { AdvancedFinOpsAdmin } from './advanced-finops-admin'
+export { SuperiorEnhancements } from './superior-enhancements'
+
 // Usage Guide:
 // 
 // import { SectionCard, MetricCard, SectionHeader } from '@/components/dashboard'

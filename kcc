@@ -23,8 +23,8 @@ ROOT_DIR="$SCRIPT_DIR"
 # Pre-flight: Ensure ports are available
 echo -e "${PURPLE}🧹 Cleaning up existing processes on Kraken Cloud Control ports...${NC}"
 CLEANED=false
-for port in 3000 50051 8082 8083; do
-    PIDS=$(lsof -t -i:$port || true)
+for port in 4200 50051 8082 8083; do
+    PIDS=$(lsof -t -i:$port 2>/dev/null || true)
     if [ ! -z "$PIDS" ]; then
         for pid in $PIDS; do
             echo -e "${RED}   Killing process $pid using port $port${NC}"
@@ -36,7 +36,19 @@ done
 
 if [ "$CLEANED" = true ]; then
     echo -e "${PURPLE}⏳ Waiting for ports to release...${NC}"
-    sleep 2
+    sleep 3
+    
+    # Verify ports are actually free
+    for port in 4200 50051 8082 8083; do
+        if lsof -t -i:$port 2>/dev/null; then
+            echo -e "${RED}❌ Port $port is still in use. Trying again...${NC}"
+            PIDS=$(lsof -t -i:$port 2>/dev/null || true)
+            for pid in $PIDS; do
+                kill -9 $pid 2>/dev/null || true
+            done
+            sleep 2
+        fi
+    done
 fi
 
 # Function to handle cleanup on exit
@@ -84,7 +96,7 @@ go run main.go --leader-elect=false --metrics-bind-address=:8082 --health-probe-
 OPERATOR_PID=$!
 
 # 3. Start Frontend
-echo -e "${GREEN}🌐 Starting Kraken Cloud Control Frontend (Next.js on :3000)...${NC}"
+echo -e "${GREEN}🌐 Starting Kraken Cloud Control Frontend (Next.js on :4200)...${NC}"
 cd "$ROOT_DIR/frontend"
 
 # Check if node_modules exists
@@ -94,5 +106,5 @@ if [ ! -d "node_modules" ]; then
 fi
 
 echo -e "${BLUE}🚀 Launching dashboard...${NC}"
-# Use PORT env to force Next.js to use 3000
-PORT=3000 npm run dev
+# Use PORT env to force Next.js to use 4200
+PORT=4200 npm run dev

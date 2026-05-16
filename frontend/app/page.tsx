@@ -33,10 +33,10 @@ export default function Home() {
         <section className="container mx-auto px-4 py-24 text-center flex flex-col items-center">
           <div className="inline-flex items-center rounded-lg bg-muted px-3 py-1 text-sm font-medium mb-8">
             <span className="flex h-2 w-2 rounded-full bg-primary mr-2"></span>
-            Enterprise Kubernetes Management
+            Enterprise Kraken Management
           </div>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 max-w-4xl">
-            Professional Kubernetes Administration
+            Professional Kraken Administration
           </h1>
           <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
             Real-time observation, AI-powered insights, and comprehensive cluster management

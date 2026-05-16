@@ -18,6 +18,8 @@ type Service struct {
 	model        *genai.GenerativeModel
 	kraken       *KrakenHedgingService
 	speechmatics *SpeechmaticsService
+	cache        *ResponseCache
+	rateLimiter  *RateLimiter
 }
 
 // NewService creates a new AI service
@@ -25,7 +27,7 @@ func NewService(clientset *kubernetes.Clientset) (*Service, error) {
 	apiKey := os.Getenv("GEMINI_API_KEY")
 	// If API key is missing, we'll still allow the service to start but Gemini features will fail
 	// This allows other parts of the service (like Speechmatics) to potentially work
-	
+
 	var client *genai.Client
 	var model *genai.GenerativeModel
 	var err error
@@ -37,10 +39,22 @@ func NewService(clientset *kubernetes.Clientset) (*Service, error) {
 			return nil, fmt.Errorf("failed to create Gemini client: %w", err)
 		}
 		model = client.GenerativeModel("gemini-1.5-pro")
+
+		// Configure model for better performance
+		model.SetTemperature(0.7)
+		model.SetTopK(40)
+		model.SetTopP(0.95)
+		model.SetMaxOutputTokens(2048)
 	}
 
 	kraken := NewKrakenHedgingService()
 	speechmatics := NewSpeechmaticsService()
+
+	// Initialize cache with 5 minute TTL
+	cache := NewResponseCache(5 * time.Minute)
+
+	// Initialize rate limiter: 60 requests per minute
+	rateLimiter := NewRateLimiter(60, time.Second)
 
 	return &Service{
 		clientset:    clientset,
@@ -48,11 +62,29 @@ func NewService(clientset *kubernetes.Clientset) (*Service, error) {
 		model:        model,
 		kraken:       kraken,
 		speechmatics: speechmatics,
+		cache:        cache,
+		rateLimiter:  rateLimiter,
 	}, nil
 }
 
 // AnalyzeRootCause performs AI-driven root cause analysis
 func (s *Service) AnalyzeRootCause(ctx context.Context, incidentID, description string, occurredAt time.Time) (*AnalysisResult, error) {
+	if s.model == nil {
+		return nil, fmt.Errorf("Gemini AI is not configured")
+	}
+
+	// Check rate limit
+	if err := s.rateLimiter.Allow(ctx); err != nil {
+		return nil, fmt.Errorf("rate limit exceeded: %w", err)
+	}
+	s.rateLimiter.TrackRequest("root_cause_analysis")
+
+	// Check cache
+	cacheKey := fmt.Sprintf("rca:%s:%s", incidentID, description)
+	if cached, found := s.cache.Get(cacheKey); found {
+		return cached.(*AnalysisResult), nil
+	}
+
 	prompt := fmt.Sprintf(`
 You are an expert Kubernetes Site Reliability Engineer (SRE).
 Analyze the following incident and provide a root cause analysis, possible causes, and recommendations for recovery.
@@ -88,12 +120,17 @@ Confidence Score: <0.0 to 1.0>
 		analysisText += fmt.Sprintf("%v", part)
 	}
 
-	return &AnalysisResult{
-		Analysis:         analysisText,
-		PossibleCauses:   []string{"Resource exhaustion", "Network partition", "Config drift"},
-		Recommendations:  []string{"Scale up deployment", "Check network policies", "Audit configurations"},
+	result := &AnalysisResult{
+		Analysis:        analysisText,
+		PossibleCauses:  []string{"Resource exhaustion", "Network partition", "Config drift"},
+		Recommendations: []string{"Scale up deployment", "Check network policies", "Audit configurations"},
 		ConfidenceScore: 0.85,
-	}, nil
+	}
+
+	// Cache the result
+	s.cache.Set(cacheKey, result)
+
+	return result, nil
 }
 
 // GetRecommendations provides optimization recommendations
@@ -143,8 +180,8 @@ Based on common patterns, what is the probability of failure in the next 24 hour
 	_ = resp // Use response to extract data in a real implementation
 
 	return &FailurePrediction{
-		Probability: 0.15,
-		RiskFactors: []string{"Increasing memory trend", "Periodic OOMKills observed"},
+		Probability:    0.15,
+		RiskFactors:    []string{"Increasing memory trend", "Periodic OOMKills observed"},
 		Recommendation: "Increase memory limits and investigate leak",
 	}, nil
 }
@@ -198,9 +235,9 @@ func (s *Service) GetSpeechToken(ctx context.Context) (string, error) {
 // Types
 
 type AnalysisResult struct {
-	Analysis         string
-	PossibleCauses   []string
-	Recommendations  []string
+	Analysis        string
+	PossibleCauses  []string
+	Recommendations []string
 	ConfidenceScore float64
 }
 
