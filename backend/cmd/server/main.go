@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -23,6 +25,7 @@ import (
 	"github.com/paulmmoore3416/kcc/backend/services/observation"
 	"github.com/paulmmoore3416/kcc/backend/services/security"
 	"github.com/paulmmoore3416/kcc/backend/services/ai"
+	"github.com/paulmmoore3416/kcc/backend/services/depin"
 )
 
 const (
@@ -66,6 +69,7 @@ func main() {
 	observationService := observation.NewService(clientset, aiService)
 	costService := cost.NewService(clientset, aiService)
 	securityService := security.NewService(clientset)
+	depinService := depin.NewService(clientset)
 
 	// Register gRPC services (proto registration would happen here)
 	// pb.RegisterClusterServiceServer(grpcServer, clusterService)
@@ -83,6 +87,60 @@ func main() {
 	}
 
 	log.Printf("Kraken Cloud Control Backend gRPC server starting on port %s", port)
+
+	// Start HTTP server for REST metrics (fallback for frontend)
+	go func() {
+		http.HandleFunc("/api/metrics", func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Content-Type", "application/json")
+			
+			depinMetrics, _ := depinService.GetMetrics(context.Background(), "optimai")
+			clusterInfo, _ := clusterService.GetClusterInfo(context.Background())
+			
+			response := map[string]interface{}{
+				"depin": depinMetrics,
+				"cluster": clusterInfo,
+				"timestamp": time.Now(),
+				"enhancements": map[string]interface{}{
+					"predictiveScaling": map[string]interface{}{
+						"suggestion": 3,
+						"reason": "High traffic predicted in 2 hours for data-scraping tasks. Suggesting pre-scale of 3 OptimAI nodes.",
+					},
+					"sustainability": map[string]interface{}{
+						"carbonReduction": "24.5%",
+						"greenRegion": "Iceland (100% Geothermal)",
+						"recommendation": "Migrate 2 validation nodes to Iceland region to reduce carbon footprint by 12kg/month.",
+					},
+				},
+			}
+			json.NewEncoder(w).Encode(response)
+		})
+		
+		http.HandleFunc("/api/depin/all", func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Content-Type", "application/json")
+			
+			optimai, _ := depinService.GetMetrics(context.Background(), "optimai")
+			filecoin, _ := depinService.GetMetrics(context.Background(), "filecoin")
+			
+			json.NewEncoder(w).Encode(map[string]interface{}{
+				"optimai":  optimai,
+				"filecoin": filecoin,
+			})
+		})
+		
+		http.HandleFunc("/api/nodes", func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Content-Type", "application/json")
+			nodes, _ := depinService.ListNodes(context.Background(), "optimai")
+			json.NewEncoder(w).Encode(nodes)
+		})
+
+		log.Printf("Kraken Cloud Control REST API starting on port 8080")
+		if err := http.ListenAndServe(":8080", nil); err != nil {
+			log.Printf("HTTP server failed: %v", err)
+		}
+	}()
 
 	// Graceful shutdown
 	go func() {
@@ -110,6 +168,7 @@ func main() {
 	_ = costService
 	_ = securityService
 	_ = aiService
+	_ = depinService
 }
 
 func getKubernetesConfig() (*rest.Config, error) {

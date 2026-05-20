@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { CheckCircle, Activity, Layout, Server, AlertCircle, Clock } from 'lucide-react'
 import { Card as TremorCard, Title, Text, AreaChart, BarChart, DonutChart, Badge, List, ListItem, Flex, ProgressBar } from '@tremor/react'
@@ -20,6 +21,23 @@ const item = {
 }
 
 export function ClusterOverview() {
+  const [liveData, setLiveData] = useState<any>(null)
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await fetch('http://localhost:8080/api/metrics')
+        const data = await res.json()
+        setLiveData(data)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    fetchStats()
+    const interval = setInterval(fetchStats, 5000)
+    return () => clearInterval(interval)
+  }, [])
+
   const barData = [
     { time: '00:00', value: 1 },
     { time: '01:00', value: 2 },
@@ -139,15 +157,15 @@ export function ClusterOverview() {
           </div>
           <div className="mt-8 relative">
             <div className="rounded-lg border border-border bg-muted/30 p-4 transition-all hover:border-primary/50 flex flex-col">
-              <span className="text-3xl font-bold">4</span>
+              <span className="text-3xl font-bold">{liveData?.cluster?.TotalNodes || "4"}</span>
               <span className="text-muted-foreground text-xs">Nodes online</span>
             </div>
           </div>
           <div className="mt-4 relative">
             <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4 transition-all hover:border-destructive/50 flex items-center justify-between">
               <div>
-                <span className="text-3xl font-bold">6</span>
-                <p className="text-muted-foreground text-xs">Pods waiting</p>
+                <span className="text-3xl font-bold">{liveData?.cluster?.TotalPods || "247"}</span>
+                <p className="text-muted-foreground text-xs">Pods active</p>
               </div>
               <div className="h-8 w-8 rounded-full bg-destructive/20 flex items-center justify-center">
                 <AlertCircle className="h-5 w-5 text-destructive" />

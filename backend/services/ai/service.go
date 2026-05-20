@@ -206,10 +206,13 @@ Available actions you can simulate:
 - Analyze logs
 - Check cluster health
 - Optimize costs
+- Provision DePIN nodes (OptimAI, Filecoin)
+- Throttling DePIN node resources
 
-Response should be brief and suitable for text-to-speech.
+User just said: "%s"
+
+If the user wants to manage DePIN nodes, acknowledge the specific network (e.g. "I'm provisioning 3 new OptimAI validation nodes in the Iceland region to optimize for green energy").
 `, command)
-
 	resp, err := s.model.GenerateContent(ctx, genai.Text(prompt))
 	if err != nil {
 		return "", fmt.Errorf("failed to process voice command: %w", err)

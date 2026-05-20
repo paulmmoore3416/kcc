@@ -13,6 +13,7 @@ import {
   Box,
   Cpu,
   DollarSign,
+  Wallet,
   Lock,
   Menu,
   ChevronLeft,
@@ -40,6 +41,7 @@ const navItems = [
   { id: 'prediction', label: 'Cost Forecast', icon: TrendingUp },
   { id: 'ai', label: 'AI Insights', icon: Brain },
   { id: 'cost', label: 'Cost', icon: DollarSign },
+  { id: 'depin', label: 'DePIN Management', icon: Wallet },
   { id: 'security', label: 'Security', icon: Shield },
   { id: 'utilization', label: 'Heatmap', icon: Database },
 ]

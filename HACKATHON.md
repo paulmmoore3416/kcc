@@ -245,7 +245,7 @@ kcc/
 │   │   ├── ai-insights.tsx             # Recommendations
 │   │   ├── network-traffic.tsx         # Bandwidth viz
 │   │   ├── cost-prediction.tsx         # 8-week forecast
-│   │   ├── resource-heatmap.tsx        # 24h heatmap
+│   │   ├── resource-usage-heatmap.tsx        # 24h heatmap
 │   │   └── security-dashboard.tsx      # Alert stream
 │   └── app/
 │       ├── page.tsx                    # Landing page

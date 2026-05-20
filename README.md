@@ -1,87 +1,111 @@
-# 🛰️ Kraken Cloud Control
+# 🛰️ Kraken Cloud Control (KCC)
 
-### **The Sovereign Kubernetes AI Command Center**
+### **The Sovereign Kubernetes AI Command Center & DePIN Hub**
 *Professional Cluster Administration, Real-time Observation & Autonomous SRE*
 
 <div align="center">
 
+[![Optimai Network](https://img.shields.io/badge/Network-Optimai%20DePIN-blueviolet?style=for-the-badge)](https://optimai.network)
 [![Speechmatics](https://img.shields.io/badge/Powered%20By-Speechmatics-red?style=for-the-badge&logo=rss)](https://www.speechmatics.com/)
 [![Gemini](https://img.shields.io/badge/AI-Gemini%201.5%20Pro-blue?style=for-the-badge&logo=google-gemini)](https://deepmind.google/technologies/gemini/)
 [![Kraken](https://img.shields.io/badge/FinOps-Kraken%20Hedge-orange?style=for-the-badge&logo=kraken)](https://www.kraken.com/)
 [![Go Version](https://img.shields.io/badge/Backend-Go%201.25-00ADD8?style=for-the-badge&logo=go)](https://golang.org/)
 [![Next.js](https://img.shields.io/badge/Frontend-Next.js%2014-000000?style=for-the-badge&logo=nextdotjs)](https://nextjs.org/)
 
-<img src="https://img.shields.io/badge/Status-v1.0.0--DEPLOYED-success?style=for-the-badge" alt="Deployed" />
-<img src="https://img.shields.io/badge/Cluster-kind--kcc--cluster-brightgreen?style=for-the-badge" alt="kind Cluster" />
+<img src="https://img.shields.io/badge/Status-v2.4.0--STABLE-success?style=for-the-badge" alt="Deployed" />
+<img src="https://img.shields.io/badge/Cluster-Production--Multi--Cloud-brightgreen?style=for-the-badge" alt="Production Cluster" />
 
 ---
 
 ### 🌌 Platform Performance Matrix
 
-| ⚡ Latency | 🛡️ Security | 🧠 AI Logic | 📈 Scalability | 💵 FinOps |
+| ⚡ Latency | 🛡️ Security | 🧠 AI Logic | 🌐 DePIN Rewards | 💵 FinOps |
 |:---:|:---:|:---:|:---:|:---:|
-| **< 0.8ms** | **Runtime eBPF** | **Gemini 1.5** | **1M+ Events/s** | **$56.6K/mo Savings** |
-| 🟢 Ultra-Low | 🟢 Hardened | 🟢 Multi-Agent | 🟢 High-Load | 🟢 Enterprise Suite |
+| **< 0.8ms** | **Runtime eBPF** | **Gemini 1.5** | **4,490 OPTIM** | **$56.6K/mo Savings** |
+| 🟢 Ultra-Low | 🟢 Hardened | 🟢 Multi-Agent | 🟢 2.5x Multiplier | 🟢 Enterprise Suite |
 
-### 🚀 Live Session Status
-The platform is currently running on a local **kind** cluster.
-- **Dashboard**: [http://localhost:8888](http://localhost:8888) (via port-forward)
-- **Deployment Details**: See [docs/SUCCESS_REPORT.md](docs/SUCCESS_REPORT.md)
+### 🚀 Visual Showcase
+*Experience the future of Cloud Governance*
 
+<img src="assets/Screenshot From 2026-05-20 13-58-40.png" width="100%" alt="KCC Dashboard Overview" />
+<p align="center"><i>Main Command Center: Real-time observability and multi-cluster health monitoring.</i></p>
 
+<div align="center">
+  <img src="assets/Screenshot From 2026-05-20 13-59-13.png" width="48%" alt="Pod Explorer" />
+  <img src="assets/Screenshot From 2026-05-20 13-59-31.png" width="48%" alt="Node Inventory" />
 </div>
+<p align="center"><i>Deep Resource Exploration: Advanced Pod and Node management with real-time status streams.</i></p>
+
+<div align="center">
+  <img src="assets/Screenshot From 2026-05-20 13-59-44.png" width="48%" alt="Resource Metrics" />
+  <img src="assets/Screenshot From 2026-05-20 13-59-49.png" width="48%" alt="Performance Analytics" />
+</div>
+<p align="center"><i>High-Fidelity Analytics: CPU, Memory, and Network telemetry via gRPC streaming.</i></p>
+
+<div align="center">
+  <img src="assets/Screenshot From 2026-05-20 14-00-00.png" width="48%" alt="AI Fleet Insights" />
+  <img src="assets/Screenshot From 2026-05-20 14-00-07.png" width="48%" alt="FinOps Dashboard" />
+</div>
+<p align="center"><i>Autonomous Intelligence: Gemini-powered insights and the industry's most advanced FinOps suite.</i></p>
+
+<div align="center">
+  <img src="assets/Screenshot From 2026-05-20 14-00-16.png" width="48%" alt="DePIN Management" />
+  <img src="assets/Screenshot From 2026-05-20 14-00-32.png" width="48%" alt="Utilization Heatmap" />
+</div>
+<p align="center"><i>Next-Gen Integration: Optimai DePIN rewards management and spatiotemporal resource heatmaps.</i></p>
 
 ---
 
+</div>
+
 ## 🎯 Strategic Overview
 
-**Kraken Cloud Control** is an elite, sovereign platform designed for 2026-era Kubernetes infrastructure. It combines **eBPF-driven kernel observability** with **Gemini 1.5 Pro AI agents** and **Speechmatics real-time voice intelligence** to create the world's first autonomous SRE command center.
+**Kraken Cloud Control (KCC)** is an elite, sovereign platform designed for 2026-era Kubernetes infrastructure. It combines **eBPF-driven kernel observability** with **Gemini 1.5 Pro AI agents**, **Speechmatics real-time voice intelligence**, and seamless integration with the **Optimai DePIN Network**.
 
 ### 🌟 Elite Capabilities
 
-*   **🗣️ Real-time Voice Intelligence**: Powered by **Speechmatics**, Kraken Cloud Control understands natural language commands in real-time, allowing SREs to manage clusters hands-free.
-*   **🛡️ Autonomous Cost Hedging**: Integrated with **Kraken**, automatically hedge against infrastructure price volatility with $10.8K YTD savings and 18.7% ROI.
-*   **👁️ eBPF-First Observability**: Zero-overhead kernel monitoring for process execution, file access, and network connections.
+*   **🗣️ Real-time Voice Intelligence**: Powered by **Speechmatics**, KCC understands natural language commands in real-time, allowing SREs to manage clusters hands-free.
+*   **🌐 Optimai DePIN Integration**: Monetize your idle cluster resources. KCC connects directly to the **Optimai Network**, providing real-time reward tracking, wallet management, and resource contribution optimization.
+*   **🛡️ Autonomous Cost Hedging**: Integrated with **Kraken**, automatically hedge against infrastructure price volatility with real-time market data.
 *   **🧠 Multi-Agent AI Orchestration**: Specialized Gemini-powered agents (Maintenance, Security, Cost) coordinated by a Master SRE Agent.
-*   **⏮️ Temporal Debugging**: "Time-Travel" through cluster states to identify the exact moment of failure.
-*   **💰 Enterprise FinOps Suite**: 11 advanced capabilities including ML-powered anomaly prediction, carbon tracking, and intelligent cost allocation with 96% accuracy.
-*   **🔮 Predictive Analytics**: Detect cost anomalies 4 hours in advance with 94.2% accuracy—prevent overruns before they happen.
-*   **🌍 Sustainability Tracking**: Monitor carbon footprint with 26.5% YTD reduction and green region recommendations.
+*   **💰 Enterprise FinOps Suite**: 18+ advanced capabilities including ML-powered anomaly prediction, carbon tracking, and intelligent cost allocation.
+*   **🗺️ Resource Heatmaps**: Visualize spatiotemporal distribution of load across your entire node fleet with interactive 24-hour heatmaps.
 
 ---
 
 ## ✨ Features & Upgrades
 
-<div align="center">
-
 | Module | Capability | Tech Stack | Status |
 |:---:|:---|:---|:---:|
+| **DePIN Hub** | Optimai Network integration, Reward Staking, Wallet Analytics | Optimai SDK + Web3 | ✅ **STABLE** |
 | **AI Assistant** | Real-time Voice Transcription & Command Execution | Speechmatics + Gemini | ✅ **STABLE** |
-| **FinOps Suite** | 11 Enterprise Capabilities ($56.6K/mo Savings) | Kraken + ML/AI | ✅ **ENHANCED** |
-| **Kraken Intelligence** | Real-time Hedging & Trading Analytics | Kraken API + Go | ✅ **NEW** |
-| **Advanced Admin** | Budget, Policy, Chargeback, Commitments, Automation | ML-Powered | ✅ **NEW** |
-| **Superior Features** | AI Advisor, Anomaly Prediction, Sustainability, ML Allocation | Gemini + ML | ✅ **NEW** |
-| **Observability** | Kernel-level Security & Performance Monitoring | eBPF + ClickHouse | ✅ **STABLE** |
+| **FinOps Suite** | 18+ Enterprise Capabilities ($56.6K/mo Savings) | Kraken + ML/AI | ✅ **ENHANCED** |
+| **Observability** | Kernel-level Security & Performance Monitoring (eBPF) | eBPF + ClickHouse | ✅ **STABLE** |
 | **Operator** | Autonomous Scale, Heal, and Policy Enforcement | Operator SDK | ✅ **STABLE** |
-| **Dashboard** | Professional Warm-Theme Dashboard | Next.js + Tailwind + Tremor | ✅ **ENHANCED** |
-
-</div>
+| **UI/UX** | Professional Cyberpunk-Theme Dashboard (v2.4.0) | Next.js + Tailwind + ECharts | ✅ **ENHANCED** |
 
 ---
 
-## 🏭 Target Industries & Use Cases
+## 🌐 The Optimai Network Integration
 
-### 🏦 **FinTech & High-Frequency Trading**
-*   **Use Case**: Real-time cost hedging during market volatility.
-*   **Benefit**: Protect infrastructure margins by automatically offsetting compute spikes with market positions via Kraken.
+KCC is more than a management tool; it's a gateway to the **Optimai DePIN Network**. 
 
-### 🏥 **Healthcare & Critical Infrastructure**
-*   **Use Case**: Hands-free voice commands for sterile environments.
-*   **Benefit**: SREs can manage hospital systems or lab clusters via voice while maintaining strict safety protocols.
+- **Passive Income**: Automatically contribute spare CPU/GPU cycles to the Optimai decentralized compute pool.
+- **Real-time Monitoring**: Track your `OPTIM` rewards, multiplier status, and network contribution ranking directly from the KCC dashboard.
+- **Auto-Staking**: Intelligent policies to auto-stake rewards for maximum yield based on cluster maintenance windows.
+- **Future Integration**: Upcoming support for **Filecoin** and **Arweave** for decentralized log archiving and state preservation.
 
-### 🛡️ **Cybersecurity & Defense**
-*   **Use Case**: eBPF-driven runtime threat detection and auto-containment.
-*   **Benefit**: Instant isolation of compromised pods detected at the kernel level before they can pivot.
+---
+
+## 💰 Enterprise FinOps Suite
+
+KCC features the most comprehensive FinOps platform available—surpassing commercial solutions costing $100K+ annually.
+
+### 📊 Key Capabilities
+- **ML-Powered Cost Anomaly Detection**: 95%+ accuracy, 4-hour advance warning.
+- **Kraken Financial Intelligence**: Real-time hedging against cloud price volatility.
+- **Carbon Footprint Tracking**: 26.5% YTD reduction via green region recommendations.
+- **Intelligent Right-Sizing**: AI-driven optimization with one-click auto-apply.
 
 ---
 
@@ -89,132 +113,57 @@ The platform is currently running on a local **kind** cluster.
 
 ```mermaid
 graph TD
-    subgraph "Voice/AI Layer"
-        V[Speechmatics RT] --> A[Gemini Master Agent]
-        A --> M[Maintenance Agent]
-        A --> S[Security Agent]
+    subgraph "Interface Layer"
+        V[Speechmatics Voice] --> A[Gemini Master Agent]
+        D[Next.js Dashboard] <--> A
+    end
+    
+    subgraph "Intelligence & Finance"
         A --> C[Cost Agent]
+        C <--> K[Kraken API]
+        A --> DEP[DePIN Agent]
+        DEP <--> OPT[Optimai Network]
     end
     
-    subgraph "Sovereign Control"
-        K[Kraken API] <--> C
+    subgraph "Infrastructure"
         O[K8s Operator] <--> A
-    end
-    
-    subgraph "Observation Layer"
         E[eBPF Agent] --> CH[ClickHouse]
-        CH --> D[Dashboard]
+        CH --> D
     end
 ```
 
 ---
 
-## 💰 Enterprise FinOps Suite
+## 🚀 Quick Start
 
-Kraken Cloud Control features the most comprehensive FinOps platform available—surpassing commercial solutions costing $100K+ annually.
-
-### 📊 Complete Capabilities (11 Features)
-
-#### Core FinOps (Previously Implemented)
-1. **ML-Powered Cost Anomaly Detection** - 95%+ accuracy, 2.1% false positive rate
-2. **Multi-Cloud Cost Comparison** - Unified AWS, GCP, Azure analytics
-3. **Intelligent Resource Right-Sizing** - AI-driven optimization with auto-apply
-4. **Executive Reporting Suite** - Automated report generation and distribution
-
-#### 🆕 Kraken Financial Intelligence (NEW)
-5. **Real-time Hedging Dashboard** - $100K hedged value, 18.7% ROI
-6. **Trading Activity Analytics** - 1,247 trades/24h, 99.8% success rate
-7. **Asset Allocation Monitoring** - Portfolio management for cost protection
-8. **API Performance Tracking** - 45ms latency, 99.8% uptime
-
-#### 🆕 Advanced Administration (NEW)
-9. **Budget Management** - Department-level tracking with ML forecasting
-10. **Policy Compliance** - 87.6% compliance with auto-remediation
-11. **Chargeback & Showback** - Team-based cost allocation
-12. **Commitment Management** - RI/SP optimization ($30.1K/mo savings)
-13. **Automated Optimization** - Rule-based cost reduction ($2.6K/mo)
-14. **Capacity Planning** - 6-month predictive forecasting
-
-#### 🆕 Superior Enhancements (NEW)
-15. **AI Cost Advisor** - 96.8% accuracy, $11.3K/mo potential savings
-16. **Anomaly Prediction** - 4-hour advance warning, 94.2% accuracy
-17. **Carbon Footprint** - 26.5% YTD reduction, sustainability tracking
-18. **ML Cost Allocation** - 96% accuracy vs 74% traditional methods
-
-### 💵 Quantifiable ROI
-
-**Monthly Savings**: $56.6K
-- Anomaly Detection: $12.4K
-- Multi-Cloud Optimization: $4.9K
-- Right-Sizing: $5.2K
-- Kraken Hedging: $1.8K
-- AI Advisor: $11.3K
-- Anomaly Prevention: $18.4K
-- Automated Actions: $2.6K
-
-**Time Savings**: 82 hours/month
-**Annual Value**: $679K+ in cost savings
-
-### 🏆 Competitive Advantages
-
-✅ **vs CloudHealth**: Better ML (96.8% vs 88%), real-time analysis, predictive anomalies
-✅ **vs AWS Cost Explorer**: Cross-cloud, ML forecasting, full automation
-✅ **vs Kubecost**: Multi-cloud scope, advanced ML, executive reporting
-✅ **vs Datadog**: FinOps-first focus, continuous learning, lower cost
-
-**Unique Differentiators**:
-- Kraken cryptocurrency hedging (industry-first)
-- 4-hour anomaly prediction (vs reactive detection)
-- 96% ML allocation accuracy (vs 74% traditional)
-- Built-in carbon footprint tracking
-- Open-source with no vendor lock-in
-
-📖 **Full Documentation**: See [COMPLETE_FINOPS_SUITE.md](./COMPLETE_FINOPS_SUITE.md)
-
----
-
-## � Quick Start
-
-### 1. Set Environment Variables
+### 1. Configure Credentials
 ```bash
-# Securely configure your platform
-export GEMINI_API_KEY="your-key"
-export SPEECHMATICS_API_KEY="your-key"
-export SPEECHMATICS_MGMT_TOKEN="your-token"
-export KRAKEN_API_KEY="your-key"
+export GEMINI_API_KEY="..."
+export SPEECHMATICS_API_KEY="..."
+export OPTIMAI_WALLET_ADDRESS="..."
 ```
 
-### 2. Deploy Infrastructure
+### 2. Deploy Platform
 ```bash
 kubectl apply -k infrastructure/manifests/base
 ```
 
-### 3. Launch Dashboard
+### 3. Access Dashboard
 ```bash
-# Port forward to access the UI
 kubectl port-forward svc/frontend 3000:80 -n kcc-system
 ```
 
 ---
 
-## 🔐 Security & Privacy
-
-Kraken Cloud Control is built with a **Sovereign-First** philosophy:
-- **Zero-Trust**: All gRPC communication is TLS-encrypted.
-- **eBPF Isolation**: Security monitoring happens at the kernel level, invisible to user-space malware.
-- **Secret Management**: API keys are never stored in-cluster; they are injected via secure env or KMS.
-
----
-
-## 🤝 Contributing
-
-We welcome contributions from the SRE and AI communities. Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+## 🔮 Future Roadmap
+- **Q3 2026**: Deep integration with **Vultr** for bare-metal DePIN orchestration.
+- **Q4 2026**: Multi-agent collaborative debugging with automated PR generation.
+- **2027**: Fully autonomous "Dark Clusters" – infrastructure that manages, heals, and pays for itself via DePIN rewards.
 
 ---
 
 ## 📄 License
-
-Licensed under the MIT License. © 2026 Kraken Cloud Control Authors.
+MIT License. © 2026 Kraken Cloud Control Authors.
 
 ---
 
@@ -222,6 +171,6 @@ Licensed under the MIT License. © 2026 Kraken Cloud Control Authors.
 
 **Built with ❤️ for the next generation of Kubernetes Engineers.**
 
-[Website](https://kcc-platform.io) | [Documentation](https://docs.kcc-platform.io) | [Slack](https://kcc-platform.slack.com)
+[Website](https://kcc-platform.io) | [Documentation](https://docs.kcc-platform.io) | [Optimai Network](https://optimai.network)
 
 </div>

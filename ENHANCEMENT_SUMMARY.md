@@ -37,7 +37,7 @@ Your Kraken Cloud Control repository has been **significantly enhanced** for the
 - Kraken hedge recommendations
 - Savings calculation display
 
-#### ✅ Resource Heatmap (`resource-heatmap.tsx`)
+#### ✅ Resource Heatmap (`resource-usage-heatmap.tsx`)
 - 24×24 interactive grid (hours × nodes)
 - Color-coded utilization (Green→Red gradient)
 - Hover tooltips with exact usage
@@ -164,7 +164,7 @@ kcc/frontend/
 │   ├── ai-insights.tsx          # 🆕 ML recommendations
 │   ├── network-traffic.tsx      # 🆕 Network analysis
 │   ├── cost-prediction.tsx      # 🆕 8-week forecast
-│   ├── resource-heatmap.tsx     # 🆕 24-hour heatmap
+│   ├── resource-usage-heatmap.tsx     # 🆕 24-hour heatmap
 │   └── [existing components]    # ✅ Untouched
 
 kcc/

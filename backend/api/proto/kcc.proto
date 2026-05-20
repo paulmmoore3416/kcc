@@ -90,6 +90,97 @@ service AIService {
   rpc GetSpeechToken(GetSpeechTokenRequest) returns (GetSpeechTokenResponse);
 }
 
+// DePINService provides management and telemetry for decentralized physical infrastructure networks
+service DePINService {
+  // GetDePINMetrics retrieves telemetry from DePIN networks
+  rpc GetDePINMetrics(GetDePINMetricsRequest) returns (DePINMetricsResponse);
+  
+  // ListDePINNodes lists managed DePIN nodes
+  rpc ListDePINNodes(ListDePINNodesRequest) returns (ListDePINNodesResponse);
+  
+  // CreateDePINNode provisions a new DePIN node
+  rpc CreateDePINNode(CreateDePINNodeRequest) returns (CreateDePINNodeResponse);
+  
+  // DeleteDePINNode removes a DePIN node
+  rpc DeleteDePINNode(DeleteDePINNodeRequest) returns (DeleteDePINNodeResponse);
+  
+  // UpdateNodeResourceLimits updates throttling for a node
+  rpc UpdateNodeResourceLimits(UpdateNodeResourceLimitsRequest) returns (UpdateNodeResourceLimitsResponse);
+  
+  // StreamDePINMetrics streams real-time DePIN telemetry
+  rpc StreamDePINMetrics(StreamDePINMetricsRequest) returns (stream DePINMetricPoint);
+}
+
+message GetDePINMetricsRequest {
+  string provider = 1; // e.g., "optimai"
+}
+
+message DePINMetricsResponse {
+  double wallet_balance = 1;
+  double reward_multiplier = 2;
+  double uptime_efficiency = 3;
+  double total_rewards_accumulated = 4;
+  string reward_token_symbol = 5;
+}
+
+message ListDePINNodesRequest {
+  string provider = 1;
+}
+
+message ListDePINNodesResponse {
+  repeated DePINNode nodes = 1;
+}
+
+message DePINNode {
+  string id = 1;
+  string name = 2;
+  string provider = 3;
+  string status = 4;
+  ResourceUsage resource_usage = 5;
+  ResourceUsage resource_limits = 6;
+  google.protobuf.Timestamp created_at = 7;
+}
+
+message CreateDePINNodeRequest {
+  string provider = 1;
+  string name = 2;
+  ResourceUsage resource_limits = 3;
+}
+
+message CreateDePINNodeResponse {
+  bool success = 1;
+  string node_id = 2;
+  string message = 3;
+}
+
+message DeleteDePINNodeRequest {
+  string node_id = 1;
+}
+
+message DeleteDePINNodeResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message UpdateNodeResourceLimitsRequest {
+  string node_id = 1;
+  ResourceUsage limits = 2;
+}
+
+message UpdateNodeResourceLimitsResponse {
+  bool success = 1;
+}
+
+message StreamDePINMetricsRequest {
+  string provider = 1;
+}
+
+message DePINMetricPoint {
+  string metric_name = 1;
+  double value = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
 message ProcessVoiceCommandRequest {
   string command = 1;
 }

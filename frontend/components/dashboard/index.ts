@@ -11,6 +11,7 @@ export { RightsizingRecommendations } from './rightsizing-recommendations'
 export { ExecutiveReports } from './executive-reports'
 export { KrakenMetrics } from './kraken-metrics'
 export { AdvancedFinOpsAdmin } from './advanced-finops-admin'
+export { default as ResourceHeatmap } from './resource-usage-heatmap'
 export { SuperiorEnhancements } from './superior-enhancements'
 
 // Usage Guide:

@@ -113,7 +113,7 @@ This document showcases the new visualization components added to make Kraken Cl
 ---
 
 ## 5. Resource Heatmap Component
-**File**: `frontend/components/dashboard/resource-heatmap.tsx`
+**File**: `frontend/components/dashboard/resource-usage-heatmap.tsx`
 
 ### Features
 - **24×24 Grid Visualization**

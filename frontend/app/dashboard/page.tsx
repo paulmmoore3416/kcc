@@ -38,8 +38,9 @@ const CostDashboard = dynamic(() => import('@/components/dashboard/cost-dashboar
 const SecurityDashboard = dynamic(() => import('@/components/dashboard/security-dashboard').then(mod => mod.SecurityDashboard), { ssr: false, loading: () => <SkeletonCard /> })
 const MetricsCharts = dynamic(() => import('@/components/dashboard/metrics-charts').then(mod => mod.MetricsCharts), { ssr: false, loading: () => <SkeletonCard /> })
 const PerformanceMetrics = dynamic(() => import('@/components/dashboard/performance-metrics').then(mod => mod.PerformanceMetrics), { ssr: false, loading: () => <SkeletonCard /> })
+const DePINManagementBlade = dynamic(() => import('@/components/dashboard/depin-management').then(mod => mod.DePINManagementBlade), { ssr: false, loading: () => <SkeletonCard /> })
 const AIInsights = dynamic(() => import('@/components/dashboard/ai-insights').then(mod => mod.AIInsights), { ssr: false, loading: () => <SkeletonCard /> })
-const ResourceHeatmap = dynamic(() => import('@/components/dashboard/resource-heatmap').then(mod => mod.ResourceHeatmap), { ssr: false, loading: () => <SkeletonCard /> })
+const ResourceHeatmap = dynamic(() => import('@/components/dashboard/resource-usage-heatmap'), { ssr: false, loading: () => <SkeletonCard /> })
 const NetworkTraffic = dynamic(() => import('@/components/dashboard/network-traffic').then(mod => mod.NetworkTraffic), { ssr: false, loading: () => <SkeletonCard /> })
 const CostPrediction = dynamic(() => import('@/components/dashboard/cost-prediction').then(mod => mod.CostPrediction), { ssr: false, loading: () => <SkeletonCard /> })
 
@@ -84,6 +85,23 @@ export default function DashboardPage() {
   const [selectedCluster, setSelectedCluster] = useState('prod-us-east-1')
   const [searchQuery, setSearchQuery] = useState('')
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const [liveMetrics, setLiveMetrics] = useState<any>(null)
+
+  const fetchLiveMetrics = async () => {
+    try {
+      const res = await fetch('http://localhost:8080/api/metrics')
+      const data = await res.json()
+      setLiveMetrics(data)
+    } catch (e) {
+      console.error("Failed to fetch live metrics", e)
+    }
+  }
+
+  useEffect(() => {
+    fetchLiveMetrics()
+    const interval = setInterval(fetchLiveMetrics, 5000)
+    return () => clearInterval(interval)
+  }, [])
 
   // Power User Enhancement 2: Keyboard Shortcuts
   useEffect(() => {
@@ -290,7 +308,7 @@ export default function DashboardPage() {
                 />
                 <MetricCard
                   label="Active Pods"
-                  value="247"
+                  value={liveMetrics?.cluster?.TotalPods || "247"}
                   unit="running"
                   severity="healthy"
                   icon="🐳"
@@ -309,14 +327,14 @@ export default function DashboardPage() {
                   description="Monitor closely"
                 />
                 <MetricCard
-                  label="Cost (24h)"
-                  value="$847"
-                  unit="projected"
+                  label="DePIN Balance"
+                  value={liveMetrics?.depin?.WalletBalance?.toFixed(2) || "4,490"}
+                  unit="OPTIM"
                   severity="healthy"
                   icon="💰"
-                  trend="down"
-                  trendValue="-5% savings"
-                  description="Via auto-scaling"
+                  trend="up"
+                  trendValue="+240 today"
+                  description="Rewards active"
                 />
               </motion.div>
 
@@ -440,6 +458,10 @@ export default function DashboardPage() {
                         </FeatureSection>
                       )}
 
+                      {activeTab === 'depin' && (
+                        <DePINManagementBlade />
+                      )}
+
                       {activeTab === 'security' && (
                         <FeatureSection 
                           title="Security Posture" 
@@ -553,6 +575,15 @@ export default function DashboardPage() {
                         <p className="text-[10px] uppercase font-bold text-slate-400 mb-2 group-hover:text-primary">Storage</p>
                         <p className="text-2xl font-black text-white">82%</p>
                         <p className="text-[10px] text-slate-500 mt-1">⚠ High usage</p>
+                      </motion.div>
+                      <motion.div 
+                        whileHover={{ y: -2 }}
+                        className="col-span-2 p-4 rounded-lg border border-blue-700/50 bg-blue-900/10 text-center hover:border-blue-500 hover:bg-blue-500/5 transition-all cursor-pointer group"
+                        onClick={() => setActiveTab('depin')}
+                      >
+                        <p className="text-[10px] uppercase font-bold text-blue-400 mb-2 group-hover:text-blue-300">DePIN Rewards</p>
+                        <p className="text-2xl font-black text-white">{liveMetrics?.depin?.WalletBalance?.toFixed(2) || "4,490"} {liveMetrics?.depin?.RewardTokenSymbol || "OPTIM"}</p>
+                        <p className="text-[10px] text-green-500 mt-1">↑ Multiplier: {liveMetrics?.depin?.RewardMultiplier || "2.5"}x</p>
                       </motion.div>
                     </div>
                   </SectionCard>
