@@ -3,7 +3,6 @@ package ai
 import (
 	"context"
 	"fmt"
-	"github.com/google/generative-ai-go/genai"
 )
 
 // Agent represents a specialized autonomous agent
@@ -45,15 +44,5 @@ You have two specialized agents:
 Decide how to delegate this goal to the agents. Provide a step-by-step plan.
 `, highLevelGoal)
 
-	resp, err := s.model.GenerateContent(ctx, genai.Text(prompt))
-	if err != nil {
-		return "", err
-	}
-
-	result := "Master SRE Agent Coordination Plan:\n"
-	for _, part := range resp.Candidates[0].Content.Parts {
-		result += fmt.Sprintf("%v", part)
-	}
-
-	return result, nil
+	return s.provider.ProcessVoiceCommand(ctx, prompt)
 }

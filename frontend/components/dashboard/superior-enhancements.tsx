@@ -1,7 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Brain, Sparkles, Globe, Zap, TrendingUp, Shield, Target, Cpu, Database, Network, Clock, DollarSign, AlertCircle, CheckCircle, ArrowRight, BarChart3, PieChart, Activity } from 'lucide-react'
+import { Brain, Sparkles, Globe, Zap, TrendingUp, Shield, Target, Cpu, Database, Network, Clock, DollarSign, AlertCircle, CheckCircle, ArrowRight, BarChart3, PieChart, Activity, Leaf, Sun, CloudRain } from 'lucide-react'
 import { Card as TremorCard, Title, Text, AreaChart, BarChart, DonutChart, LineChart, Badge, Metric, Flex, ProgressBar, Grid } from '@tremor/react'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -22,6 +23,15 @@ const item = {
 }
 
 export function SuperiorEnhancements() {
+  const [energyData, setEnergyData] = useState({
+    powerUsageWatts: 1240.5,
+    carbonIntensity: 425.0,
+    totalEmissions: 9.1,
+    renewablePercent: 62.0,
+  });
+
+  const [aiProvider, setAiProvider] = useState("Ollama (qwen2.5:latest)");
+
   // Enhancement 1: AI-Powered Cost Optimization Advisor
   const aiRecommendations = [
     {
@@ -122,20 +132,27 @@ export function SuperiorEnhancements() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Superior FinOps Enhancements</h2>
-          <p className="text-muted-foreground mt-1">Next-generation capabilities that set KCC apart</p>
+          <p className="text-muted-foreground mt-1">v2.5.0 Sovereign Intelligence Suite</p>
         </div>
-        <Badge size="xl" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0">
-          <Sparkles className="h-4 w-4 mr-2" />
-          INDUSTRY LEADING
-        </Badge>
+        <div className="flex flex-col items-end gap-2">
+            <Badge size="xl" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0">
+            <Sparkles className="h-4 w-4 mr-2" />
+            INDUSTRY LEADING
+            </Badge>
+            <div className="flex items-center space-x-2 text-xs text-slate-400">
+                <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                <span>Active AI Provider: <strong>{aiProvider}</strong></span>
+            </div>
+        </div>
       </div>
 
       <Tabs defaultValue="ai-advisor" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4 lg:w-auto">
+        <TabsList className="grid w-full grid-cols-5 lg:w-auto">
           <TabsTrigger value="ai-advisor">AI Advisor</TabsTrigger>
           <TabsTrigger value="anomaly-prediction">Anomaly Prediction</TabsTrigger>
           <TabsTrigger value="sustainability">Sustainability</TabsTrigger>
           <TabsTrigger value="ml-allocation">ML Allocation</TabsTrigger>
+          <TabsTrigger value="focus">FOCUS Reports</TabsTrigger>
         </TabsList>
 
         {/* Enhancement 1: AI-Powered Cost Optimization Advisor */}
@@ -360,18 +377,53 @@ export function SuperiorEnhancements() {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
                 <Globe className="h-6 w-6 text-emerald-500" />
-                <Title className="text-foreground text-xl">Carbon Footprint & Sustainability</Title>
+                <Title className="text-foreground text-xl">Sovereign Sustainability Telemetry</Title>
               </div>
               <Badge color="emerald" size="lg">
                 <TrendingUp className="h-3 w-3 mr-1" />
-                26.5% Reduction YTD
+                Real-time eBPF Energy Monitoring
               </Badge>
             </div>
             <p className="text-muted-foreground mb-6">
-              Track and optimize your cloud infrastructure's environmental impact. Make data-driven decisions 
-              to reduce carbon emissions while maintaining performance and controlling costs. Align with ESG goals 
-              and corporate sustainability initiatives.
+              Track and optimize your cloud infrastructure's environmental impact using kernel-level energy counters. 
+              Our eBPF-based Kepler integration provides empirical power consumption data per Pod, enabling 
+              true sovereign sustainability management.
             </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+              <div className="p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                <div className="flex items-center gap-2 mb-2">
+                  <Zap className="h-5 w-5 text-yellow-500" />
+                  <span className="text-sm font-medium">Power Usage</span>
+                </div>
+                <div className="text-3xl font-bold">{energyData.powerUsageWatts} W</div>
+                <div className="text-xs text-muted-foreground mt-1">Real-time consumption</div>
+              </div>
+              <div className="p-5 rounded-xl bg-blue-500/10 border border-blue-500/20">
+                <div className="flex items-center gap-2 mb-2">
+                  <Leaf className="h-5 w-5 text-emerald-500" />
+                  <span className="text-sm font-medium">Carbon Intensity</span>
+                </div>
+                <div className="text-3xl font-bold">{energyData.carbonIntensity}</div>
+                <div className="text-xs text-muted-foreground mt-1">gCO2eq/kWh intensity</div>
+              </div>
+              <div className="p-5 rounded-xl bg-purple-500/10 border border-purple-500/20">
+                <div className="flex items-center gap-2 mb-2">
+                  <Sun className="h-5 w-5 text-yellow-500" />
+                  <span className="text-sm font-medium">Renewable %</span>
+                </div>
+                <div className="text-3xl font-bold">{energyData.renewablePercent}%</div>
+                <div className="text-xs text-muted-foreground mt-1">Current energy mix</div>
+              </div>
+              <div className="p-5 rounded-xl bg-orange-500/10 border border-orange-500/20">
+                <div className="flex items-center gap-2 mb-2">
+                  <CloudRain className="h-5 w-5 text-blue-500" />
+                  <span className="text-sm font-medium">Total Emissions</span>
+                </div>
+                <div className="text-3xl font-bold">{energyData.totalEmissions} kg</div>
+                <div className="text-xs text-muted-foreground mt-1">Monthly accumulation</div>
+              </div>
+            </div>
 
             <AreaChart
               className="h-80 mt-4"
@@ -384,42 +436,6 @@ export function SuperiorEnhancements() {
               showGridLines={true}
               curveType="monotone"
             />
-
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                <div className="flex items-center gap-2 mb-2">
-                  <Globe className="h-5 w-5 text-emerald-500" />
-                  <span className="text-sm font-medium">Total Emissions</span>
-                </div>
-                <div className="text-3xl font-bold">9.1 tons</div>
-                <div className="text-xs text-muted-foreground mt-1">CO₂ equivalent this month</div>
-                <div className="mt-3 flex items-center gap-1 text-emerald-500">
-                  <TrendingUp className="h-4 w-4 rotate-180" />
-                  <span className="text-xs font-bold">-26.5% vs January</span>
-                </div>
-              </div>
-              <div className="p-5 rounded-xl bg-blue-500/10 border border-blue-500/20">
-                <div className="flex items-center gap-2 mb-2">
-                  <BarChart3 className="h-5 w-5 text-blue-500" />
-                  <span className="text-sm font-medium">Carbon Efficiency</span>
-                </div>
-                <div className="text-3xl font-bold">0.161</div>
-                <div className="text-xs text-muted-foreground mt-1">kg CO₂ per dollar spent</div>
-                <div className="mt-3 flex items-center gap-1 text-emerald-500">
-                  <TrendingUp className="h-4 w-4 rotate-180" />
-                  <span className="text-xs font-bold">32% improvement</span>
-                </div>
-              </div>
-              <div className="p-5 rounded-xl bg-purple-500/10 border border-purple-500/20">
-                <div className="flex items-center gap-2 mb-2">
-                  <Zap className="h-5 w-5 text-purple-500" />
-                  <span className="text-sm font-medium">Renewable Energy</span>
-                </div>
-                <div className="text-3xl font-bold">62%</div>
-                <div className="text-xs text-muted-foreground mt-1">of infrastructure powered</div>
-                <ProgressBar value={62} color="emerald" className="mt-3" />
-              </div>
-            </div>
           </motion.div>
 
           {/* Regional Sustainability Breakdown */}
@@ -542,34 +558,59 @@ export function SuperiorEnhancements() {
               </div>
             </div>
           </motion.div>
+        </TabsContent>
 
-          {/* Accuracy Comparison */}
-          <motion.div variants={item} className="rounded-xl border border-border bg-card/50 p-6 shadow-sm">
-            <div className="flex items-center gap-2 mb-6">
-              <BarChart3 className="h-5 w-5 text-blue-500" />
-              <Title className="text-foreground">ML vs Traditional Allocation Accuracy</Title>
+        {/* Enhancement 5: FOCUS Reporting */}
+        <TabsContent value="focus" className="space-y-6">
+          <motion.div variants={item} className="rounded-xl border border-border bg-gradient-to-br from-indigo-500/10 to-blue-500/10 p-6 shadow-sm">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <Target className="h-6 w-6 text-indigo-500" />
+                <Title className="text-foreground text-xl">FOCUS Enterprise Reporting</Title>
+              </div>
+              <Badge color="indigo" size="lg">
+                <CheckCircle className="h-3 w-3 mr-1" />
+                V1.0 COMPLIANT
+              </Badge>
             </div>
-            <BarChart
-              className="h-80 mt-4"
-              data={allocationAccuracy}
-              index="month"
-              categories={["traditional", "ml"]}
-              colors={["gray", "blue"]}
-              valueFormatter={(number) => `${number}%`}
-              showLegend={true}
-              showGridLines={true}
-            />
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-lg bg-muted/30 border border-border">
-                <div className="text-xs text-muted-foreground mb-1">Traditional Method</div>
-                <div className="text-2xl font-bold">73.5%</div>
-                <p className="text-xs text-muted-foreground mt-2">Average accuracy (tag-based only)</p>
-              </div>
-              <div className="p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
-                <div className="text-xs text-muted-foreground mb-1">ML-Powered Method</div>
-                <div className="text-2xl font-bold text-blue-500">95.5%</div>
-                <p className="text-xs text-muted-foreground mt-2">Average accuracy (pattern learning)</p>
-              </div>
+            <p className="text-muted-foreground mb-6">
+              Generate standardized, enterprise-grade cost reports using the **FinOps Open Cost & Usage Specification (FOCUS)**. 
+              Eliminate vendor-specific terminology and provide a unified view of your sovereign infrastructure costs.
+            </p>
+
+            <div className="rounded-xl border border-border bg-slate-900 overflow-hidden">
+                <table className="w-full text-sm text-left">
+                    <thead className="text-xs uppercase bg-slate-800 text-slate-400">
+                        <tr>
+                            <th className="px-6 py-3">Charge Period</th>
+                            <th className="px-6 py-3">Service</th>
+                            <th className="px-6 py-3">Resource</th>
+                            <th className="px-6 py-3">Billed Cost</th>
+                            <th className="px-6 py-3">Effective Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800">
+                        <tr>
+                            <td className="px-6 py-4">2026-05-01</td>
+                            <td className="px-6 py-4">Compute</td>
+                            <td className="px-6 py-4">optimai-node-01</td>
+                            <td className="px-6 py-4 font-bold text-emerald-400">$120.50</td>
+                            <td className="px-6 py-4 font-bold text-blue-400">$115.40</td>
+                        </tr>
+                        <tr>
+                            <td className="px-6 py-4">2026-05-01</td>
+                            <td className="px-6 py-4">Storage</td>
+                            <td className="px-6 py-4">filecoin-vol-A</td>
+                            <td className="px-6 py-4 font-bold text-emerald-400">$45.20</td>
+                            <td className="px-6 py-4 font-bold text-blue-400">$42.10</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div className="mt-6 flex gap-2">
+                <Button className="flex-1">Export FOCUS CSV</Button>
+                <Button variant="outline" className="flex-1">Schedule PDF Report</Button>
             </div>
           </motion.div>
         </TabsContent>
@@ -582,28 +623,28 @@ export function SuperiorEnhancements() {
             <Sparkles className="h-8 w-8 text-white" />
           </div>
           <div className="flex-1">
-            <h3 className="text-2xl font-bold mb-3">Industry-Leading FinOps Innovation</h3>
+            <h3 className="text-2xl font-bold mb-3">Sovereign FinOps Innovation</h3>
             <p className="text-muted-foreground mb-6">
-              These four superior enhancements represent the cutting edge of FinOps technology. By combining 
-              advanced AI/ML, predictive analytics, sustainability tracking, and intelligent automation, 
-              Kraken Cloud Control delivers capabilities that surpass even the most expensive commercial platforms.
+              Kraken Cloud Control v2.5.0 introduces the world's first **Sovereign FinOps** suite. By combining 
+              local Qwen 2.5 intelligence with kernel-level energy tracking and FOCUS standardization, 
+              we provide a level of autonomy and transparency that commercial platforms cannot match.
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="p-4 rounded-lg bg-background/50 border border-border">
-                <div className="text-xs text-muted-foreground mb-1">AI Recommendations</div>
-                <div className="text-xl font-bold">$11.3K/mo</div>
+                <div className="text-xs text-muted-foreground mb-1">AI Autonomy</div>
+                <div className="text-xl font-bold text-purple-400">100% LOCAL</div>
               </div>
               <div className="p-4 rounded-lg bg-background/50 border border-border">
-                <div className="text-xs text-muted-foreground mb-1">Anomaly Prevention</div>
-                <div className="text-xl font-bold">$18.4K/mo</div>
+                <div className="text-xs text-muted-foreground mb-1">Energy Fidelity</div>
+                <div className="text-xl font-bold text-emerald-400">eBPF DRIVEN</div>
               </div>
               <div className="p-4 rounded-lg bg-background/50 border border-border">
-                <div className="text-xs text-muted-foreground mb-1">Carbon Reduction</div>
-                <div className="text-xl font-bold">26.5%</div>
+                <div className="text-xs text-muted-foreground mb-1">Compliance</div>
+                <div className="text-xl font-bold text-blue-400">FOCUS V1</div>
               </div>
               <div className="p-4 rounded-lg bg-background/50 border border-border">
-                <div className="text-xs text-muted-foreground mb-1">Allocation Accuracy</div>
-                <div className="text-xl font-bold">96%</div>
+                <div className="text-xs text-muted-foreground mb-1">Reward Alpha</div>
+                <div className="text-xl font-bold text-orange-400">2.5x MULTI</div>
               </div>
             </div>
           </div>
@@ -612,5 +653,3 @@ export function SuperiorEnhancements() {
     </motion.div>
   )
 }
-
-// Made with Bob
