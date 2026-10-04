@@ -2,6 +2,7 @@ package cluster
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -23,6 +24,9 @@ func NewService(clientset *kubernetes.Clientset) *Service {
 
 // GetClusterInfo retrieves detailed cluster information
 func (s *Service) GetClusterInfo(ctx context.Context) (*ClusterInfo, error) {
+	if s.clientset == nil {
+		return nil, ErrNoCluster
+	}
 	// Get nodes
 	nodes, err := s.clientset.CoreV1().Nodes().List(ctx, metav1.ListOptions{})
 	if err != nil {
@@ -59,6 +63,9 @@ func (s *Service) GetClusterInfo(ctx context.Context) (*ClusterInfo, error) {
 
 // ListPods returns a list of pods
 func (s *Service) ListPods(ctx context.Context, namespace string) ([]PodInfo, error) {
+	if s.clientset == nil {
+		return nil, ErrNoCluster
+	}
 	pods, err := s.clientset.CoreV1().Pods(namespace).List(ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to list pods: %w", err)
@@ -92,6 +99,9 @@ func (s *Service) ListPods(ctx context.Context, namespace string) ([]PodInfo, er
 
 // ListNodes returns a list of nodes
 func (s *Service) ListNodes(ctx context.Context) ([]NodeInfo, error) {
+	if s.clientset == nil {
+		return nil, ErrNoCluster
+	}
 	nodes, err := s.clientset.CoreV1().Nodes().List(ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to list nodes: %w", err)
@@ -132,6 +142,9 @@ func (s *Service) ListNodes(ctx context.Context) ([]NodeInfo, error) {
 
 // ScaleDeployment scales a deployment
 func (s *Service) ScaleDeployment(ctx context.Context, namespace, deploymentName string, replicas int32) error {
+	if s.clientset == nil {
+		return ErrNoCluster
+	}
 	scale, err := s.clientset.AppsV1().Deployments(namespace).GetScale(ctx, deploymentName, metav1.GetOptions{})
 	if err != nil {
 		return fmt.Errorf("failed to get deployment scale: %w", err)
@@ -148,6 +161,9 @@ func (s *Service) ScaleDeployment(ctx context.Context, namespace, deploymentName
 
 // DeletePod deletes a pod
 func (s *Service) DeletePod(ctx context.Context, namespace, podName string) error {
+	if s.clientset == nil {
+		return ErrNoCluster
+	}
 	err := s.clientset.CoreV1().Pods(namespace).Delete(ctx, podName, metav1.DeleteOptions{})
 	if err != nil {
 		return fmt.Errorf("failed to delete pod: %w", err)
@@ -157,6 +173,9 @@ func (s *Service) DeletePod(ctx context.Context, namespace, podName string) erro
 
 // PatchPod patches a pod
 func (s *Service) PatchPod(ctx context.Context, namespace, podName string, patch []byte) error {
+	if s.clientset == nil {
+		return ErrNoCluster
+	}
 	_, err := s.clientset.CoreV1().Pods(namespace).Patch(
 		ctx,
 		podName,
@@ -204,3 +223,6 @@ type NodeInfo struct {
 	PodCount  int
 	CreatedAt interface{}
 }
+
+// ErrNoCluster is returned when KCC runs in standalone mode without Kubernetes.
+var ErrNoCluster = errors.New("no Kubernetes cluster configured (standalone mode)")

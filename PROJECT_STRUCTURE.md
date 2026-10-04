@@ -13,18 +13,22 @@ kcc/
 │   └── config/        # RBAC, manifests, generated CRDs
 ├── backend/           # Go gRPC backend services (Go 1.25)
 │   ├── api/           # Proto definitions
-│   ├── services/      # Business logic (AI, Cluster, Cost, Security)
+│   ├── services/      # Business logic (AI, Cluster, Cost, Security, DePIN, Mining)
 │   └── ebpf/          # eBPF agents and kernel monitoring
 ├── frontend/          # Next.js 14 dashboard
 │   ├── app/           # App router pages (Warm Amber Theme)
 │   ├── components/    # React components (Apache ECharts integration)
 │   └── lib/           # Utils, API clients
+├── deploy/standalone/ # systemd user units + installer (no Kubernetes needed)
+├── integrations/      # mining-exporter: reference kcc.mining/v1 feed for xmrig/lolMiner
 ├── infrastructure/    # Deployment configs
 │   ├── helm/          # Helm charts
 │   ├── manifests/     # K8s YAML (Kustomize)
 │   └── terraform/     # IaC
 └── docs/              # Documentation
     ├── QUICKSTART.md
+    ├── USER_GUIDE.md      # Standalone mode + Mining Ops
+    ├── TECHNICAL_GUIDE.md # APIs, config, kcc.mining/v1 schema
     ├── DEPLOYMENT.md
     └── SUCCESS_REPORT.md # Latest deployment metrics and cluster status
 ```

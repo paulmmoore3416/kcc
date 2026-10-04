@@ -58,3 +58,11 @@ kubeconfig
 *.tfstate.backup
 .terraform/
 .env
+
+# Built backend binary (build locally: cd backend && go build ./cmd/server)
+backend/kcc-backend
+
+# Local KCC config with secrets
+kcc.env
+__pycache__/
+*.pyc

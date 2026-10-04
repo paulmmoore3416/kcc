@@ -18,7 +18,9 @@ import {
   Menu,
   ChevronLeft,
   ChevronRight,
-  Plus
+  Plus,
+  Hammer,
+  Heart
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -42,6 +44,7 @@ const navItems = [
   { id: 'ai', label: 'AI Insights', icon: Brain },
   { id: 'cost', label: 'Cost', icon: DollarSign },
   { id: 'depin', label: 'DePIN Management', icon: Wallet },
+  { id: 'mining', label: 'Mining Ops', icon: Hammer },
   { id: 'security', label: 'Security', icon: Shield },
   { id: 'utilization', label: 'Heatmap', icon: Database },
 ]
@@ -138,6 +141,15 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
               <Plus className="h-4 w-4" />
               <span>Create Resource</span>
             </Button>
+            <a
+              href="https://github.com/paulmmoore3416/kcc/blob/master/DONATE.md"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Heart className="h-3.5 w-3.5" />
+              <span>Donate to this project</span>
+            </a>
           </div>
         ) : (
           <Button 

@@ -1,0 +1,15 @@
+# systemd user unit: KCC backend in standalone mode.
+# Install: see docs/USER_GUIDE.md ("Run KCC without Kubernetes").
+[Unit]
+Description=Kraken Cloud Control backend (standalone)
+After=network-online.target
+
+[Service]
+EnvironmentFile=%h/.config/kcc/kcc.env
+ExecStart=%h/.local/share/kcc/kcc-backend
+Restart=on-failure
+RestartSec=10
+Nice=15
+
+[Install]
+WantedBy=default.target

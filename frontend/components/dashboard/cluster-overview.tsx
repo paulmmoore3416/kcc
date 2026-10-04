@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { KCC_API } from '@/lib/utils'
 import { motion } from 'framer-motion'
 import { CheckCircle, Activity, Layout, Server, AlertCircle, Clock } from 'lucide-react'
 import { Card as TremorCard, Title, Text, AreaChart, BarChart, DonutChart, Badge, List, ListItem, Flex, ProgressBar } from '@tremor/react'
@@ -26,7 +27,7 @@ export function ClusterOverview() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await fetch('http://localhost:8080/api/metrics')
+        const res = await fetch(`${KCC_API}/api/metrics`)
         const data = await res.json()
         setLiveData(data)
       } catch (e) {

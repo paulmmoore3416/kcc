@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/paulmmoore3416/kcc/backend/services/ai"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
-	"github.com/paulmmoore3416/kcc/backend/services/ai"
 )
 
 // Service provides observation and monitoring operations
@@ -70,6 +70,9 @@ func (s *Service) StreamEvents(ctx context.Context) (<-chan ClusterEvent, error)
 	go func() {
 		defer close(ch)
 
+		if s.clientset == nil { // standalone mode
+			return
+		}
 		// Watch for events
 		watcher, err := s.clientset.CoreV1().Events("").Watch(ctx, metav1.ListOptions{})
 		if err != nil {
@@ -108,7 +111,7 @@ func (s *Service) StreamEvents(ctx context.Context) (<-chan ClusterEvent, error)
 func (s *Service) DetectAnomalies(ctx context.Context, startTime, endTime time.Time) ([]Anomaly, error) {
 	// Placeholder: In a real app, this would query metrics and find spikes.
 	description := "Unusual CPU usage pattern detected in pod/nginx-deployment-abc123"
-	
+
 	if s.aiService != nil {
 		analysis, err := s.aiService.AnalyzeRootCause(ctx, "anomaly-1", description, time.Now())
 		if err == nil {
