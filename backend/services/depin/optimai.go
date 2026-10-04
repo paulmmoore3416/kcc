@@ -33,18 +33,18 @@ func NewOptimAIProvider(clientset *kubernetes.Clientset, namespace string, rpcUR
 func (p *OptimAIProvider) GetMetrics(ctx context.Context) (*DePINMetrics, error) {
 	// In a real implementation, this would call the EVM JSON-RPC via the accountEmail
 	// We'll simulate data that fluctuates slightly to show "real-time" movement
-	
+
 	// Base values from user tier
 	balance := 4490.0
 	multiplier := 2.5
-	
+
 	// Add some jitter for "live" feel
-	jitter := float64(time.Now().Unix() % 100) / 1000.0
-	
+	jitter := float64(time.Now().Unix()%100) / 1000.0
+
 	// Enhancement 1: Automated Profit/Loss Ledger
-	infraCost := balance * 0.12 // Simulated cost based on usage
+	infraCost := balance * 0.12              // Simulated cost based on usage
 	netProfit := (balance * 1.5) - infraCost // Rewards * price - cost
-	
+
 	return &DePINMetrics{
 		WalletBalance:           balance + jitter,
 		RewardMultiplier:        multiplier,
@@ -58,6 +58,9 @@ func (p *OptimAIProvider) GetMetrics(ctx context.Context) (*DePINMetrics, error)
 
 // ListNodes lists managed OptimAI nodes in the cluster
 func (p *OptimAIProvider) ListNodes(ctx context.Context) ([]NodeInfo, error) {
+	if p.clientset == nil {
+		return nil, ErrNoCluster
+	}
 	pods, err := p.clientset.CoreV1().Pods(p.namespace).List(ctx, metav1.ListOptions{
 		LabelSelector: "app=optimai-node",
 	})
@@ -92,6 +95,9 @@ func (p *OptimAIProvider) ListNodes(ctx context.Context) ([]NodeInfo, error) {
 
 // CreateNode provisions a new OptimAI node as a containerized pod
 func (p *OptimAIProvider) CreateNode(ctx context.Context, name string, limits ResourceLimits) (string, error) {
+	if p.clientset == nil {
+		return "", ErrNoCluster
+	}
 	pod := &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      fmt.Sprintf("optimai-node-%s", name),
@@ -130,6 +136,9 @@ func (p *OptimAIProvider) CreateNode(ctx context.Context, name string, limits Re
 
 // DeleteNode removes an OptimAI node
 func (p *OptimAIProvider) DeleteNode(ctx context.Context, nodeID string) error {
+	if p.clientset == nil {
+		return ErrNoCluster
+	}
 	// Find pod by ID
 	pods, err := p.clientset.CoreV1().Pods(p.namespace).List(ctx, metav1.ListOptions{
 		LabelSelector: "app=optimai-node",
@@ -149,8 +158,14 @@ func (p *OptimAIProvider) DeleteNode(ctx context.Context, nodeID string) error {
 
 // UpdateLimits updates the resource limits for a node (e.g., for throttling)
 func (p *OptimAIProvider) UpdateLimits(ctx context.Context, nodeID string, limits ResourceLimits) error {
+	if p.clientset == nil {
+		return ErrNoCluster
+	}
 	// In K8s, we'd typically update a Deployment or use a patch on the Pod (though Pod limits are mostly immutable)
 	// For this simulation, we'll assume we can patch or we'd redeploy.
 	// A real implementation might use a Deployment for easier updates.
 	return nil
 }
+
+// ErrNoCluster is returned when KCC runs in standalone mode without Kubernetes.
+var ErrNoCluster = fmt.Errorf("no Kubernetes cluster configured (standalone mode)")

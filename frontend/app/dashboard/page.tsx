@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import { KCC_API } from '@/lib/utils'
 import dynamic from 'next/dynamic'
 import { 
   Activity, 
@@ -39,6 +40,7 @@ const SecurityDashboard = dynamic(() => import('@/components/dashboard/security-
 const MetricsCharts = dynamic(() => import('@/components/dashboard/metrics-charts').then(mod => mod.MetricsCharts), { ssr: false, loading: () => <SkeletonCard /> })
 const PerformanceMetrics = dynamic(() => import('@/components/dashboard/performance-metrics').then(mod => mod.PerformanceMetrics), { ssr: false, loading: () => <SkeletonCard /> })
 const DePINManagementBlade = dynamic(() => import('@/components/dashboard/depin-management').then(mod => mod.DePINManagementBlade), { ssr: false, loading: () => <SkeletonCard /> })
+const MiningOperations = dynamic(() => import('@/components/dashboard/mining-operations').then(mod => mod.MiningOperations), { ssr: false, loading: () => <SkeletonCard /> })
 const AIInsights = dynamic(() => import('@/components/dashboard/ai-insights').then(mod => mod.AIInsights), { ssr: false, loading: () => <SkeletonCard /> })
 const ResourceHeatmap = dynamic(() => import('@/components/dashboard/resource-usage-heatmap'), { ssr: false, loading: () => <SkeletonCard /> })
 const NetworkTraffic = dynamic(() => import('@/components/dashboard/network-traffic').then(mod => mod.NetworkTraffic), { ssr: false, loading: () => <SkeletonCard /> })
@@ -89,7 +91,7 @@ export default function DashboardPage() {
 
   const fetchLiveMetrics = async () => {
     try {
-      const res = await fetch('http://localhost:8080/api/metrics')
+      const res = await fetch(`${KCC_API}/api/metrics`)
       const data = await res.json()
       setLiveMetrics(data)
     } catch (e) {
@@ -460,6 +462,10 @@ export default function DashboardPage() {
 
                       {activeTab === 'depin' && (
                         <DePINManagementBlade />
+                      )}
+
+                      {activeTab === 'mining' && (
+                        <MiningOperations />
                       )}
 
                       {activeTab === 'security' && (

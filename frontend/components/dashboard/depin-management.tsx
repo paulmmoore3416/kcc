@@ -32,6 +32,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Progress } from "@/components/ui/progress"
+import { KCC_API } from "@/lib/utils"
 
 export function DePINManagementBlade() {
   const [metrics, setMetrics] = useState({
@@ -53,10 +54,10 @@ export function DePINManagementBlade() {
   const fetchData = async () => {
     setIsRefreshing(true)
     try {
-      const metricsRes = await fetch(`http://localhost:8080/api/metrics`)
+      const metricsRes = await fetch(`${KCC_API}/api/metrics`)
       const metricsData = await metricsRes.json()
       
-      const allDepinRes = await fetch('http://localhost:8080/api/depin/all')
+      const allDepinRes = await fetch(`${KCC_API}/api/depin/all`)
       const allDepinData = await allDepinRes.json()
       
       const providerData = allDepinData[activeProvider] || metricsData.depin
@@ -75,17 +76,17 @@ export function DePINManagementBlade() {
       
       setEnhancements(metricsData.enhancements)
 
-      const nodesRes = await fetch('http://localhost:8080/api/nodes')
+      const nodesRes = await fetch(`${KCC_API}/api/nodes?provider=${activeProvider}`)
       const nodesData = await nodesRes.json()
       if (Array.isArray(nodesData)) {
         setNodes(nodesData.map((n: any) => ({
           id: n.ID,
           name: n.Name,
           status: n.Status,
-          cpu: `${n.ResourceUsage.CPU} / ${n.ResourceLimits.CPU} Cores`,
-          memory: `${n.ResourceUsage.Memory} / ${n.ResourceLimits.Memory}`,
+          cpu: n.Provider === 'mining' ? n.ResourceUsage.CPU : `${n.ResourceUsage.CPU} / ${n.ResourceLimits.CPU} Cores`,
+          memory: n.Provider === 'mining' ? '-' : `${n.ResourceUsage.Memory} / ${n.ResourceLimits.Memory}`,
           uptime: "Active",
-          rewardRate: `${(providerData?.RewardMultiplier * 0.5).toFixed(2)} ${providerData?.RewardTokenSymbol || 'OPTIM'}/hr`
+          rewardRate: n.Provider === 'mining' ? providerData?.RewardTokenSymbol || '' : `${(providerData?.RewardMultiplier * 0.5).toFixed(2)} ${providerData?.RewardTokenSymbol || 'OPTIM'}/hr`
         })))
       }
     } catch (error) {
@@ -124,6 +125,12 @@ export function DePINManagementBlade() {
                 className={`px-3 py-1 text-xs font-bold rounded ${activeProvider === "filecoin" ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}
               >
                 Filecoin
+              </button>
+              <button 
+                onClick={() => setActiveProvider("mining")}
+                className={`px-3 py-1 text-xs font-bold rounded ${activeProvider === "mining" ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}
+              >
+                Mining Rig
               </button>
             </div>
           </div>

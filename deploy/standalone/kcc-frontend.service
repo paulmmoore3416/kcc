@@ -1,0 +1,15 @@
+# systemd user unit: KCC dashboard (Next.js production server) on 127.0.0.1:4200.
+[Unit]
+Description=Kraken Cloud Control dashboard (http://127.0.0.1:4200)
+After=kcc-backend.service
+
+[Service]
+WorkingDirectory=%h/kcc/frontend
+Environment=NODE_ENV=production NEXT_TELEMETRY_DISABLED=1
+ExecStart=/usr/bin/env npx next start -p 4200 -H 127.0.0.1
+Restart=on-failure
+RestartSec=10
+Nice=15
+
+[Install]
+WantedBy=default.target

@@ -3,6 +3,7 @@ package depin
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"k8s.io/client-go/kubernetes"
 )
@@ -17,9 +18,10 @@ type Service struct {
 // NewService creates a new DePIN service
 func NewService(clientset *kubernetes.Clientset) *Service {
 	// Initialize with OptimAI provider as default
-	optimai := NewOptimAIProvider(clientset, "kcc-depin", "https://optimai-rpc.example.com", "paulmmoore3416@gmail.com")
+	// The account identifier comes from the environment so no personal data lives in the repository.
+	optimai := NewOptimAIProvider(clientset, "kcc-depin", envOr("OPTIMAI_RPC_URL", "https://optimai-rpc.example.com"), os.Getenv("OPTIMAI_ACCOUNT"))
 	filecoin := NewFilecoinProvider(clientset)
-	
+
 	s := &Service{
 		clientset: clientset,
 		providers: map[string]DePINProvider{
@@ -27,7 +29,7 @@ func NewService(clientset *kubernetes.Clientset) *Service {
 			"filecoin": filecoin,
 		},
 	}
-	
+
 	s.Strategy = NewProvisioningStrategy(s)
 	return s
 }
@@ -56,12 +58,12 @@ func (s *Service) CreateNode(ctx context.Context, providerName, nodeName string,
 	if !ok {
 		return "", fmt.Errorf("provider %s not found", providerName)
 	}
-	
+
 	limits := ResourceLimits{
 		CPU:    cpu,
 		Memory: mem,
 	}
-	
+
 	return provider.CreateNode(ctx, nodeName, limits)
 }
 
@@ -80,11 +82,23 @@ func (s *Service) UpdateLimits(ctx context.Context, providerName, nodeID string,
 	if !ok {
 		return fmt.Errorf("provider %s not found", providerName)
 	}
-	
+
 	limits := ResourceLimits{
 		CPU:    cpu,
 		Memory: mem,
 	}
-	
+
 	return provider.UpdateLimits(ctx, nodeID, limits)
+}
+
+// RegisterProvider adds or replaces a provider (e.g. "mining").
+func (s *Service) RegisterProvider(name string, p DePINProvider) {
+	s.providers[name] = p
+}
+
+func envOr(k, def string) string {
+	if v := os.Getenv(k); v != "" {
+		return v
+	}
+	return def
 }
